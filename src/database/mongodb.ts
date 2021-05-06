@@ -27,10 +27,7 @@ class Database {
 
     connect = async (): Promise<void> => {
         mongoose.connect(
-            `mongodb+srv://${this.MONGO_DB_ADMIN}:
-            ${this.MONGO_DB_PASS}@${this.MONGO_DB_CLUSTER}.
-            ncb4w.mongodb.net/${this.MONGO_DB_DB}
-            ?retryWrites=true&w=majority`
+            `mongodb+srv://${this.MONGO_DB_ADMIN}:${this.MONGO_DB_PASS}@${this.MONGO_DB_CLUSTER}.ncb4w.mongodb.net/${this.MONGO_DB_DB}?retryWrites=true&w=majority`
         )
         .then((): void => {
             child_process.exec('path', (error, stdout, stderr) => {
