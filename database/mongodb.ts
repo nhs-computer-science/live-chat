@@ -21,7 +21,8 @@ class Database {
         this.MONGO_DB_DB = process.env.MONGO_DB_DB!;
         this.MONGO_DB_ADMIN = process.env.MONGO_DB_ADMIN!;
 
-        this.CONNECTION_URL = process.env.MONGODB_URI!;
+        process.env.MODE! === 'production' ? this.CONNECTION_URL = process.env.MONGODB_URI! : this.CONNECTION_URL = `mongodb+srv://${this.MONGO_DB_ADMIN}:${this.MONGO_DB_PASS}@${this.MONGO_DB_CLUSTER}.ncb4w.mongodb.net/${this.MONGO_DB_DB}?retryWrites=true&w=majority`
+
         this.connect();
     }
 
