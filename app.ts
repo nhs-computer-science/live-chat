@@ -3,14 +3,14 @@ import session from 'express-session';
 import bodyParser from 'body-parser';
 import path from 'path';
 
-import db from './database/mongodb';
-import authenticateSession from './middleware/authenticateSession';
+// import db from './database/mongodb';
+// import authenticateSession from './middleware/authenticateSession';
 
-import attendanceRoute from './routes/attendance';
-import attendanceTokenRoute from './routes/attendanceToken';
-import registerRoute from './routes/register';
+// import attendanceRoute from './routes/attendance';
+// import attendanceTokenRoute from './routes/attendanceToken';
+// import registerRoute from './routes/register';
 
-db.connect();
+// db.connect();
 const app = Express();
 
 app.use(Express.static(path.join(__dirname, './public')));
@@ -26,14 +26,14 @@ app.use(
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
-app.use('/attendance', attendanceRoute);
-app.use('/register', registerRoute);
-app.use('/attendance-token', attendanceTokenRoute);
+// app.use('/attendance', attendanceRoute);
+// app.use('/register', registerRoute);
+// app.use('/attendance-token', attendanceTokenRoute);
 app.get('/', (req, res, next) => {
   res.send('works');
   console.log('paththhhh')
 });
 
-app.use('/', authenticateSession);
+// app.use('/', authenticateSession);
 
 export default app;
