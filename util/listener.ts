@@ -1,1 +1,0 @@
-export default (PORT_NUMBER: string | number): void => console.log(`Listening to requests on port ${PORT_NUMBER}`);
