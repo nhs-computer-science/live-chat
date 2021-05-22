@@ -28,7 +28,7 @@ class Database {
 
     connect = async (): Promise<void> => {
         mongoose.connect(
-          this.CONNECTION_URL
+            process.env.MONGODB_URI!
         )
         .then((): void => {
             console.log('Database connection established');

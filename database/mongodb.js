@@ -13,7 +13,7 @@ mongoose_1.default.set('useFindAndModify', false);
 class Database {
     constructor() {
         this.connect = async () => {
-            mongoose_1.default.connect(this.CONNECTION_URL)
+            mongoose_1.default.connect(process.env.MONGODB_URI)
                 .then(() => {
                 console.log('Database connection established');
             })
