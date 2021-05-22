@@ -1,7 +1,10 @@
 import Express from 'express';
 import session from 'express-session';
 import bodyParser from 'body-parser';
+import dotenv from 'dotenv';
 import path from 'path';
+
+dotenv.config({ path: path.join(__dirname, './.env') });
 
 // import db from './database/mongodb';
 // import authenticateSession from './middleware/authenticateSession';
