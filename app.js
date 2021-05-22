@@ -28,6 +28,7 @@ app.use('/register', register_1.default);
 app.use('/attendance-token', attendanceToken_1.default);
 app.get('/', (req, res, next) => {
     res.send('works');
+    console.log('paththhhh');
 });
 app.use('/', authenticateSession_1.default);
 exports.default = app;

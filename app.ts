@@ -31,6 +31,7 @@ app.use('/register', registerRoute);
 app.use('/attendance-token', attendanceTokenRoute);
 app.get('/', (req, res, next) => {
   res.send('works');
+  console.log('paththhhh')
 });
 
 app.use('/', authenticateSession);
