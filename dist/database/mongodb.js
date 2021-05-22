@@ -10,10 +10,11 @@ dotenv_1.default.config({ path: path_1.default.join(__dirname, '../', '../', '.e
 mongoose_1.default.set('useNewUrlParser', true);
 mongoose_1.default.set('useUnifiedTopology', true);
 mongoose_1.default.set('useFindAndModify', false);
+const production = false;
 class Database {
     constructor() {
         this.connect = async () => {
-            mongoose_1.default.connect(`${process.env.MONGODB_URI}`)
+            mongoose_1.default.connect(production ? process.env.MONGODB_URI : `mongodb+srv://${this.MONGO_DB_ADMIN}:${this.MONGO_DB_PASS}@${this.MONGO_DB_CLUSTER}.ncb4w.mongodb.net/${this.MONGO_DB_DB}?retryWrites=true&w=majority`)
                 .then(() => {
                 console.log('Database connection established');
             })

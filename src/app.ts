@@ -29,6 +29,9 @@ app.set('views', 'views');
 app.use('/attendance', attendanceRoute);
 app.use('/register', registerRoute);
 app.use('/attendance-token', attendanceTokenRoute);
+app.get('/', (req, res, next) => {
+  res.send('works');
+});
 
 app.use('/', authenticateSession);
 

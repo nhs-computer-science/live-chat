@@ -25,7 +25,7 @@ class Database {
 
     connect = async (): Promise<void> => {
         mongoose.connect(
-            `${process.env.MONGODB_URI}`
+            process.env.PRODUCTION ? process.env.MONGODB_URI! : `mongodb+srv://${this.MONGO_DB_ADMIN}:${this.MONGO_DB_PASS}@${this.MONGO_DB_CLUSTER}.ncb4w.mongodb.net/${this.MONGO_DB_DB}?retryWrites=true&w=majority`
         )
         .then((): void => {
             console.log('Database connection established');
