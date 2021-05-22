@@ -26,6 +26,8 @@ app.use(
   })
 );
 
+console.log(process.env.CLIENT_SECRET)
+
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 

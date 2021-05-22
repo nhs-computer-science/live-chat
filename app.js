@@ -23,6 +23,7 @@ app.use(express_session_1.default({
     saveUninitialized: false,
     resave: true,
 }));
+console.log(process.env.CLIENT_SECRET);
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 // app.use('/attendance', attendanceRoute);
