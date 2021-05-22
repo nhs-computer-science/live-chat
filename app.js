@@ -4,6 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const express_session_1 = __importDefault(require("express-session"));
+const body_parser_1 = __importDefault(require("body-parser"));
 const path_1 = __importDefault(require("path"));
 // import db from './database/mongodb';
 // import authenticateSession from './middleware/authenticateSession';
@@ -13,14 +15,12 @@ const path_1 = __importDefault(require("path"));
 // db.connect();
 const app = express_1.default();
 app.use(express_1.default.static(path_1.default.join(__dirname, './public')));
-// app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(
-//   session({
-//     secret: process.env.CLIENT_SECRET!,
-//     saveUninitialized: false,
-//     resave: true,
-//   })
-// );
+app.use(body_parser_1.default.urlencoded({ extended: false }));
+app.use(express_session_1.default({
+    secret: process.env.CLIENT_SECRET,
+    saveUninitialized: false,
+    resave: true,
+}));
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 // app.use('/attendance', attendanceRoute);

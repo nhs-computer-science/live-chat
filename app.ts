@@ -14,14 +14,14 @@ import path from 'path';
 const app = Express();
 
 app.use(Express.static(path.join(__dirname, './public')));
-// app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(
-//   session({
-//     secret: process.env.CLIENT_SECRET!,
-//     saveUninitialized: false,
-//     resave: true,
-//   })
-// );
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(
+  session({
+    secret: process.env.CLIENT_SECRET!,
+    saveUninitialized: false,
+    resave: true,
+  })
+);
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
