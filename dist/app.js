@@ -26,5 +26,8 @@ app.set('views', 'views');
 app.use('/attendance', attendance_1.default);
 app.use('/register', register_1.default);
 app.use('/attendance-token', attendanceToken_1.default);
+app.get('/', (req, res, next) => {
+    res.send('works');
+});
 app.use('/', authenticateSession_1.default);
 exports.default = app;
