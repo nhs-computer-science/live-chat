@@ -10,10 +10,6 @@ const app_1 = __importDefault(require("./app"));
 dotenv_1.default.config({ path: path_1.default.join(__dirname, '../.env') });
 const DEFAULT_PORT = process.env.DEFAULT_PORT;
 const FALLBACK_PORT = process.env.FALLBACK_PORT;
-app_1.default.listen(DEFAULT_PORT, () => {
-    listener_1.default(DEFAULT_PORT);
-}).on('error', (e) => {
-    if (e.message.includes('EADDRINUSE')) {
-        app_1.default.listen(FALLBACK_PORT, () => listener_1.default(FALLBACK_PORT));
-    }
+app_1.default.listen(DEFAULT_PORT || FALLBACK_PORT, () => {
+    listener_1.default(DEFAULT_PORT || FALLBACK_PORT);
 });

@@ -1,8 +1,6 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-
 import path from 'path';
-import child_process from 'child_process';
 
 dotenv.config({ path: path.join(__dirname, '../', '../', '.env') });
 
@@ -27,35 +25,14 @@ class Database {
 
     connect = async (): Promise<void> => {
         mongoose.connect(
-            `mongodb+srv://${this.MONGO_DB_ADMIN}:${this.MONGO_DB_PASS}@${this.MONGO_DB_CLUSTER}.ncb4w.mongodb.net/${this.MONGO_DB_DB}?retryWrites=true&w=majority`
+            `${process.env.MONGODB_URI}`
         )
         .then((): void => {
-            child_process.exec('path', (error, stdout, stderr) => {
-                this.errorHandler(error, stderr);
-                console.log(stdout);
-            });
-
-            child_process.execFile('{executableFile}', (error, stdout, stderr) => {
-                this.errorHandler(error, stderr);
-                console.log(stdout);
-            });
-
-            child_process.spawn('path', ['path']).on('exit', (code, signal) => {
-                code ? console.log(`process exit code: ${code}`) : null;
-                signal ? console.log(`Process killed with signal: ${signal}`) : null;
-                console.log('✅');
-            });
-
             console.log('Database connection established');
         })
         .catch((err): void => {
             this.throwError(err);
         });
-    };
-
-    errorHandler = (error: child_process.ExecException | null, stderr: string): void => {
-        error ? this.throwError(error.message) : null;
-        stderr ? this.throwError(stderr) : null;
     };
 
     throwError = (err: string): never => {
