@@ -8,30 +8,26 @@ const cookie_session_1 = __importDefault(require("cookie-session"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const path_1 = __importDefault(require("path"));
-dotenv_1.default.config({ path: path_1.default.join(__dirname, './.env') });
-// import db from './database/mongodb';
-// import authenticateSession from './middleware/authenticateSession';
-// import attendanceRoute from './routes/attendance';
-// import attendanceTokenRoute from './routes/attendanceToken';
-// import registerRoute from './routes/register';
-// db.connect();
+const mongodb_1 = __importDefault(require("./database/mongodb"));
+const authenticateSession_1 = __importDefault(require("./middleware/authenticateSession"));
+const attendance_1 = __importDefault(require("./routes/attendance"));
+const attendanceToken_1 = __importDefault(require("./routes/attendanceToken"));
+const register_1 = __importDefault(require("./routes/register"));
+mongodb_1.default.connect();
 const app = express_1.default();
-app.set('trust proxy', 1); // trust first proxy
+dotenv_1.default.config({ path: path_1.default.join(__dirname, './.env') });
+app.set('trust proxy', 1);
+app.set('view engine', 'ejs');
+app.set('views', 'views');
 app.use(express_1.default.static(path_1.default.join(__dirname, './public')));
 app.use(body_parser_1.default.urlencoded({ extended: false }));
 app.use(cookie_session_1.default({
     secret: process.env.CLIENT_SECRET,
-    name: 'session',
-    keys: ['key1', 'key2']
+    name: process.env.SESSION_NAME,
+    keys: [process.env.FIRST_SESSION_KEY, process.env.SECOND_SESSION_KEY]
 }));
-console.log(process.env.CLIENT_SECRET);
-app.set('view engine', 'ejs');
-app.set('views', 'views');
-// app.use('/attendance', attendanceRoute);
-// app.use('/register', registerRoute);
-// app.use('/attendance-token', attendanceTokenRoute);
-app.get('/', (req, res, next) => {
-    res.send('dsf');
-});
-// app.use('/', authenticateSession);
+app.use('/attendance', attendance_1.default);
+app.use('/register', register_1.default);
+app.use('/attendance-token', attendanceToken_1.default);
+app.use('/', authenticateSession_1.default);
 exports.default = app;
