@@ -16,10 +16,13 @@ dotenv_1.default.config({ path: path_1.default.join(__dirname, './.env') });
 // import registerRoute from './routes/register';
 // db.connect();
 const app = express_1.default();
+app.set('trust proxy', 1); // trust first proxy
 app.use(express_1.default.static(path_1.default.join(__dirname, './public')));
 app.use(body_parser_1.default.urlencoded({ extended: false }));
 app.use(cookie_session_1.default({
     secret: process.env.CLIENT_SECRET,
+    name: 'session',
+    keys: ['key1', 'key2']
 }));
 console.log(process.env.CLIENT_SECRET);
 app.set('view engine', 'ejs');

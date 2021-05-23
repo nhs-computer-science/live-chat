@@ -16,11 +16,15 @@ dotenv.config({ path: path.join(__dirname, './.env') });
 // db.connect();
 const app = Express();
 
+app.set('trust proxy', 1) // trust first proxy
+
 app.use(Express.static(path.join(__dirname, './public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(
   session({
     secret: process.env.CLIENT_SECRET!,
+    name: 'session',
+    keys: ['key1', 'key2']
   })
 );
 
