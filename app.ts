@@ -1,5 +1,5 @@
 import Express from 'express';
-import session from 'express-session';
+import session from 'cookie-session';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import path from 'path';
@@ -21,8 +21,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(
   session({
     secret: process.env.CLIENT_SECRET!,
-    saveUninitialized: false,
-    resave: true,
   })
 );
 
