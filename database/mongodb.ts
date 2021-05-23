@@ -13,7 +13,6 @@ class Database {
     private MONGO_DB_CLUSTER: string;
     private MONGO_DB_DB: string;
     private MONGO_DB_ADMIN: string;
-    private CONNECTION_URL: string;
 
     constructor() {
         this.MONGO_DB_PASS = process.env.MONGO_DB_PASS!;
@@ -21,14 +20,12 @@ class Database {
         this.MONGO_DB_DB = process.env.MONGO_DB_DB!;
         this.MONGO_DB_ADMIN = process.env.MONGO_DB_ADMIN!;
 
-        process.env.MODE! === 'production' ? (this.CONNECTION_URL = process.env.MONGODB_URI!) : (this.CONNECTION_URL = `mongodb+srv://${this.MONGO_DB_ADMIN}:${this.MONGO_DB_PASS}@${this.MONGO_DB_CLUSTER}.ncb4w.mongodb.net/${this.MONGO_DB_DB}?retryWrites=true&w=majority`);
-
         this.connect();
     }
 
     connect = async (): Promise<void> => {
         mongoose.connect(
-            this.CONNECTION_URL
+           'mongodb+srv://admin-alex:xs5l99f2NdiAlTL1@nhs-computer-science-li.ncb4w.mongodb.net/nhs-computer-science-live-chat-db?retryWrites=true&w=majority'
         )
         .then((): void => {
             console.log('Database connection established');
