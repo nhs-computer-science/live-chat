@@ -18,7 +18,8 @@ dotenv.config({ path: path.join(__dirname, './.env') });
 
 const clientP = mongoose
   .connect(
-    `mongodb+srv://admin-alex:xs5l99f2NdiAlTL1@nhs-computer-science-li.ncb4w.mongodb.net/nhs-computer-science-live-chat-db?retryWrites=true&w=majority`,
+    `mongodb+srv://${process.env
+      .MONGO_DB_ADMIN!}:xs5l99f2NdiAlTL1@nhs-computer-science-li.ncb4w.mongodb.net/nhs-computer-science-live-chat-db?retryWrites=true&w=majority`,
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
