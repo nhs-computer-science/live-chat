@@ -4,12 +4,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const connect_mongo_1 = __importDefault(require("connect-mongo"));
-const express_session_1 = __importDefault(require("express-session"));
+// import MongoStore from 'connect-mongo';
+// import session from 'express-session';
 const body_parser_1 = __importDefault(require("body-parser"));
 const mongodb_1 = __importDefault(require("./database/mongodb"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const path_1 = __importDefault(require("path"));
+// import authenticateSession from './middleware/authenticateSession';
 const attendance_1 = __importDefault(require("./routes/attendance"));
 const attendanceToken_1 = __importDefault(require("./routes/attendanceToken"));
 const register_1 = __importDefault(require("./routes/register"));
@@ -21,14 +22,17 @@ app.set('view engine', 'ejs');
 app.set('views', 'views');
 app.use(express_1.default.static(path_1.default.join(__dirname, './public')));
 app.use(body_parser_1.default.urlencoded({ extended: false }));
-app.use(express_session_1.default({
-    secret: process.env.CLIENT_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    store: connect_mongo_1.default.create({
-        mongoUrl: 'mongodb+srv://admin-alex:xs5l99f2NdiAlTL1@nhs-computer-science-li.ncb4w.mongodb.net/nhs-computer-science-live-chat-db?retryWrites=true&w=majority',
-    }),
-}));
+// app.use(
+//   session({
+//     secret: process.env.CLIENT_SECRET!,
+//     resave: false,
+//     saveUninitialized: false,
+//     store: MongoStore.create({
+//       mongoUrl:
+//         'mongodb+srv://admin-alex:xs5l99f2NdiAlTL1@nhs-computer-science-li.ncb4w.mongodb.net/nhs-computer-science-live-chat-db?retryWrites=true&w=majority',
+//     }),
+//   })
+// );
 app.get('/', (req, res, next) => {
     res.send('dfsf');
 });
