@@ -1,4 +1,8 @@
 import { Request, Response } from 'express';
+import path from 'path';
+import dotenv from 'dotenv';
+
+dotenv.config({ path: path.join(__dirname, '../', '../', './env', '.env') });
 
 import attendanceModel from '../../models/attendance/attendance';
 import redirection from '../../util/redirection';

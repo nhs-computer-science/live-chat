@@ -9,11 +9,13 @@ const express_session_1 = __importDefault(require("express-session"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const path_1 = __importDefault(require("path"));
+const dotenv_1 = __importDefault(require("dotenv"));
 const attendance_1 = __importDefault(require("./routes/attendance"));
 const attendanceToken_1 = __importDefault(require("./routes/attendanceToken"));
 const register_1 = __importDefault(require("./routes/register"));
 const authenticateSession_1 = __importDefault(require("./middleware/authenticateSession"));
 const app = express_1.default();
+dotenv_1.default.config({ path: path_1.default.join(__dirname, './env', '.env') });
 const clientP = mongoose_1.default
     .connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
@@ -21,7 +23,7 @@ const clientP = mongoose_1.default
     useFindAndModify: false,
 })
     .then((m) => {
-    console.log('connection established');
+    console.log('Database Connection Established');
     return m.connection.getClient();
 });
 app.set('view engine', 'ejs');

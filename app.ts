@@ -4,6 +4,7 @@ import session from 'express-session';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import path from 'path';
+import dotenv from 'dotenv';
 
 import attendanceRoute from './routes/attendance';
 import attendanceTokenRoute from './routes/attendanceToken';
@@ -13,6 +14,8 @@ import authenticateSession from './middleware/authenticateSession';
 
 const app = Express();
 
+dotenv.config({ path: path.join(__dirname, './env', '.env') });
+
 const clientP = mongoose
   .connect(process.env.MONGODB_URI!, {
     useNewUrlParser: true,
@@ -20,7 +23,7 @@ const clientP = mongoose
     useFindAndModify: false,
   })
   .then((m) => {
-    console.log('connection established');
+    console.log('Database Connection Established');
     return m.connection.getClient();
   });
 
