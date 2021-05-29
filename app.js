@@ -10,10 +10,10 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const path_1 = __importDefault(require("path"));
-const authenticateSession_1 = __importDefault(require("./middleware/authenticateSession"));
 const attendance_1 = __importDefault(require("./routes/attendance"));
 const attendanceToken_1 = __importDefault(require("./routes/attendanceToken"));
 const register_1 = __importDefault(require("./routes/register"));
+const authenticateSession_1 = __importDefault(require("./middleware/authenticateSession"));
 const app = express_1.default();
 dotenv_1.default.config({ path: path_1.default.join(__dirname, './.env') });
 app.set('view engine', 'ejs');
@@ -30,10 +30,11 @@ const clientP = mongoose_1.default
     console.log(e);
     throw e;
 });
+console.log(process.env.CLIENT_SECRET);
 app.use(express_1.default.static(path_1.default.join(__dirname, './public')));
 app.use(body_parser_1.default.urlencoded({ extended: false }));
 app.use(express_session_1.default({
-    secret: process.env.CLIENT_SECRET,
+    secret: 'ds',
     resave: false,
     saveUninitialized: false,
     store: connect_mongo_1.default.create({

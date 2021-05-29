@@ -6,11 +6,11 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import path from 'path';
 
-import authenticateSession from './middleware/authenticateSession';
-
 import attendanceRoute from './routes/attendance';
 import attendanceTokenRoute from './routes/attendanceToken';
 import registerRoute from './routes/register';
+
+import authenticateSession from './middleware/authenticateSession';
 
 const app = Express();
 
@@ -36,12 +36,12 @@ const clientP = mongoose
     console.log(e);
     throw e;
   });
-
+console.log(process.env.CLIENT_SECRET);
 app.use(Express.static(path.join(__dirname, './public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(
   session({
-    secret: process.env.CLIENT_SECRET!,
+    secret: 'ds',
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
