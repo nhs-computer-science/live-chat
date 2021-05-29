@@ -1,17 +1,13 @@
 import { Request, Response } from 'express';
-import AttendanceSchema from '../schema/Attendance';
 
 import registerModel from '../models/register';
 import redirection from '../util/redirection';
+import e from '../email/skeleton';
 
 const getRegisterPage = async (req: Request, res: Response) => {
-  console.log(555);
-  const r = await AttendanceSchema.findOne({
-    token: '123456',
-    fall2021Meetings: 0,
-    email: 'sdf',
-  }).catch((e: Error) => console.log(e));
-  console.log(r);
+  const s = await e('akhazzam1@student.gn.k12.ny.us', 'fsfd', '123');
+  console.log(s);
+  res.send('dfrd');
 };
 
 const postRegisterPage = async (req: Request, res: Response) => {

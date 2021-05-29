@@ -3,17 +3,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const Attendance_1 = __importDefault(require("../schema/Attendance"));
 const register_1 = __importDefault(require("../models/register"));
 const redirection_1 = __importDefault(require("../util/redirection"));
+const skeleton_1 = __importDefault(require("../email/skeleton"));
 const getRegisterPage = async (req, res) => {
-    console.log(555);
-    const r = await Attendance_1.default.findOne({
-        token: '123456',
-        fall2021Meetings: 0,
-        email: 'sdf',
-    }).catch((e) => console.log(e));
-    console.log(r);
+    const s = await skeleton_1.default('akhazzam1@student.gn.k12.ny.us', 'fsfd', '123');
+    console.log(s);
+    res.send('dfrd');
 };
 const postRegisterPage = async (req, res) => {
     const payload = req.body;
