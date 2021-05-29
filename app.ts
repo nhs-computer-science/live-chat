@@ -39,7 +39,7 @@ app.use(
     saveUninitialized: false,
     store: MongoStore.create({
       clientPromise: clientP,
-      dbName: process.env.MONGO_DB,
+
       stringify: false,
       autoRemove: 'interval',
       autoRemoveInterval: 1,

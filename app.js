@@ -36,7 +36,6 @@ app.use(express_session_1.default({
     saveUninitialized: false,
     store: connect_mongo_1.default.create({
         clientPromise: clientP,
-        dbName: process.env.MONGO_DB,
         stringify: false,
         autoRemove: 'interval',
         autoRemoveInterval: 1,
