@@ -29,7 +29,7 @@ const clientP = mongoose
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
-console.log(process.env.CLIENT_SECRET!);
+
 app.use(Express.static(path.join(__dirname, './public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(

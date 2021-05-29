@@ -28,7 +28,6 @@ const clientP = mongoose_1.default
 });
 app.set('view engine', 'ejs');
 app.set('views', 'views');
-console.log(process.env.CLIENT_SECRET);
 app.use(express_1.default.static(path_1.default.join(__dirname, './public')));
 app.use(body_parser_1.default.urlencoded({ extended: false }));
 app.use(express_session_1.default({
