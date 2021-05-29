@@ -16,38 +16,35 @@ const app = Express();
 
 dotenv.config({ path: path.join(__dirname, './.env') });
 
-app.set('view engine', 'ejs');
-app.set('views', 'views');
-
 const clientP = mongoose
   .connect(
-    `mongodb+srv://${process.env.MONGO_DB_ADMIN!}:${process.env
-      .MONGO_DB_PASS!}@${process.env.MONGO_DB_CLUSTER}.ncb4w.mongodb.net/${
-      process.env.MONGO_DB_DB
-    }?retryWrites=true&w=majority`,
+    'mongodb+srv://admin-alex:xs5l99f2NdiAlTL1@nhs-computer-science-li.ncb4w.mongodb.net/nhs-computer-science-live-chat-db?retryWrites=true&w=majority',
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      useFindAndModify: false,
     }
   )
-  .then((m) => m.connection.getClient())
-  .catch((e: Error): never => {
-    console.log(e);
-    throw e;
+  .then((m) => {
+    console.log('connection established');
+    return m.connection.getClient();
   });
-console.log(process.env.CLIENT_SECRET);
+
+app.set('view engine', 'ejs');
+app.set('views', 'views');
+
 app.use(Express.static(path.join(__dirname, './public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(
   session({
-    secret: 'ds',
+    secret: 'foo',
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
       clientPromise: clientP,
-      dbName: process.env.MONGO_DB_DB!,
+      dbName: 'nhs-computer-science-live-chat-db',
       stringify: false,
+      autoRemove: 'interval',
+      autoRemoveInterval: 1,
       ttl: 60 * 24 * 60 * 60,
     }),
   })
