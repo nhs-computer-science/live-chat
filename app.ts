@@ -2,6 +2,7 @@ import Express from 'express';
 import MongoStore from 'connect-mongo';
 import session from 'express-session';
 import bodyParser from 'body-parser';
+import cookieSession from 'cookie-session';
 import db from './database/mongodb';
 import dotenv from 'dotenv';
 import path from 'path';
@@ -18,7 +19,6 @@ db.connect();
 
 dotenv.config({ path: path.join(__dirname, './.env') });
 
-app.set('trust proxy', 1);
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
@@ -26,13 +26,13 @@ app.use(Express.static(path.join(__dirname, './public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(
   session({
-    secret: process.env.CLIENT_SECRET!,
+    secret: 'fdsfds234',
     resave: false,
     saveUninitialized: false,
-    // store: MongoStore.create({
-    //   mongoUrl:
-    //     'mongodb+srv://admin-alex:xs5l99f2NdiAlTL1@nhs-computer-science-li.ncb4w.mongodb.net/nhs-computer-science-live-chat-db?retryWrites=true&w=majority',
-    // }),
+    store: MongoStore.create({
+      mongoUrl:
+        'mongodb+srv://admin-alex:xs5l99f2NdiAlTL1@nhs-computer-science-li.ncb4w.mongodb.net/nhs-computer-science-live-chat-db?retryWrites=true&w=majority',
+    }),
   })
 );
 
