@@ -14,8 +14,6 @@ import authenticateSession from './middleware/authenticateSession';
 
 const app = Express();
 
-dotenv.config({ path: path.join(__dirname, './.env') });
-
 const clientP = mongoose
   .connect(process.env.MONGODB_URI!, {
     useNewUrlParser: true,
@@ -34,12 +32,11 @@ app.use(Express.static(path.join(__dirname, './public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(
   session({
-    secret: 'foo',
+    secret: process.env.CLIENT_SECRET!,
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
       clientPromise: clientP,
-
       stringify: false,
       autoRemove: 'interval',
       autoRemoveInterval: 1,
