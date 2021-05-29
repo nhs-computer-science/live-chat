@@ -17,11 +17,14 @@ const app = Express();
 dotenv.config({ path: path.join(__dirname, './env', '.env') });
 
 const clientP = mongoose
-  .connect(process.env.MONGODB_URI!.toString(), {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-  })
+  .connect(
+    'mongodb+srv://admin-alex:xs5l99f2NdiAlTL1@nhs-computer-science-li.ncb4w.mongodb.net/nhs-computer-science-live-chat-db?retryWrites=true&w=majority',
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useFindAndModify: false,
+    }
+  )
   .then((m) => {
     console.log('Database Connection Established');
     return m.connection.getClient();
@@ -34,7 +37,7 @@ app.use(Express.static(path.join(__dirname, './public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(
   session({
-    secret: process.env.CLIENT_SECRET!.toString(),
+    secret: 'foo',
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
@@ -48,7 +51,7 @@ app.use(
 );
 
 app.get('/', (req, res, next) => {
-  res.redirect('/register');
+  res.send('dsf');
 });
 
 app.use('/attendance', attendanceRoute);

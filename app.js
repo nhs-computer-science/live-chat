@@ -17,7 +17,7 @@ const authenticateSession_1 = __importDefault(require("./middleware/authenticate
 const app = express_1.default();
 dotenv_1.default.config({ path: path_1.default.join(__dirname, './env', '.env') });
 const clientP = mongoose_1.default
-    .connect(process.env.MONGODB_URI.toString(), {
+    .connect('mongodb+srv://admin-alex:xs5l99f2NdiAlTL1@nhs-computer-science-li.ncb4w.mongodb.net/nhs-computer-science-live-chat-db?retryWrites=true&w=majority', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
@@ -31,7 +31,7 @@ app.set('views', 'views');
 app.use(express_1.default.static(path_1.default.join(__dirname, './public')));
 app.use(body_parser_1.default.urlencoded({ extended: false }));
 app.use(express_session_1.default({
-    secret: process.env.CLIENT_SECRET.toString(),
+    secret: 'foo',
     resave: false,
     saveUninitialized: false,
     store: connect_mongo_1.default.create({
@@ -43,7 +43,7 @@ app.use(express_session_1.default({
     }),
 }));
 app.get('/', (req, res, next) => {
-    res.redirect('/register');
+    res.send('dsf');
 });
 app.use('/attendance', attendance_1.default);
 app.use('/register', register_1.default);
