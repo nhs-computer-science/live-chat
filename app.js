@@ -17,7 +17,7 @@ const authenticateSession_1 = __importDefault(require("./middleware/authenticate
 const app = express_1.default();
 dotenv_1.default.config({ path: path_1.default.join(__dirname, './.env') });
 const clientP = mongoose_1.default
-    .connect(`mongodb+srv://${process.env.MONGO_DB_ADMIN}:${process.env.MONGO_DB_PASS}@${process.env.MONGO_DB_CLUSTER}.ncb4w.mongodb.net/${process.env.MONGO_DB_DB}?retryWrites=true&w=majority`, {
+    .connect(`mongodb+srv://admin-alex:xs5l99f2NdiAlTL1@nhs-computer-science-li.ncb4w.mongodb.net/nhs-computer-science-live-chat-db?retryWrites=true&w=majority`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
@@ -36,7 +36,7 @@ app.use(express_session_1.default({
     saveUninitialized: false,
     store: connect_mongo_1.default.create({
         clientPromise: clientP,
-        dbName: 'nhs-computer-science-live-chat-db',
+        dbName: process.env.MONGO_DB_DB,
         stringify: false,
         autoRemove: 'interval',
         autoRemoveInterval: 1,
