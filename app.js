@@ -10,7 +10,6 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const mongodb_1 = __importDefault(require("./database/mongodb"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const path_1 = __importDefault(require("path"));
-const authenticateSession_1 = __importDefault(require("./middleware/authenticateSession"));
 const attendance_1 = __importDefault(require("./routes/attendance"));
 const attendanceToken_1 = __importDefault(require("./routes/attendanceToken"));
 const register_1 = __importDefault(require("./routes/register"));
@@ -30,8 +29,11 @@ app.use(express_session_1.default({
         mongoUrl: 'mongodb+srv://admin-alex:xs5l99f2NdiAlTL1@nhs-computer-science-li.ncb4w.mongodb.net/nhs-computer-science-live-chat-db?retryWrites=true&w=majority',
     }),
 }));
+app.get('/', (req, res, next) => {
+    res.send('dfsf');
+});
 app.use('/attendance', attendance_1.default);
 app.use('/register', register_1.default);
 app.use('/attendance-token', attendanceToken_1.default);
-app.use('/', authenticateSession_1.default);
+// app.use('/', authenticateSession);
 exports.default = app;

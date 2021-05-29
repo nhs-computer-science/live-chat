@@ -36,10 +36,13 @@ app.use(
   })
 );
 
+app.get('/', (req, res, next) => {
+  res.send('dfsf');
+});
 app.use('/attendance', attendanceRoute);
 app.use('/register', registerRoute);
 app.use('/attendance-token', attendanceTokenRoute);
 
-app.use('/', authenticateSession);
+// app.use('/', authenticateSession);
 
 export default app;
