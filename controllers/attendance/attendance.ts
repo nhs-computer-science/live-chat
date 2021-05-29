@@ -1,9 +1,4 @@
 import { Request, Response } from 'express';
-import path from 'path';
-
-import dotenv from 'dotenv';
-
-dotenv.config({ path: path.join(__dirname, '../../.env') });
 
 import attendanceModel from '../../models/attendance/attendance';
 import redirection from '../../util/redirection';
@@ -17,7 +12,7 @@ const postAttendancePage = async (
   const BASE_URL = '/attendance/';
   const QUERY_VALUE = '=yes';
 
-  if (!process.env.TAKING_ATTENDANCE_SUBMISSIONS) {
+  if (!process.env.TAKING_ATTENDANCE_SUBMISSIONS!) {
     return redirection(res, `${BASE_URL}?notTakingAttendance${QUERY_VALUE}`); // TODO Error Path
   }
 
