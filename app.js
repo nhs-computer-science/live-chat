@@ -17,7 +17,7 @@ const authenticateSession_1 = __importDefault(require("./middleware/authenticate
 const app = express_1.default();
 dotenv_1.default.config({ path: path_1.default.join(__dirname, './env', '.env') });
 const clientP = mongoose_1.default
-    .connect(process.env.MONGODB_URI, {
+    .connect(process.env.MONGODB_URI.toString(), {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
@@ -31,7 +31,7 @@ app.set('views', 'views');
 app.use(express_1.default.static(path_1.default.join(__dirname, './public')));
 app.use(body_parser_1.default.urlencoded({ extended: false }));
 app.use(express_session_1.default({
-    secret: process.env.CLIENT_SECRET,
+    secret: process.env.CLIENT_SECRET.toString(),
     resave: false,
     saveUninitialized: false,
     store: connect_mongo_1.default.create({

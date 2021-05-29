@@ -17,7 +17,7 @@ const app = Express();
 dotenv.config({ path: path.join(__dirname, './env', '.env') });
 
 const clientP = mongoose
-  .connect(process.env.MONGODB_URI!, {
+  .connect(process.env.MONGODB_URI!.toString(), {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
@@ -34,7 +34,7 @@ app.use(Express.static(path.join(__dirname, './public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(
   session({
-    secret: process.env.CLIENT_SECRET!,
+    secret: process.env.CLIENT_SECRET!.toString(),
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
