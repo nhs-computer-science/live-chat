@@ -2,9 +2,10 @@ import { Request, Response } from 'express';
 
 import registerModel from '../models/register';
 import redirection from '../util/redirection';
-import e from '../email/skeleton';
 
-const getRegisterPage = async (req: Request, res: Response) => {};
+const getRegisterPage = async (req: Request, res: Response) => {
+  res.render('register');
+};
 
 const postRegisterPage = async (req: Request, res: Response) => {
   const payload: object = req.body;

@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata&display=swap');
+
+* {
+  font-family: 'Inconsolata', monospace !important;
+  box-sizing: border-box !important;
+}
+
+#token-form {
+  justify-content: center;
+  margin-top: 20%;
+  display: flex;
+}
+
+#email,
+#generate-token-btn {
+  border-radius: 0px;
+  height: 50px;
+  width: 250px;
+}
+
+#generate-token-btn {
+  margin-left: 5px;
+}
+
+.alert {
+  margin: 0px auto 0px auto;
+  width: 45%;
+  text-align: center;
+}
+
+@media (max-width: 800px) {
+  #token-form {
+    flex-direction: column;
+    align-items: center;
+  }
+}

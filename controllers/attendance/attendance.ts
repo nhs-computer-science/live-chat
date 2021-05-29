@@ -7,7 +7,9 @@ dotenv.config({ path: path.join(__dirname, '../', '../', './env', '.env') });
 import attendanceModel from '../../models/attendance/attendance';
 import redirection from '../../util/redirection';
 
-const getAttendancePage = (req: Request, res: Response): void => {};
+const getAttendancePage = (req: Request, res: Response): void => {
+  res.render('attendance/attendance');
+};
 
 const postAttendancePage = async (
   req: Request,

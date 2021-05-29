@@ -1,36 +1,36 @@
 import { Request, Response } from 'express';
 
 import attendanceTokenModel from '../../models/attendance/attendanceToken';
-import redirection from '../../util/redirection';
 import email from '../../email/skeleton';
 
 type AwaitData = object | null;
 
-const getAttendanceTokenPage = (req: Request, res: Response): void => {};
+const getAttendanceTokenPage = (req: Request, res: Response): void => {
+  res.render('attendance/attendance-token', {
+    notStudentEmail: req.query.notStudentEmail === 'yes' ? true : false,
+    isEmailInUse: req.query.isEmailInUse === 'yes' ? true : false,
+    attendanceTokenSent: req.query.attendanceTokenSent === 'yes' ? true : false,
+  });
+};
 
 const postAttendanceTokenPage = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  const halves = req.body.email.trim().split('@');
-  const e: string = halves[0] + halves[1];
+  const e: string = req.body.email.trim();
 
-  const BASE_URL: string = '/attendanceToken/';
-  const QUERY_VALUE: string = '=yes';
+  const URL: string = '/attendance-token';
 
-  if (
-    isNaN(halves[0].charAt(halves[0].length - 1)) ||
-    halves[1] !== 'student.gn.k12.ny.us'
-  ) {
-    return redirection(res, `${BASE_URL}?passwordsNotMatching${QUERY_VALUE}`);
+  if (e.split('@')[1] !== 'student.gn.k12.ny.us') {
+    return res.redirect(`${URL}/?notStudentEmail=yes`);
   }
 
-  if (await attendanceTokenModel.emailInUse(e, BASE_URL, res)) {
-    return redirection(res, `${BASE_URL}?emailInUse${QUERY_VALUE}`);
+  if (await attendanceTokenModel.emailInUse(e, URL, res)) {
+    return res.redirect(`${URL}/?isEmailInUse=yes`);
   }
 
   const tokenModel: AwaitData =
-    await attendanceTokenModel.createAttendanceToken(e, BASE_URL, res);
+    await attendanceTokenModel.createAttendanceToken(e, URL, res);
 
   if (tokenModel) {
     const attendanceEmailTokenSent: AwaitData = await email(
@@ -40,7 +40,7 @@ const postAttendanceTokenPage = async (
     );
 
     if (attendanceEmailTokenSent) {
-      redirection(res, `${BASE_URL}?emailSent${QUERY_VALUE}`);
+      res.redirect(`${URL}/?attendanceTokenSent=yes`);
     }
   }
 };

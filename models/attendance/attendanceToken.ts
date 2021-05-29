@@ -6,7 +6,7 @@ import generateToken from '../../util/generateToken';
 import QueryMethod from '../../util/interfaces/queryMethod';
 
 const DATABASE_ERROR_URL = (BASE_URL: string): string =>
-  `${BASE_URL}?serverSideError=yes`;
+  `${BASE_URL}/?serverSideError=yes`;
 
 let emailInUse: QueryMethod;
 let createAttendanceToken: QueryMethod;
