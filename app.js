@@ -30,7 +30,7 @@ app.set('views', 'views');
 app.use(express_1.default.static(path_1.default.join(__dirname, './public')));
 app.use(body_parser_1.default.urlencoded({ extended: false }));
 app.use(express_session_1.default({
-    secret: 'foo',
+    secret: process.env.CLIENT_SECRET,
     resave: false,
     saveUninitialized: false,
     store: connect_mongo_1.default.create({
