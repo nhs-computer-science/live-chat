@@ -3,7 +3,6 @@ import MongoStore from 'connect-mongo';
 import session from 'express-session';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
-import dotenv from 'dotenv';
 import path from 'path';
 
 import attendanceRoute from './routes/attendance';
@@ -46,8 +45,7 @@ app.use(
 );
 
 app.get('/', (req, res, next) => {
-  req.session.foo = 'sfd';
-  res.send('dfsf');
+  res.redirect('/register');
 });
 
 app.use('/attendance', attendanceRoute);

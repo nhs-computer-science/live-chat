@@ -2,19 +2,14 @@ import { Request, Response } from 'express';
 
 import registerModel from '../models/register';
 import redirection from '../util/redirection';
-import e from '../email/skeleton';
 
-const getRegisterPage = async (req: Request, res: Response) => {
-  const s = await e('akhazzam1@student.gn.k12.ny.us', 'fsfd', '123');
-  console.log(s);
-  res.send('dfrd');
-};
+const getRegisterPage = async (req: Request, res: Response) => {};
 
 const postRegisterPage = async (req: Request, res: Response) => {
-  const payload = req.body;
+  const payload: object = req.body;
 
-  const BASE_URL = '/register/';
-  const QUERY_VALUE = '=yes';
+  const BASE_URL: string = '/register/';
+  const QUERY_VALUE: string = '=yes';
 
   if (
     !registerModel.doPasswordsMatch(req.body.password, req.body.confPassword)

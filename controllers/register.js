@@ -5,12 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const register_1 = __importDefault(require("../models/register"));
 const redirection_1 = __importDefault(require("../util/redirection"));
-const skeleton_1 = __importDefault(require("../email/skeleton"));
-const getRegisterPage = async (req, res) => {
-    const s = await skeleton_1.default('akhazzam1@student.gn.k12.ny.us', 'fsfd', '123');
-    console.log(s);
-    res.send('dfrd');
-};
+const getRegisterPage = async (req, res) => { };
 const postRegisterPage = async (req, res) => {
     const payload = req.body;
     const BASE_URL = '/register/';

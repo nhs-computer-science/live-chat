@@ -14,16 +14,16 @@ const postAttendanceTokenPage = async (req, res) => {
     const QUERY_VALUE = '=yes';
     if (isNaN(halves[0].charAt(halves[0].length - 1)) ||
         halves[1] !== 'student.gn.k12.ny.us') {
-        return redirection_1.default(res, `${BASE_URL}?passwordsNotMatching${QUERY_VALUE}`); // TODO Error Path
+        return redirection_1.default(res, `${BASE_URL}?passwordsNotMatching${QUERY_VALUE}`);
     }
     if (await attendanceToken_1.default.emailInUse(e, BASE_URL, res)) {
-        return redirection_1.default(res, `${BASE_URL}?emailInUse${QUERY_VALUE}`); // TODO Error Path
+        return redirection_1.default(res, `${BASE_URL}?emailInUse${QUERY_VALUE}`);
     }
     const tokenModel = await attendanceToken_1.default.createAttendanceToken(e, BASE_URL, res);
     if (tokenModel) {
         const attendanceEmailTokenSent = await skeleton_1.default(e, attendanceToken_1.default.retrieveEmailSubject(), attendanceToken_1.default.retrieveEmailBody(tokenModel.token));
         if (attendanceEmailTokenSent) {
-            redirection_1.default(res, `${BASE_URL}?emailSent${QUERY_VALUE}`); // TODO Success Path
+            redirection_1.default(res, `${BASE_URL}?emailSent${QUERY_VALUE}`);
         }
     }
 };

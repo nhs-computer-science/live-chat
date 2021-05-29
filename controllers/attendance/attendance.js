@@ -10,16 +10,16 @@ const postAttendancePage = async (req, res) => {
     const BASE_URL = '/attendance/';
     const QUERY_VALUE = '=yes';
     if (!process.env.TAKING_ATTENDANCE_SUBMISSIONS) {
-        return redirection_1.default(res, `${BASE_URL}?notTakingAttendance${QUERY_VALUE}`); // TODO Error Path
+        return redirection_1.default(res, `${BASE_URL}?notTakingAttendance${QUERY_VALUE}`);
     }
     const t = req.body.token.trim();
     const token = await attendance_1.default.authenticateToken(t, BASE_URL, res);
     if (token) {
         if (token.fall2021Meetings + 1 > process.env.FALL_2021_MEETINGS) {
-            return redirection_1.default(res, `${BASE_URL}?tooManyMeetings${QUERY_VALUE}`); // TODO Error Path
+            return redirection_1.default(res, `${BASE_URL}?tooManyMeetings${QUERY_VALUE}`);
         }
-        if (await attendance_1.default.updateAttendance(t, BASE_URL, token.fall2021Meetings, res)) {
-            redirection_1.default(res, `${BASE_URL}?attendanceUpdated${QUERY_VALUE}`); // TODO Success Path
+        if (await attendance_1.default.updateAttendance(t, BASE_URL, res, token.fall2021Meetings)) {
+            redirection_1.default(res, `${BASE_URL}?attendanceUpdated${QUERY_VALUE}`);
         }
     }
     else {

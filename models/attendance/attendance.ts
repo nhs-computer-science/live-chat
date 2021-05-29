@@ -2,13 +2,16 @@ import { Response } from 'express';
 
 import AttendanceSchema from '../../schema/Attendance';
 import redirection from '../../util/redirection';
+import QueryMethod from '../../util/interfaces/queryMethod';
 
 type MongooseQueryResult = Promise<object | null>;
 
 const DATABASE_ERROR_URL = (BASE_URL: string): string =>
   `${BASE_URL}?serverSideError=yes`;
 
-const authenticateToken = async (
+let authenticateToken: QueryMethod;
+
+authenticateToken = async (
   t: string,
   BASE_URL: string,
   r: Response
@@ -20,8 +23,8 @@ const authenticateToken = async (
 const updateAttendance = async (
   t: string,
   BASE_URL: string,
-  m: number,
-  r: Response
+  r: Response,
+  m: number
 ): MongooseQueryResult =>
   await AttendanceSchema.updateOne(
     { token: t },
