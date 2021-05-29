@@ -49,6 +49,7 @@ app.use(
       stringify: false,
       autoRemove: 'interval',
       autoRemoveInterval: 1,
+      ttl: 60 * 24 * 60 * 60,
     }),
   })
 );
