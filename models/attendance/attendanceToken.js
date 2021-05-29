@@ -7,10 +7,12 @@ const Attendance_1 = __importDefault(require("../../schema/Attendance"));
 const redirection_1 = __importDefault(require("../../util/redirection"));
 const generateToken_1 = __importDefault(require("../../util/generateToken"));
 const DATABASE_ERROR_URL = (BASE_URL) => `${BASE_URL}?serverSideError=yes`;
-const emailInUse = async (e, BASE_URL, r) => await Attendance_1.default.findOne({ email: e }).catch((e) => {
+let emailInUse;
+let createAttendanceToken;
+emailInUse = async (e, BASE_URL, r) => await Attendance_1.default.findOne({ email: e }).catch((e) => {
     redirection_1.default(r, DATABASE_ERROR_URL(BASE_URL), e);
 });
-const createAttendanceToken = async (e, BASE_URL, r) => await Attendance_1.default.create({
+createAttendanceToken = async (e, BASE_URL, r) => await Attendance_1.default.create({
     token: generateToken_1.default(8),
     email: e,
     fall2021Meetings: 0,

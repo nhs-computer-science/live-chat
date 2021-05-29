@@ -1,19 +1,20 @@
 import Express from 'express';
-import session from 'cookie-session';
+import MongoStore from 'connect-mongo';
+import session from 'express-session';
 import bodyParser from 'body-parser';
+import db from './database/mongodb';
 import dotenv from 'dotenv';
 import path from 'path';
 
-import db from './database/mongodb';
 import authenticateSession from './middleware/authenticateSession';
 
 import attendanceRoute from './routes/attendance';
 import attendanceTokenRoute from './routes/attendanceToken';
 import registerRoute from './routes/register';
 
-db.connect();
-
 const app = Express();
+
+db.connect();
 
 dotenv.config({ path: path.join(__dirname, './.env') });
 
@@ -26,8 +27,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(
   session({
     secret: process.env.CLIENT_SECRET!,
-    name: process.env.SESSION_NAME!,
-    keys: [process.env.FIRST_SESSION_KEY!, process.env.SECOND_SESSION_KEY!]
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl:
+        'mongodb+srv://admin-alex:xs5l99f2NdiAlTL1@nhs-computer-science-li.ncb4w.mongodb.net/nhs-computer-science-live-chat-db?retryWrites=true&w=majority',
+    }),
   })
 );
 

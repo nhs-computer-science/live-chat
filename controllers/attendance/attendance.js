@@ -22,7 +22,7 @@ const postAttendancePage = async (req, res) => {
             return redirection_1.default(res, `${BASE_URL}?tooManyMeetings${QUERY_VALUE}`); // TODO Error Path
         }
         if (await attendance_1.default.updateAttendance(t, BASE_URL, token.fall2021Meetings, res)) {
-            redirection_1.default(res, BASE_URL, `${BASE_URL}?attendanceUpdated${QUERY_VALUE}`); // TODO Success Path
+            redirection_1.default(res, `${BASE_URL}?attendanceUpdated${QUERY_VALUE}`); // TODO Success Path
         }
     }
     else {

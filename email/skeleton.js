@@ -19,7 +19,7 @@ exports.default = async (recipient, subject, text) => {
         auth: {
             user,
             pass,
-        }
+        },
     });
     return await transporter.sendMail({
         from: user,

@@ -10,12 +10,17 @@ import redirection from '../../util/redirection';
 
 type MongooseQueryResult = Promise<object | null>;
 
-const DATABASE_ERROR_URL = (BASE_URL: string): string => `${BASE_URL}?serverSideError=yes`;
+const DATABASE_ERROR_URL = (BASE_URL: string): string =>
+  `${BASE_URL}?serverSideError=yes`;
 
-const authenticateToken = async (t: string, BASE_URL: string, r: Response): MongooseQueryResult =>
-  (await AttendanceSchema.findOne({ token: t }).catch(
-    (e: Error): void => redirection(r, DATABASE_ERROR_URL(BASE_URL), e) 
-  ));
+const authenticateToken = async (
+  t: string,
+  BASE_URL: string,
+  r: Response
+): MongooseQueryResult =>
+  await AttendanceSchema.findOne({ token: t }).catch((e: Error): void =>
+    redirection(r, DATABASE_ERROR_URL(BASE_URL), e)
+  );
 
 const updateAttendance = async (
   t: string,
@@ -26,9 +31,7 @@ const updateAttendance = async (
   await AttendanceSchema.updateOne(
     { token: t },
     { fall2021Meetings: m + 1 }
-  ).catch((e: Error): void =>
-    redirection(r, DATABASE_ERROR_URL(BASE_URL), e)
-  ); 
+  ).catch((e: Error): void => redirection(r, DATABASE_ERROR_URL(BASE_URL), e));
 
 export default {
   authenticateToken,

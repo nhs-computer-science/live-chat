@@ -8,14 +8,11 @@ dotenv.config({ path: path.join(__dirname, '../../.env') });
 import attendanceModel from '../../models/attendance/attendance';
 import redirection from '../../util/redirection';
 
-const getAttendancePage = (
-  req: Request,
-  res: Response,
-): void => {};
+const getAttendancePage = (req: Request, res: Response): void => {};
 
 const postAttendancePage = async (
   req: Request,
-  res: Response,
+  res: Response
 ): Promise<void> => {
   const BASE_URL = '/attendance/';
   const QUERY_VALUE = '=yes';
@@ -32,12 +29,19 @@ const postAttendancePage = async (
       return redirection(res, `${BASE_URL}?tooManyMeetings${QUERY_VALUE}`); // TODO Error Path
     }
 
-    if (await attendanceModel.updateAttendance(t, BASE_URL, token.fall2021Meetings, res)) {
-      redirection(res, BASE_URL, `${BASE_URL}?attendanceUpdated${QUERY_VALUE}`); // TODO Success Path
+    if (
+      await attendanceModel.updateAttendance(
+        t,
+        BASE_URL,
+        token.fall2021Meetings,
+        res
+      )
+    ) {
+      redirection(res, `${BASE_URL}?attendanceUpdated${QUERY_VALUE}`); // TODO Success Path
     }
   } else {
     redirection(res, `${BASE_URL}?tokenInvalid${QUERY_VALUE}`);
-  } 
+  }
 };
 
 export default {

@@ -1,9 +1,12 @@
 import { Request, Response } from 'express';
+import AttendanceSchema from '../schema/Attendance';
 
 import registerModel from '../models/register';
 import redirection from '../util/redirection';
 
-const getRegisterPage = (req: Request, res: Response) => {};
+const getRegisterPage = async (req: Request, res: Response) => {
+  res.send('dd');
+};
 
 const postRegisterPage = async (req: Request, res: Response) => {
   const payload = req.body;
@@ -14,10 +17,12 @@ const postRegisterPage = async (req: Request, res: Response) => {
   if (
     !registerModel.doPasswordsMatch(req.body.password, req.body.confPassword)
   ) {
-    return redirection(res, `${BASE_URL}?passwordsNotMatching${QUERY_VALUE}`); 
+    return redirection(res, `${BASE_URL}?passwordsNotMatching${QUERY_VALUE}`);
   }
 
-  if (!await registerModel.isEmailInUse(payload.email.trim(), BASE_URL, res)) {
+  if (
+    !(await registerModel.isEmailInUse(payload.email.trim(), BASE_URL, res))
+  ) {
     return redirection(res, `${BASE_URL}?emailInUse${QUERY_VALUE}`);
   }
 
