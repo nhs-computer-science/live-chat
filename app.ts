@@ -26,7 +26,6 @@ const clientP = mongoose
     console.log('Database Connection Established');
     return m.connection.getClient();
   });
-//
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
