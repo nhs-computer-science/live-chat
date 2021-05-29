@@ -5,7 +5,13 @@ import registerModel from '../models/register';
 import redirection from '../util/redirection';
 
 const getRegisterPage = async (req: Request, res: Response) => {
-  res.send('dd');
+  console.log(555);
+  const r = await AttendanceSchema.findOne({
+    token: '123456',
+    fall2021Meetings: 0,
+    email: 'sdf',
+  }).catch((e: Error) => console.log(e));
+  console.log(r);
 };
 
 const postRegisterPage = async (req: Request, res: Response) => {
