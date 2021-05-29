@@ -17,15 +17,11 @@ const app = Express();
 dotenv.config({ path: path.join(__dirname, './.env') });
 
 const clientP = mongoose
-  .connect(
-    `mongodb+srv://${process.env
-      .MONGO_DB_ADMIN!}:xs5l99f2NdiAlTL1@nhs-computer-science-li.ncb4w.mongodb.net/nhs-computer-science-live-chat-db?retryWrites=true&w=majority`,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useFindAndModify: false,
-    }
-  )
+  .connect(process.env.MONGODB_URI!, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+  })
   .then((m) => {
     console.log('connection established');
     return m.connection.getClient();
@@ -43,7 +39,7 @@ app.use(
     saveUninitialized: false,
     store: MongoStore.create({
       clientPromise: clientP,
-      dbName: process.env.MONGO_DB_DB!,
+      dbName: process.env.MONGO_DB,
       stringify: false,
       autoRemove: 'interval',
       autoRemoveInterval: 1,
