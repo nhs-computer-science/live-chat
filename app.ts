@@ -47,12 +47,11 @@ app.use(
 );
 
 app.get('/', (req, res, next) => {
-  req.session.foo = 'd';
-  res.send('dsf');
+  res.send('test');
 });
 
-app.use('/attendance', attendanceRoute);
 app.use('/register', registerRoute);
+app.use('/attendance', attendanceRoute);
 app.use('/attendance-token', attendanceTokenRoute);
 
 app.use('/', authenticateSession);

@@ -4,9 +4,7 @@ import registerModel from '../models/register';
 import redirection from '../util/redirection';
 import e from '../email/skeleton';
 
-const getRegisterPage = async (req: Request, res: Response) => {
-  const d = await e('akhazzam1@student.gn.k12.ny.us', 'dsfdsf', 'dsfds');
-};
+const getRegisterPage = async (req: Request, res: Response) => {};
 
 const postRegisterPage = async (req: Request, res: Response) => {
   const payload: object = req.body;
