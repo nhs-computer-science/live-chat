@@ -26,6 +26,7 @@ const clientP = mongoose_1.default
     console.log('Database Connection Established');
     return m.connection.getClient();
 });
+//
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 app.use(express_1.default.static(path_1.default.join(__dirname, './public')));
