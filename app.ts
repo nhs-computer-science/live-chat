@@ -2,13 +2,11 @@ import Express from 'express';
 import MongoStore from 'connect-mongo';
 import session from 'express-session';
 import bodyParser from 'body-parser';
-import cookieSession from 'cookie-session';
-import db from './database/mongodb';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import path from 'path';
 
-// import authenticateSession from './middleware/authenticateSession';
+import authenticateSession from './middleware/authenticateSession';
 
 import attendanceRoute from './routes/attendance';
 import attendanceTokenRoute from './routes/attendanceToken';
@@ -16,39 +14,40 @@ import registerRoute from './routes/register';
 
 const app = Express();
 
-// db.connect();
-
 dotenv.config({ path: path.join(__dirname, './.env') });
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
-app.use(Express.static(path.join(__dirname, './public')));
-app.use(bodyParser.urlencoded({ extended: false }));
 const clientP = mongoose
   .connect(
-    'mongodb+srv://admin-alex:xs5l99f2NdiAlTL1@nhs-computer-science-li.ncb4w.mongodb.net/nhs-computer-science-live-chat-db?retryWrites=true&w=majority',
+    `mongodb+srv://${process.env.MONGO_DB_ADMIN!}:${process.env
+      .MONGO_DB_PASS!}@${process.env.MONGO_DB_CLUSTER}.ncb4w.mongodb.net/${
+      process.env.MONGO_DB_DB
+    }?retryWrites=true&w=majority`,
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      useFindAndModify: false,
     }
   )
-  .then((m) => {
-    console.log('connection established');
-    return m.connection.getClient();
+  .then((m) => m.connection.getClient())
+  .catch((e: Error): never => {
+    console.log(e);
+    throw e;
   });
 
+app.use(Express.static(path.join(__dirname, './public')));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(
   session({
-    secret: 'foo',
+    secret: process.env.CLIENT_SECRET!,
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
       clientPromise: clientP,
-      dbName: 'nhs-computer-science-live-chat-db',
+      dbName: process.env.MONGO_DB_DB!,
       stringify: false,
-      autoRemove: 'interval',
-      autoRemoveInterval: 1,
       ttl: 60 * 24 * 60 * 60,
     }),
   })
@@ -63,6 +62,6 @@ app.use('/attendance', attendanceRoute);
 app.use('/register', registerRoute);
 app.use('/attendance-token', attendanceTokenRoute);
 
-// app.use('/', authenticateSession);
+app.use('/', authenticateSession);
 
 export default app;
