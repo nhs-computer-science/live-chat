@@ -5,17 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Attendance Token</title>
-    <link rel="stylesheet" href="/css/register.css" />
+    <link rel="stylesheet" href="/css/attendance.css" />
 
     <%- include('../includes/bootstrap.ejs') %>
 
 </head>
 <body>
-    <form action="/attendance-token" method="POST" id="token-form">
+    <form action="/attendance-token" method="POST" id="attendance-form">
         <div class="form-group" id="email-wrapper">
-          <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Email" name="email">
+          <input type="email" class="form-control" id="token" aria-describedby="emailHelp" placeholder="Email" name="email" required>
         </div>
-        <button type="submit" class="btn btn-warning" id="generate-token-btn">Generate Attendance Token</button>
+        <button type="submit" class="btn btn-warning" id="submit-token-btn">Generate Attendance Token</button>
     </form>
     <% if (notStudentEmail) { %>
         <div class="alert alert-danger" role="alert">

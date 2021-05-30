@@ -7,7 +7,7 @@ import QueryMethod from '../../util/interfaces/queryMethod';
 type MongooseQueryResult = Promise<object | null>;
 
 const DATABASE_ERROR_URL = (BASE_URL: string): string =>
-  `${BASE_URL}?serverSideError=yes`;
+  `${BASE_URL}/?serverSideError=yes`;
 
 let authenticateToken: QueryMethod;
 
@@ -28,7 +28,7 @@ const updateAttendance = async (
 ): MongooseQueryResult =>
   await AttendanceSchema.updateOne(
     { token: t },
-    { fall2021Meetings: m + 1 }
+    { fall2021MeetingsAttended: m + 1 }
   ).catch((e: Error): void => redirection(r, DATABASE_ERROR_URL(BASE_URL), e));
 
 export default {

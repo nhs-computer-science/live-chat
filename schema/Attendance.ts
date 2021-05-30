@@ -1,22 +1,22 @@
-import Mongoose from "mongoose";
+import Mongoose from 'mongoose';
 
 const Attendance = new Mongoose.Schema(
   {
     token: {
       type: String,
-      unique: true
+      unique: true,
     },
 
     email: {
       type: String,
-      unique: true
+      unique: true,
     },
 
-    fall2021Meetings: {
-      type: Number
-    }
+    fall2021MeetingsAttended: {
+      type: Number,
+    },
   },
   { timestamps: true }
 );
 
-export default Mongoose.model('Attendance', Attendance)
+export default Mongoose.model('Attendance', Attendance);

@@ -7,4 +7,5 @@ const express_1 = __importDefault(require("express"));
 const Router = express_1.default.Router();
 const attendance_1 = __importDefault(require("../controllers/attendance/attendance"));
 Router.get('/', attendance_1.default.getAttendancePage);
+Router.post('/', attendance_1.default.postAttendancePage);
 exports.default = Router;

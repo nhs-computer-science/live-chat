@@ -5,27 +5,39 @@
   box-sizing: border-box !important;
 }
 
-#token-form {
+#token-form,
+#attendance-form {
   justify-content: center;
   margin-top: 20%;
   display: flex;
 }
 
 #email,
-#generate-token-btn {
+#token,
+#generate-token-btn,
+#submit-token-btn {
   border-radius: 0px;
   height: 50px;
   width: 250px;
 }
 
-#generate-token-btn {
+#generate-token-btn,
+#submit-token-btn {
   margin-left: 5px;
 }
 
 .alert {
-  margin: 0px auto 0px auto;
+  margin: 0px auto 10px auto;
   width: 45%;
   text-align: center;
+}
+
+p {
+  text-align: center;
+}
+
+a {
+  text-decoration: underline !important;
 }
 
 @media (max-width: 800px) {

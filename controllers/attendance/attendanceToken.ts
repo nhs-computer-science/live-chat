@@ -20,13 +20,14 @@ const postAttendanceTokenPage = async (
   const e: string = req.body.email.trim();
 
   const URL: string = '/attendance-token';
+  const QUERY_VALUE: string = '=yes';
 
   if (e.split('@')[1] !== 'student.gn.k12.ny.us') {
-    return res.redirect(`${URL}/?notStudentEmail=yes`);
+    return res.redirect(`${URL}/?notStudentEmail${QUERY_VALUE}`);
   }
 
   if (await attendanceTokenModel.emailInUse(e, URL, res)) {
-    return res.redirect(`${URL}/?isEmailInUse=yes`);
+    return res.redirect(`${URL}/?isEmailInUse${QUERY_VALUE}`);
   }
 
   const tokenModel: AwaitData =
@@ -40,7 +41,7 @@ const postAttendanceTokenPage = async (
     );
 
     if (attendanceEmailTokenSent) {
-      res.redirect(`${URL}/?attendanceTokenSent=yes`);
+      res.redirect(`${URL}/?attendanceTokenSent${QUERY_VALUE}`);
     }
   }
 };

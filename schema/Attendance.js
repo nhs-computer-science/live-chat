@@ -7,14 +7,14 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const Attendance = new mongoose_1.default.Schema({
     token: {
         type: String,
-        unique: true
+        unique: true,
     },
     email: {
         type: String,
-        unique: true
+        unique: true,
     },
-    fall2021Meetings: {
-        type: Number
-    }
+    fall2021MeetingsAttended: {
+        type: Number,
+    },
 }, { timestamps: true });
 exports.default = mongoose_1.default.model('Attendance', Attendance);

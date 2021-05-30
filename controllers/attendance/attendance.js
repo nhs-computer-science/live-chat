@@ -7,28 +7,38 @@ const path_1 = __importDefault(require("path"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config({ path: path_1.default.join(__dirname, '../', '../', './env', '.env') });
 const attendance_1 = __importDefault(require("../../models/attendance/attendance"));
-const redirection_1 = __importDefault(require("../../util/redirection"));
+const skeleton_1 = __importDefault(require("../../email/skeleton"));
 const getAttendancePage = (req, res) => {
-    res.render('attendance/attendance');
+    res.render('attendance/attendance', {
+        notTakingAttendance: req.query.notTakingAttendance == 'yes' ? true : false,
+        invalidToken: req.query.invalidToken === 'yes' ? true : false,
+        meetingOverflow: req.query.meetingOverflow == 'yes' ? true : false,
+        attendanceUpdated: req.query.attendanceUpdated == 'yes' ? true : false,
+        date: process.env.CURRENT_DATE,
+    });
 };
 const postAttendancePage = async (req, res) => {
-    const BASE_URL = '/attendance/';
+    const URL = '/attendance';
     const QUERY_VALUE = '=yes';
-    if (!process.env.TAKING_ATTENDANCE_SUBMISSIONS) {
-        return redirection_1.default(res, `${BASE_URL}?notTakingAttendance${QUERY_VALUE}`);
+    if (process.env.TAKING_ATTENDANCE_SUBMISSIONS === 'no') {
+        return res.redirect(`${URL}/?notTakingAttendance${QUERY_VALUE}`);
     }
     const t = req.body.token.trim();
-    const token = await attendance_1.default.authenticateToken(t, BASE_URL, res);
+    const token = await attendance_1.default.authenticateToken(t, URL, res);
     if (token) {
-        if (token.fall2021Meetings + 1 > process.env.FALL_2021_MEETINGS) {
-            return redirection_1.default(res, `${BASE_URL}?tooManyMeetings${QUERY_VALUE}`);
+        if (parseInt(token.fall2021MeetingsAttended) + 1 >
+            parseInt(process.env.FALL_2021_MEETINGS)) {
+            return res.redirect(`${URL}/?meetingOverflow${QUERY_VALUE}`);
         }
-        if (await attendance_1.default.updateAttendance(t, BASE_URL, res, token.fall2021Meetings)) {
-            redirection_1.default(res, `${BASE_URL}?attendanceUpdated${QUERY_VALUE}`);
+        else if (await attendance_1.default.updateAttendance(t, URL, res, token.fall2021MeetingsAttended)) {
+            const emailSent = await skeleton_1.default(process.env.NODEMAILER_USER, 'Attendance Submitted!', `${token.email} submitted his or her attendance!`);
+            if (emailSent) {
+                res.redirect(`${URL}/?attendanceUpdated${QUERY_VALUE}`);
+            }
         }
     }
     else {
-        redirection_1.default(res, `${BASE_URL}?tokenInvalid${QUERY_VALUE}`);
+        res.redirect(`${URL}/?invalidToken${QUERY_VALUE}`);
     }
 };
 exports.default = {
