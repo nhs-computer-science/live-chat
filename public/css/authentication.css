@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata&display=swap');
+
+* {
+  font-family: 'Inconsolata', monospace !important;
+  box-sizing: border-box !important;
+}
+
+html,
+body {
+  margin: 0px;
+  height: 100%;
+}
+
+#form-wrapper {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+p {
+  text-align: left;
+}
+
+.auth-failed {
+  color: maroon;
+}
+
+a {
+  text-decoration: underline !important;
+}
+
+#email {
+  margin-top: 50px;
+}
+
+.loading-spinner-wrapper {
+  visibility: hidden;
+}
+
+.alert {
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+#register-form,
+#login-form {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  margin: auto;
+}
+
+.form-control {
+  margin: 5px 0px 5px 0px;
+}
+
+#create-account-btn,
+#login-btn {
+  margin: 20px 5px 20px 0px;
+  width: 150px;
+}

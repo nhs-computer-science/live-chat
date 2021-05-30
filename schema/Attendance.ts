@@ -9,7 +9,6 @@ const Attendance = new Mongoose.Schema(
 
     email: {
       type: String,
-      unique: true,
     },
 
     fall2021MeetingsAttended: {

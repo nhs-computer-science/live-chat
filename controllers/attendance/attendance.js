@@ -24,13 +24,13 @@ const postAttendancePage = async (req, res) => {
         return res.redirect(`${URL}/?notTakingAttendance${QUERY_VALUE}`);
     }
     const t = req.body.token.trim();
-    const token = await attendance_1.default.authenticateToken(t, URL, res);
+    const token = await attendance_1.default.authenticateToken(t);
     if (token) {
         if (parseInt(token.fall2021MeetingsAttended) + 1 >
             parseInt(process.env.FALL_2021_MEETINGS)) {
             return res.redirect(`${URL}/?meetingOverflow${QUERY_VALUE}`);
         }
-        else if (await attendance_1.default.updateAttendance(t, URL, res, token.fall2021MeetingsAttended)) {
+        else if (await attendance_1.default.updateAttendance(t, token.fall2021MeetingsAttended)) {
             const emailSent = await skeleton_1.default(process.env.NODEMAILER_USER, 'Attendance Submitted!', `${token.email} submitted his or her attendance!`);
             if (emailSent) {
                 res.redirect(`${URL}/?attendanceUpdated${QUERY_VALUE}`);

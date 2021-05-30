@@ -8,9 +8,16 @@ import dotenv from 'dotenv';
 
 import attendanceRoute from './routes/attendance';
 import attendanceTokenRoute from './routes/attendanceToken';
+import loginRoute from './routes/login';
 import registerRoute from './routes/register';
 
 import authenticateSession from './middleware/authenticateSession';
+
+declare module 'express-session' {
+  interface Session {
+    tentativeClient: object | string;
+  }
+}
 
 const app = Express();
 
@@ -51,6 +58,7 @@ app.get('/', (req, res, next) => {
 });
 
 app.use('/register', registerRoute);
+app.use('/login', loginRoute);
 app.use('/attendance', attendanceRoute);
 app.use('/attendance-token', attendanceTokenRoute);
 

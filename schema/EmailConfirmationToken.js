@@ -4,16 +4,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
-const Attendance = new mongoose_1.default.Schema({
-    token: {
-        type: String,
-        unique: true,
-    },
+const EmailConfirmationToken = new mongoose_1.default.Schema({
     email: {
         type: String,
     },
-    fall2021MeetingsAttended: {
-        type: Number,
+    token: {
+        type: String,
+    },
+    createdAt: {
+        type: Date,
+        expires: '1m',
+        default: Date.now(),
+        required: true,
     },
 }, { timestamps: true });
-exports.default = mongoose_1.default.model('Attendance', Attendance);
+exports.default = mongoose_1.default.model('EmailConfirmationTokens', EmailConfirmationToken);

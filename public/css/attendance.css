@@ -5,11 +5,25 @@
   box-sizing: border-box !important;
 }
 
+html,
+body {
+  margin: 0px;
+  height: 100%;
+}
+
+#form-wrapper {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 #token-form,
 #attendance-form {
   justify-content: center;
-  margin-top: 20%;
   display: flex;
+  margin-top: 50px;
 }
 
 #email,
@@ -21,13 +35,24 @@
   width: 250px;
 }
 
+.loading-spinner-wrapper {
+  visibility: hidden;
+}
+
+#submit-btn-wrapper {
+  display: flex;
+  align-items: center;
+}
+
 #generate-token-btn,
 #submit-token-btn {
   margin-left: 5px;
+  margin-right: 5px;
 }
 
 .alert {
-  margin: 0px auto 10px auto;
+  margin: 10px auto 10px auto;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   width: 45%;
   text-align: center;
 }
@@ -41,7 +66,8 @@ a {
 }
 
 @media (max-width: 800px) {
-  #token-form {
+  #token-form,
+  #attendance-form {
     flex-direction: column;
     align-items: center;
   }

@@ -12,6 +12,7 @@ const path_1 = __importDefault(require("path"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const attendance_1 = __importDefault(require("./routes/attendance"));
 const attendanceToken_1 = __importDefault(require("./routes/attendanceToken"));
+const login_1 = __importDefault(require("./routes/login"));
 const register_1 = __importDefault(require("./routes/register"));
 const authenticateSession_1 = __importDefault(require("./middleware/authenticateSession"));
 const app = express_1.default();
@@ -46,6 +47,7 @@ app.get('/', (req, res, next) => {
     res.send('test');
 });
 app.use('/register', register_1.default);
+app.use('/login', login_1.default);
 app.use('/attendance', attendance_1.default);
 app.use('/attendance-token', attendanceToken_1.default);
 app.use('/', authenticateSession_1.default);

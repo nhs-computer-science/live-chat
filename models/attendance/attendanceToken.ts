@@ -1,32 +1,18 @@
-import { Response } from 'express';
 import path from 'path';
 import dotenv from 'dotenv';
 
 import Attendance from '../../schema/Attendance';
-import redirection from '../../util/redirection';
 import generateToken from '../../util/generateToken';
-import QueryMethod from '../../util/interfaces/queryMethod';
 
 dotenv.config({ path: path.join(__dirname, '../', '../', './env', '.env') });
 
-const DATABASE_ERROR_URL = (BASE_URL: string): string =>
-  `${BASE_URL}/?serverSideError=yes`;
+const emailInUse = async (e: string) => await Attendance.findOne({ email: e });
 
-let emailInUse: QueryMethod;
-let createAttendanceToken: QueryMethod;
-
-emailInUse = async (e: string, BASE_URL: string, r: Response) =>
-  await Attendance.findOne({ email: e }).catch((e: Error): void => {
-    redirection(r, DATABASE_ERROR_URL(BASE_URL), e);
-  });
-
-createAttendanceToken = async (e: string, BASE_URL: string, r: Response) =>
+const createAttendanceToken = async (e: string) =>
   await Attendance.create({
     token: generateToken(8),
     email: e,
     fall2021MeetingsAttended: 0,
-  }).catch((e: Error): void => {
-    redirection(r, DATABASE_ERROR_URL(BASE_URL), e);
   });
 
 const retrieveEmailSubject = (): string => `Attendance Token Created!`;

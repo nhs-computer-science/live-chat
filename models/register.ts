@@ -1,30 +1,42 @@
-import { Response } from 'express';
-
 import ClientSchema from '../schema/ClientSchema';
-import redirection from '../util/redirection';
-import QueryMethod from '../util/interfaces/queryMethod';
+import EmailConfirmationToken from '../schema/EmailConfirmationToken';
+import bcrypt from 'bcrypt';
 
-const DATABASE_ERROR_URL = (BASE_URL: string): string =>
-  `${BASE_URL}?databaseError=yes`;
+const hasStudentEmail = (e: string): boolean =>
+  e.split('@')[1] === 'student.gn.k12.ny.us';
 
-let createClient: QueryMethod;
-let isEmailInUse: QueryMethod;
+const isFirstNameReal = (fName: string, e: string): boolean =>
+  fName.charAt(0) === e.charAt(0);
 
-isEmailInUse = async (e: string, BASE_URL: string, r: Response) =>
-  await ClientSchema.findOne({ e }).catch((e: Error): void =>
-    redirection(r, DATABASE_ERROR_URL(BASE_URL), e)
-  );
-
-createClient = async (payload: object, BASE_URL: string, r: Response) =>
-  await ClientSchema.create({ payload }).catch((e: Error): void =>
-    redirection(r, DATABASE_ERROR_URL(BASE_URL), e)
-  );
+const isLastNameReal = (lName: string, e: string): boolean =>
+  e.split('@')[0].substring(1).slice(0, -1) === lName;
 
 const doPasswordsMatch = (p1: string, p2: string): boolean =>
   p1.trim() === p2.trim();
 
+const isEmailInUse = async (e: string) =>
+  await ClientSchema.findOne({ email: e });
+
+const storeConfEmailToken = async (e: string, t: string) =>
+  await EmailConfirmationToken.create({ email: e, token: t });
+
+const verifyToken = async (t: string) =>
+  await EmailConfirmationToken.findOne({ token: t });
+
+const hashPassword = async (password: string, saltRounds: number) =>
+  await bcrypt.hash(password, saltRounds);
+
+const createAccount = async (payload: object) =>
+  await ClientSchema.create({ ...payload });
+
 export default {
-  isEmailInUse,
+  hasStudentEmail,
+  isFirstNameReal,
+  isLastNameReal,
   doPasswordsMatch,
-  createClient,
+  isEmailInUse,
+  storeConfEmailToken,
+  verifyToken,
+  createAccount,
+  hashPassword,
 };

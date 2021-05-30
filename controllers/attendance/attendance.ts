@@ -29,7 +29,7 @@ const postAttendancePage = async (
   }
 
   const t: string = req.body.token.trim();
-  const token = await attendanceModel.authenticateToken(t, URL, res);
+  const token = await attendanceModel.authenticateToken(t);
 
   if (token) {
     if (
@@ -38,12 +38,7 @@ const postAttendancePage = async (
     ) {
       return res.redirect(`${URL}/?meetingOverflow${QUERY_VALUE}`);
     } else if (
-      await attendanceModel.updateAttendance(
-        t,
-        URL,
-        res,
-        token.fall2021MeetingsAttended
-      )
+      await attendanceModel.updateAttendance(t, token.fall2021MeetingsAttended)
     ) {
       const emailSent = await email(
         process.env.NODEMAILER_USER!,

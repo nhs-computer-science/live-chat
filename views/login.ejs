@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="/css/authentication.css" />
+
+    <%- include('./includes/bootstrap.ejs') %>
+
+</head>
+<body>
+    <div id="form-wrapper">
+        <form action="/login" method="POST" id="login-form">
+            <div class="alert alert-info" role="alert">
+                Want to submit your attendance token? Click <a href="/attendance">here!</a>
+            </div>
+            <div class="alert alert-info" role="alert">
+                Dont't have an attendance token? Click <a href="/attendance-token">here</a> to get one!
+            </div>
+            <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Email" name="email" required value="akhazzam1@student.gn.k12.ny.us">
+            <input type="password" class="form-control" id="password" aria-describedby="emailHelp" placeholder="Password" name="password" required value="testA12345">
+            <button type="submit" class="btn btn-warning" id="login-btn">Log In</button>
+            <p>Don't have an account? Register <a href="/register">here!</a></p>   
+        </form> 
+    </div>
+</body>
+</html>

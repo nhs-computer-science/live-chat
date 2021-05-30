@@ -7,13 +7,15 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const Client = new mongoose_1.default.Schema({
     email: {
         type: String,
-        unique: true
     },
-    fullName: {
-        type: String
+    firstName: {
+        type: String,
+    },
+    lastName: {
+        type: String,
     },
     password: {
-        type: String
-    }
+        type: String,
+    },
 }, { timestamps: true });
 exports.default = mongoose_1.default.model('clients', Client);

@@ -11,29 +11,37 @@
 
 </head>
 <body>
-    <form action="/attendance" method="POST" id="token-form">
-        <div class="form-group" id="email-wrapper">
-          <input type="text" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Attendance Token" name="token" required>
+    <div id="form-wrapper">
+        <div class="alert alert-info" role="alert">
+            Want to chat live? Click <a href="/login">here</a> to log in!
         </div>
-        <button type="submit" class="btn btn-warning" id="generate-token-btn">Submit Attendance Token</button>
-    </form>
-    <% if (notTakingAttendance) { %>
-        <div class="alert alert-danger" role="alert">
-            Attendance tokens are currently not being accepted!
+        <div class="alert alert-info" role="alert">
+            Don't have an account? Click <a href="/register">here</a> to register!
         </div>
-    <% } else if (invalidToken) { %>
-        <div class="alert alert-danger" role="alert">
-            Token is invalid!
-        </div>
-    <% } else if (meetingOverflow) { %>
-        <div class="alert alert-danger" role="alert">
-            Please wait until the next meeting to submit your token!
-        </div>
-    <% } else if (attendanceUpdated) { %>
-        <div class="alert alert-success" role="alert">
-            Attendance updated for the week of <%= date %>!
-        </div>
-    <% } %>
-    <p>Don't have a token? Get one <a href="/attendance-token">here</a></p>
+        <form action="/attendance" method="POST" id="token-form">
+            <div class="form-group" id="email-wrapper">
+              <input type="text" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Attendance Token" name="token" required>
+            </div>
+            <button type="submit" class="btn btn-warning" id="generate-token-btn">Submit Attendance Token</button>
+        </form>
+        <% if (notTakingAttendance) { %>
+            <div class="alert alert-danger" role="alert">
+                Attendance tokens are currently not being accepted!
+            </div>
+        <% } else if (invalidToken) { %>
+            <div class="alert alert-danger" role="alert">
+                Token is invalid!
+            </div>
+        <% } else if (meetingOverflow) { %>
+            <div class="alert alert-danger" role="alert">
+                Please wait until the next meeting to submit your token!
+            </div>
+        <% } else if (attendanceUpdated) { %>
+            <div class="alert alert-success" role="alert">
+                Attendance updated for the week of <%= date %>!
+            </div>
+        <% } %>
+        <p>Don't have a token? Get one <a href="/attendance-token">here</a></p>
+    </div>
 </body>
 </html>

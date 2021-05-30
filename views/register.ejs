@@ -5,11 +5,82 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
+    <link rel="stylesheet" href="/css/authentication.css" />
 
     <%- include('./includes/bootstrap.ejs') %>
 
+    <script defer>
+        const showLoadingSpinner = () => {
+            const loadingSpinnerWrapper = document.querySelector('.loading-spinner-wrapper');
+            loadingSpinnerWrapper.style.visibility = 'visible';
+        }
+    </script>
 </head>
 <body>
-    
+    <div id="form-wrapper">
+        <form action="/register" method="POST" id="register-form" onsubmit="showLoadingSpinner()">
+            <div class="alert alert-info" role="alert">
+                Want to submit your attendance token? Click <a href="/attendance">here!</a>
+            </div>
+            <div class="alert alert-info" role="alert">
+                Dont't have an attendance token? Click <a href="/attendance-token">here</a> to get one!
+            </div>
+            <% if (!accountCreated) { %>
+                <% if (!confirmationTokenSent) { %>
+                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Email" name="email" required value="akhazzam1@student.gn.k12.ny.us">
+                    <% if (notStudentEmail) { %>
+                        <p class="auth-failed">Must have a student email!</p>
+                    <% } else if (emailInUse) { %>
+                        <p class="auth-failed">Email in use!</p>
+                    <% } %>
+                    <input type="text" class="form-control" id="first-name" aria-describedby="emailHelp" placeholder="First Name" name="firstName" required value="alex">
+                    <% if (notRealFirstName) { %>
+                        <p class="auth-failed">Enter your real first name!</p>
+                    <% } %>
+                    <input type="text" class="form-control" id="last-name" aria-describedby="emailHelp" placeholder="Last Name" name="lastName" required value="khazzam">
+                    <% if (notRealLastName) { %>
+                        <p class="auth-failed">Enter your real last name!</p>
+                    <% } %>
+                    <input type="password" class="form-control" id="password" aria-describedby="emailHelp" placeholder="Password" name="password" required value="testA12345">
+                    <% if (passwordsNotMatching) { %>
+                        <p class="auth-failed">Passwords must match</p>
+                    <% } %>
+                    <input type="password" class="form-control" id="password-conf" aria-describedby="emailHelp" placeholder="Confirm Password" name="passwordConf" required value="testA12345">
+                    <% if (passwordsNotMatching) { %>
+                        <p class="auth-failed">Passwords must match</p>
+                    <% } %>
+                <% } else { %>
+                    <% if (!accountCreated && !invalidToken) { %>
+                        <div class="alert alert-success" role="alert">
+                            A conformation token was sent to your email. Please enter it below!
+                        </div>
+                    <% } %>
+                    <input type="text" class="form-control" id="token" aria-describedby="emailHelp" placeholder="Token" name="token" required>
+                <% } %>
+                <div id="submit-btn-wrapper">
+                    <button type="submit" class="btn btn-warning" id="create-account-btn">Create Account</button>
+                    <div class="spinner-border text-primary loading-spinner-wrapper" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <p>Already have an account? Log In <a href="/login">here</a></p> 
+            <% } %>
+            <% if (serverSideError) { %>
+                <div class="alert alert-danger" role="alert">
+                    Oops! An error occurred. Please try again later, or email nhscompsciclub@gmail.com for help.
+                </div>
+            <% } %>
+            <% if (invalidToken) { %>
+                <div class="alert alert-danger" role="alert">
+                    Invalid token! Please try again later, or email nhscompsciclub@gmail.com for help.
+                </div>
+            <% } %>
+            <% if (accountCreated) { %>
+                <div class="alert alert-success" role="alert">
+                    Account Successfully Created! Click <a href="/login">here</a> to log in!
+                </div>
+            <% } %>  
+        </form> 
+    </div>
 </body>
 </html>

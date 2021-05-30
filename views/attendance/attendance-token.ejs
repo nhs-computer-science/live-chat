@@ -8,27 +8,36 @@
     <link rel="stylesheet" href="/css/attendance.css" />
 
     <%- include('../includes/bootstrap.ejs') %>
-
 </head>
 <body>
-    <form action="/attendance-token" method="POST" id="attendance-form">
-        <div class="form-group" id="email-wrapper">
-          <input type="email" class="form-control" id="token" aria-describedby="emailHelp" placeholder="Email" name="email" required>
+    <div id="form-wrapper">
+        <div class="alert alert-info" role="alert">
+            Want to chat live? Click <a href="/login">here</a> to log in!
         </div>
-        <button type="submit" class="btn btn-warning" id="submit-token-btn">Generate Attendance Token</button>
-    </form>
-    <% if (notStudentEmail) { %>
-        <div class="alert alert-danger" role="alert">
-            Must have a GNPS student email!
+        <div class="alert alert-info" role="alert">
+            Don't have an account? Click <a href="/register">here</a> to register!
         </div>
-    <% } else if (isEmailInUse) { %>
-        <div class="alert alert-danger" role="alert">
-            Token has already been sent to this email. Check your inbox and spam!
-        </div>
-    <% } else if (attendanceTokenSent) { %>
-        <div class="alert alert-success" role="alert">
-            Token has been sent to your email! Check your inbox and spam folder. 
-        </div>
-    <% } %>
+        <form action="/attendance-token" method="POST" id="attendance-form">
+            <div class="form-group" id="email-wrapper">
+              <input type="email" class="form-control" id="token" aria-describedby="emailHelp" placeholder="Email" name="email" required>
+            </div>
+                <button type="submit" class="btn btn-warning" id="submit-token-btn">Generate Attendance Token</button>
+        </form>
+        <% if (notStudentEmail) { %>
+            <div class="alert alert-danger" role="alert">
+                Must have a GNPS student email!
+            </div>
+        <% } else if (isEmailInUse) { %>
+            <div class="alert alert-danger" role="alert">
+                Token has already been sent to this email. Check your inbox and spam!
+            </div>
+        <% } else if (attendanceTokenSent) { %>
+            <div class="alert alert-success" role="alert">
+                Token has been sent to your email! Check your inbox and spam folder. 
+            </div>
+        <% } %>
+        <p>Have a token? Submit it <a href="/attendance">here</a></p>
+    </div>
 </body>
 </html>
+

@@ -1,21 +1,24 @@
-import Mongoose from "mongoose";
+import Mongoose from 'mongoose';
 
 const Client = new Mongoose.Schema(
   {
     email: {
       type: String,
-      unique: true
     },
 
-    fullName: {
-        type: String
+    firstName: {
+      type: String,
+    },
+
+    lastName: {
+      type: String,
     },
 
     password: {
-        type: String
-    }
+      type: String,
+    },
   },
   { timestamps: true }
 );
 
-export default Mongoose.model('clients', Client)
+export default Mongoose.model('clients', Client);
