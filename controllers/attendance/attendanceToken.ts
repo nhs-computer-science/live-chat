@@ -2,8 +2,7 @@ import { Request, Response } from 'express';
 
 import attendanceTokenModel from '../../models/attendance/attendanceToken';
 import email from '../../email/skeleton';
-
-type AwaitData = object | null;
+import serverSideError from '../../util/serverSideError';
 
 const getAttendanceTokenPage = (req: Request, res: Response): void => {
   res.render('attendance/attendance-token', {
@@ -19,30 +18,34 @@ const postAttendanceTokenPage = async (
 ): Promise<void> => {
   const e: string = req.body.email.trim();
 
-  const URL: string = '/attendance-token';
+  const URL: string = '/attendance-token/';
   const QUERY_VALUE: string = '=yes';
 
   if (e.split('@')[1] !== 'student.gn.k12.ny.us') {
-    return res.redirect(`${URL}/?notStudentEmail${QUERY_VALUE}`);
+    return res.redirect(`${URL}?notStudentEmail${QUERY_VALUE}`);
   }
 
-  if (await attendanceTokenModel.emailInUse(e, URL, res)) {
-    return res.redirect(`${URL}/?isEmailInUse${QUERY_VALUE}`);
+  if (await attendanceTokenModel.emailInUse(e)) {
+    return res.redirect(`${URL}?isEmailInUse${QUERY_VALUE}`);
   }
 
-  const tokenModel: AwaitData =
-    await attendanceTokenModel.createAttendanceToken(e, URL, res);
+  const tokenModel = await attendanceTokenModel.createAttendanceToken(
+    e,
+    res,
+    URL
+  );
 
-  if (tokenModel) {
-    const attendanceEmailTokenSent: AwaitData = await email(
-      e,
-      attendanceTokenModel.retrieveEmailSubject(),
-      attendanceTokenModel.retrieveEmailBody(tokenModel.token)
-    );
+  const attendanceEmailTokenSent = await email(
+    e,
+    attendanceTokenModel.retrieveEmailSubject(),
+    attendanceTokenModel.retrieveEmailBody(tokenModel.token)
+  ).catch((e: Error): void => {
+    console.log(e);
+    return serverSideError(res, URL);
+  });
 
-    if (attendanceEmailTokenSent) {
-      res.redirect(`${URL}/?attendanceTokenSent${QUERY_VALUE}`);
-    }
+  if (attendanceEmailTokenSent) {
+    res.redirect(`${URL}?attendanceTokenSent${QUERY_VALUE}`);
   }
 };
 

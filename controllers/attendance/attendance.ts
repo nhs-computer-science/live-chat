@@ -6,6 +6,7 @@ dotenv.config({ path: path.join(__dirname, '../', '../', './env', '.env') });
 
 import attendanceModel from '../../models/attendance/attendance';
 import email from '../../email/skeleton';
+import serverSideError from '../../util/serverSideError';
 
 const getAttendancePage = (req: Request, res: Response): void => {
   res.render('attendance/attendance', {
@@ -21,11 +22,11 @@ const postAttendancePage = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  const URL: string = '/attendance';
+  const URL: string = '/attendance/';
   const QUERY_VALUE: string = '=yes';
 
   if (process.env.TAKING_ATTENDANCE_SUBMISSIONS! === 'no') {
-    return res.redirect(`${URL}/?notTakingAttendance${QUERY_VALUE}`);
+    return res.redirect(`${URL}?notTakingAttendance${QUERY_VALUE}`);
   }
 
   const t: string = req.body.token.trim();
@@ -36,7 +37,7 @@ const postAttendancePage = async (
       parseInt(token.fall2021MeetingsAttended) + 1 >
       parseInt(process.env.FALL_2021_MEETINGS!)
     ) {
-      return res.redirect(`${URL}/?meetingOverflow${QUERY_VALUE}`);
+      return res.redirect(`${URL}?meetingOverflow${QUERY_VALUE}`);
     } else if (
       await attendanceModel.updateAttendance(t, token.fall2021MeetingsAttended)
     ) {
@@ -47,11 +48,13 @@ const postAttendancePage = async (
       );
 
       if (emailSent) {
-        res.redirect(`${URL}/?attendanceUpdated${QUERY_VALUE}`);
+        res.redirect(`${URL}?attendanceUpdated${QUERY_VALUE}`);
       }
+    } else {
+      serverSideError(res, URL);
     }
   } else {
-    res.redirect(`${URL}/?invalidToken${QUERY_VALUE}`);
+    res.redirect(`${URL}?invalidToken${QUERY_VALUE}`);
   }
 };
 

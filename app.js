@@ -10,10 +10,11 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const path_1 = __importDefault(require("path"));
 const dotenv_1 = __importDefault(require("dotenv"));
-const attendance_1 = __importDefault(require("./routes/attendance"));
-const attendanceToken_1 = __importDefault(require("./routes/attendanceToken"));
-const login_1 = __importDefault(require("./routes/login"));
-const register_1 = __importDefault(require("./routes/register"));
+const attendance_1 = __importDefault(require("./routes/attendance/attendance"));
+const attendanceToken_1 = __importDefault(require("./routes/attendance/attendanceToken"));
+const login_1 = __importDefault(require("./routes/auth/login"));
+const register_1 = __importDefault(require("./routes/auth/register"));
+const home_1 = __importDefault(require("./routes/secure/home"));
 const authenticateSession_1 = __importDefault(require("./middleware/authenticateSession"));
 const app = express_1.default();
 dotenv_1.default.config({ path: path_1.default.join(__dirname, './env', '.env') });
@@ -44,11 +45,12 @@ app.use(express_session_1.default({
     }),
 }));
 app.get('/', (req, res, next) => {
-    res.send('test');
+    res.redirect('/register');
 });
 app.use('/register', register_1.default);
 app.use('/login', login_1.default);
 app.use('/attendance', attendance_1.default);
 app.use('/attendance-token', attendanceToken_1.default);
 app.use('/', authenticateSession_1.default);
+app.use('/home', home_1.default);
 exports.default = app;

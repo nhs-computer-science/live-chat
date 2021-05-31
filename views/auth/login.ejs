@@ -7,7 +7,7 @@
     <title>Login</title>
     <link rel="stylesheet" href="/css/authentication.css" />
 
-    <%- include('./includes/bootstrap.ejs') %>
+    <%- include('../includes/bootstrap.ejs') %>
 
 </head>
 <body>
@@ -20,7 +20,13 @@
                 Dont't have an attendance token? Click <a href="/attendance-token">here</a> to get one!
             </div>
             <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Email" name="email" required value="akhazzam1@student.gn.k12.ny.us">
+            <% if (authFailed) { %>
+                <p class="auth-failed">Invalid email and/or password!</p>
+            <% } %>
             <input type="password" class="form-control" id="password" aria-describedby="emailHelp" placeholder="Password" name="password" required value="testA12345">
+            <% if (authFailed) { %>
+                <p class="auth-failed">Invalid email and/or password!</p>
+            <% } %>
             <button type="submit" class="btn btn-warning" id="login-btn">Log In</button>
             <p>Don't have an account? Register <a href="/register">here!</a></p>   
         </form> 

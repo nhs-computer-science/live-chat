@@ -6,16 +6,18 @@ import mongoose from 'mongoose';
 import path from 'path';
 import dotenv from 'dotenv';
 
-import attendanceRoute from './routes/attendance';
-import attendanceTokenRoute from './routes/attendanceToken';
-import loginRoute from './routes/login';
-import registerRoute from './routes/register';
+import attendanceRoute from './routes/attendance/attendance';
+import attendanceTokenRoute from './routes/attendance/attendanceToken';
+import loginRoute from './routes/auth/login';
+import registerRoute from './routes/auth/register';
+import homeRoute from './routes/secure/home';
 
 import authenticateSession from './middleware/authenticateSession';
 
 declare module 'express-session' {
   interface Session {
     tentativeClient: object | string;
+    client: object;
   }
 }
 
@@ -54,7 +56,7 @@ app.use(
 );
 
 app.get('/', (req, res, next) => {
-  res.send('test');
+  res.redirect('/register');
 });
 
 app.use('/register', registerRoute);
@@ -63,5 +65,7 @@ app.use('/attendance', attendanceRoute);
 app.use('/attendance-token', attendanceTokenRoute);
 
 app.use('/', authenticateSession);
+
+app.use('/home', homeRoute);
 
 export default app;
