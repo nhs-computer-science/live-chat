@@ -8,6 +8,6 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const app_1 = __importDefault(require("./app"));
 dotenv_1.default.config({ path: path_1.default.join(__dirname, './env', '.env') });
 const PORT = process.env.PORT || 5000;
-app_1.default.listen(PORT.toString(), () => {
+app_1.default.listen(PORT, () => {
     console.log(`Listening to request on port ${PORT}`);
 });

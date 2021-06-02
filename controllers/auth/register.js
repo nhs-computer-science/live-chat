@@ -9,6 +9,7 @@ const register_1 = __importDefault(require("../../models/authentication/register
 const generateToken_1 = __importDefault(require("../../util/generateToken"));
 const skeleton_1 = __importDefault(require("../../email/skeleton"));
 const serverSideError_1 = __importDefault(require("../../util/serverSideError"));
+const destroySession_1 = __importDefault(require("../../util/destroySession"));
 dotenv_1.default.config({ path: path_1.default.join(__dirname, '../', 'env', '.env') });
 const getRegisterPage = async (req, res) => {
     res.render('auth/register', {
@@ -67,7 +68,7 @@ const postRegisterPage = async (req, res) => {
             req.session.tentativeClient.password = hashedPassword;
             if (await register_1.default.createAccount(req.session.tentativeClient, URL, res)) {
                 if (await skeleton_1.default(process.env.NODEMAILER_USER, 'Someone Created an Account!', JSON.stringify(req.session.tentativeClient))) {
-                    req.session.destroy(() => {
+                    destroySession_1.default(req, () => {
                         res.redirect(`${URL}?accountCreated${QUERY_VALUE}`);
                     });
                 }

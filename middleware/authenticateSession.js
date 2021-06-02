@@ -5,6 +5,7 @@ exports.default = (req, res, next) => {
         next();
     }
     else {
+        console.log(false);
         res.redirect('/register');
     }
 };

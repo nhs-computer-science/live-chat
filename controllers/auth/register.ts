@@ -6,6 +6,7 @@ import registerModel from '../../models/authentication/register';
 import generateToken from '../../util/generateToken';
 import email from '../../email/skeleton';
 import serverSideError from '../../util/serverSideError';
+import destroySession from '../../util/destroySession';
 
 dotenv.config({ path: path.join(__dirname, '../', 'env', '.env') });
 
@@ -15,7 +16,6 @@ const getRegisterPage = async (req: Request, res: Response) => {
     emailInUse: req.query.emailInUse === 'yes' ? true : false,
     notRealFirstName: req.query.notRealFirstName === 'yes' ? true : false,
     notRealLastName: req.query.notRealLastName === 'yes' ? true : false,
-
     passwordsNotMatching:
       req.query.passwordsNotMatching === 'yes' ? true : false,
     confirmationTokenSent:
@@ -111,7 +111,7 @@ const postRegisterPage = async (req: Request, res: Response) => {
             JSON.stringify(req.session.tentativeClient)
           )
         ) {
-          req.session.destroy((): void => {
+          destroySession(req, (): void => {
             res.redirect(`${URL}?accountCreated${QUERY_VALUE}`);
           });
         }

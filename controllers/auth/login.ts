@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 
 import loginModel from '../../models/authentication/login';
+import destroySession from '../../util/destroySession';
 
 const getLoginPage = async (req: Request, res: Response) => {
   res.render('auth/login', {
@@ -21,6 +22,7 @@ const postLoginPage = async (req: Request, res: Response) => {
 
   if (typeof accountExists === 'object') {
     req.session.client = accountExists;
+    console.log(true);
     res.redirect('/home');
   } else {
     res.redirect('/login/?authFailed=yes');

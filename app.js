@@ -41,10 +41,10 @@ app.use(express_session_1.default({
         stringify: false,
         autoRemove: 'interval',
         autoRemoveInterval: 1,
-        ttl: 60 * 24 * 60 * 60,
+        ttl: 1 * 24 * 60 * 60,
     }),
 }));
-app.get('/', (req, res, next) => {
+app.get('/', (req, res) => {
     res.redirect('/register');
 });
 app.use('/register', register_1.default);

@@ -12,7 +12,7 @@ const EmailConfirmationToken = new Mongoose.Schema(
 
     createdAt: {
       type: Date,
-      expires: '1m',
+      expires: '2m',
       default: Date.now(),
       required: true,
     },
