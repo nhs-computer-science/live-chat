@@ -1,7 +1,7 @@
 import { Response } from 'express';
 import bcrpyt from 'bcrypt';
 
-import ClientSchema from '../../schema/ClientSchema';
+import ClientSchema from '../../schema/Client';
 import serverSideError from '../../util/serverSideError';
 
 const accountExists = async (

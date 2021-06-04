@@ -7,4 +7,5 @@ const express_1 = __importDefault(require("express"));
 const Router = express_1.default.Router();
 const home_1 = __importDefault(require("../../controllers/secure/home"));
 Router.get('/', home_1.default.getHomePage);
+Router.post('/', home_1.default.postHomePage);
 exports.default = Router;

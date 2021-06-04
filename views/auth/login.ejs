@@ -7,19 +7,21 @@
     <title>Login</title>
     <link rel="stylesheet" href="/css/authentication.css" />
 
+    <script src="/js/login.js" defer></script>
+
     <%- include('../includes/bootstrap.ejs') %>
 
 </head>
 <body>
     <div id="form-wrapper">
-        <form action="/login" method="POST" id="login-form">
+        <form action="/login" method="POST" id="login-form" onsubmit="showLoadingSpinner('loading-spinner-wrapper')">
             <div class="alert alert-info" role="alert">
                 Want to submit your attendance token? Click <a href="/attendance">here!</a>
             </div>
             <div class="alert alert-info" role="alert">
                 Dont't have an attendance token? Click <a href="/attendance-token">here</a> to get one!
             </div>
-            <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Email" name="email" required value="akhazzam1@student.gn.k12.ny.us">
+            <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Email" name="email" required>
             <% if (authFailed) { %>
                 <p class="auth-failed">Invalid email and/or password!</p>
             <% } %>
@@ -27,7 +29,12 @@
             <% if (authFailed) { %>
                 <p class="auth-failed">Invalid email and/or password!</p>
             <% } %>
-            <button type="submit" class="btn btn-warning" id="login-btn">Log In</button>
+            <div id="submit-btn-wrapper">
+                <button type="submit" class="btn btn-warning" id="login-btn">Log In</button>
+                <div class="spinner-border text-primary loading-spinner-wrapper" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
             <p>Don't have an account? Register <a href="/register">here!</a></p>   
         </form> 
     </div>

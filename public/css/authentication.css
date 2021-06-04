@@ -7,6 +7,7 @@
 
 html,
 body {
+  background-color: rgb(87, 81, 81) !important;
   margin: 0px;
   height: 100%;
 }
@@ -20,6 +21,11 @@ body {
 
 p {
   text-align: left;
+}
+
+input,
+.alert {
+  border-radius: 0px !important;
 }
 
 .auth-failed {
@@ -44,6 +50,8 @@ a {
 
 #register-form,
 #login-form {
+  background-color: white;
+  padding: 30px;
   display: flex;
   flex-direction: column;
   width: 60%;

@@ -6,8 +6,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
 
+    <%- include('../includes/bootstrap.ejs') %>
+    <%- include('../includes/font-awesome.ejs') %>
+
+    <link rel="stylesheet" href="/css/secure/home.css" />
+
 </head>
 <body>
-    
+    <main id="chat-wrapper">
+        <ul id="navbar">
+            <li class="nav-link-wrapper"></li>
+            <li class="nav-link-wrapper">PEOPLE</li>
+            <li class="nav-link-wrapper">SETTINGS</li>
+            <li class="nav-link-wrapper">WEBSITE</li>
+            <li class="nav-link-wrapper clear-chats-btn">CLEAR</li>
+        </ul>
+        <div id="chat-area">
+            <ul id="messages-wrapper">
+                <% for (let i = 0; i < messages.length; i++) { %>
+                    <li class="message-wrapper">
+                        <span class="email"><%= JSON.stringify(messages[i].email)%></span>
+                        <span class="date"><%= JSON.stringify(messages[i].createdAt)%></span>
+                        <p class="message"><%= JSON.stringify(messages[i].message) %></p>
+                    </li>
+                    <% } %>
+                    <li></li>
+                </ul>
+                <form method="POST" action="/home" id="message-form">
+                    <input type="text" class="form-control" id="message" aria-describedby="emailHelp" placeholder="Message" name="message" required />
+                    <button type="submit" class="btn btn-success" id="send-chat-btn">Send</button>
+                </form>
+        </div>
+    </main>
 </body>
 </html>

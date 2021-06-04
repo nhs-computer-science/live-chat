@@ -9,16 +9,11 @@
 
     <%- include('../includes/bootstrap.ejs') %>
 
-    <script defer>
-        const showLoadingSpinner = () => {
-            const loadingSpinnerWrapper = document.querySelector('.loading-spinner-wrapper');
-            loadingSpinnerWrapper.style.visibility = 'visible';
-        }
-    </script>
+    <script src="/js/util/loadingSpinner.js" defer></script>
 </head>
 <body>
     <div id="form-wrapper">
-        <form action="/register" method="POST" id="register-form" onsubmit="showLoadingSpinner()">
+        <form action="/register" method="POST" id="register-form" onsubmit="showLoadingSpinner('loading-spinner-wrapper')">
             <div class="alert alert-info" role="alert">
                 Want to submit your attendance token? Click <a href="/attendance">here!</a>
             </div>
@@ -27,25 +22,25 @@
             </div>
             <% if (!accountCreated) { %>
                 <% if (!confirmationTokenSent) { %>
-                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Email" name="email" required value="akhazzam1@student.gn.k12.ny.us">
+                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Email" name="email" required >
                     <% if (notStudentEmail) { %>
                         <p class="auth-failed">Must have a student email!</p>
                     <% } else if (emailInUse) { %>
                         <p class="auth-failed">Email in use!</p>
                     <% } %>
-                    <input type="text" class="form-control" id="first-name" aria-describedby="emailHelp" placeholder="First Name" name="firstName" required value="alex">
+                    <input type="text" class="form-control" id="first-name" aria-describedby="emailHelp" placeholder="First Name" name="firstName" required >
                     <% if (notRealFirstName) { %>
                         <p class="auth-failed">Enter your real first name!</p>
                     <% } %>
-                    <input type="text" class="form-control" id="last-name" aria-describedby="emailHelp" placeholder="Last Name" name="lastName" required value="khazzam">
+                    <input type="text" class="form-control" id="last-name" aria-describedby="emailHelp" placeholder="Last Name" name="lastName" required >
                     <% if (notRealLastName) { %>
                         <p class="auth-failed">Enter your real last name!</p>
                     <% } %>
-                    <input type="password" class="form-control" id="password" aria-describedby="emailHelp" placeholder="Password" name="password" required value="testA12345">
+                    <input type="password" class="form-control" id="password" aria-describedby="emailHelp" placeholder="Password" name="password" required >
                     <% if (passwordsNotMatching) { %>
                         <p class="auth-failed">Passwords must match</p>
                     <% } %>
-                    <input type="password" class="form-control" id="password-conf" aria-describedby="emailHelp" placeholder="Confirm Password" name="passwordConf" required value="testA12345">
+                    <input type="password" class="form-control" id="password-conf" aria-describedby="emailHelp" placeholder="Confirm Password" name="passwordConf" required >
                     <% if (passwordsNotMatching) { %>
                         <p class="auth-failed">Passwords must match</p>
                     <% } %>

@@ -1,7 +1,7 @@
 import { Response } from 'express';
 import serverSideError from '../../util/serverSideError';
 
-import ClientSchema from '../../schema/ClientSchema';
+import ClientSchema from '../../schema/Client';
 import EmailConfirmationToken from '../../schema/EmailConfirmationToken';
 import bcrypt from 'bcrypt';
 

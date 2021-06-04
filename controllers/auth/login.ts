@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 
 import loginModel from '../../models/authentication/login';
-import destroySession from '../../util/destroySession';
 
 const getLoginPage = async (req: Request, res: Response) => {
   res.render('auth/login', {

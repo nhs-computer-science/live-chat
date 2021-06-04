@@ -4,10 +4,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const bcrypt_1 = __importDefault(require("bcrypt"));
-const ClientSchema_1 = __importDefault(require("../../schema/ClientSchema"));
+const Client_1 = __importDefault(require("../../schema/Client"));
 const serverSideError_1 = __importDefault(require("../../util/serverSideError"));
 const accountExists = async (e, p, r, URL) => {
-    const account = await ClientSchema_1.default.findOne({ email: e });
+    const account = await Client_1.default.findOne({ email: e });
     if (!account) {
         return false;
     }
