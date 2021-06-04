@@ -24,7 +24,7 @@ declare module 'express-session' {
 const app = Express();
 
 dotenv.config({ path: path.join(__dirname, './env', '.env') });
-
+//
 const clientP = mongoose
   .connect(process.env.MONGODB_URI!, {
     useNewUrlParser: true,
