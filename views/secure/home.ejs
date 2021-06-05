@@ -19,24 +19,65 @@
             <li class="nav-link-wrapper">PEOPLE</li>
             <li class="nav-link-wrapper">SETTINGS</li>
             <li class="nav-link-wrapper">WEBSITE</li>
-            <li class="nav-link-wrapper clear-chats-btn">CLEAR</li>
+            <li class="nav-link-wrapper">LOG OUT</li>
+            <li class="nav-link-wrapper clear-chats-btn"><button onclick="clearChat()">CLEAR</button></li>
         </ul>
         <div id="chat-area">
             <ul id="messages-wrapper">
                 <% for (let i = 0; i < messages.length; i++) { %>
                     <li class="message-wrapper">
-                        <span class="email"><%= JSON.stringify(messages[i].email)%></span>
-                        <span class="date"><%= JSON.stringify(messages[i].createdAt)%></span>
-                        <p class="message"><%= JSON.stringify(messages[i].message) %></p>
+                        <span class="email"><%= messages[i].email %></span>
+                        <span class="date"><%= date(new Date(), new Date(messages[i].createdAt)) %></span>
+                        <p class="message"><%= filterMessage(messages[i].message) %></p>
                     </li>
                     <% } %>
                     <li></li>
-                </ul>
-                <form method="POST" action="/home" id="message-form">
-                    <input type="text" class="form-control" id="message" aria-describedby="emailHelp" placeholder="Message" name="message" required />
-                    <button type="submit" class="btn btn-success" id="send-chat-btn">Send</button>
-                </form>
+            </ul>
+            <form onsubmit="storeChat(); event.preventDefault()" id="message-form">
+                <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Message" name="message" required id="message"/>
+                <button type="submit" class="btn btn-success" id="send-chat-btn">Send</button>
+            </form>
+            <div class="alert alert-danger" id="server-error" role="alert">
+                Something went wrong; your chat wasn't delivered! Please try again. 
+            </div>
         </div>
     </main>
 </body>
+    <script defer>
+        const storeChat = () => {
+            const chat = document.getElementById('message');
+            const serverError = document.getElementById('sever-error');
+
+            fetch('/home', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                  },
+                body: JSON.stringify(chat.value.trim()),
+            }).then(() => {
+                if (serverError) {
+                    serverError.style.visibility = 'hidden';
+                }
+
+                chat.value = null;
+                scrollToLastChat();
+            }).catch((e) => {
+                serverError.style.visibility = 'visible';
+            });
+        }
+    </script>
+    <script defer>
+        const clearChat = () => {
+            const messagesWrapper = document.getElementById('messages-wrapper');
+            messagesWrapper.innerHTML = null;
+        }
+
+        const scrollToLastChat = () => {
+            console.log(5);
+            const messages = document.querySelectorAll('.message-wrapper');
+            messages[messages.length - 1].scrollIntoView({ behavior: 'smooth' });
+        }
+
+        scrollToLastChat();
+    </script>
 </html>

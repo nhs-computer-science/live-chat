@@ -24,17 +24,14 @@ declare module 'express-session' {
 const app = Express();
 
 dotenv.config({ path: path.join(__dirname, './env', '.env') });
-//
+
 const clientP = mongoose
   .connect(process.env.MONGODB_URI!, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
   })
-  .then((m) => {
-    console.log('Database Connection Established');
-    return m.connection.getClient();
-  });
+  .then((m) => m.connection.getClient());
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');

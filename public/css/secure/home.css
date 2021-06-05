@@ -51,6 +51,15 @@ body {
   padding: 10px;
 }
 
+#server-error {
+  border-radius: 0px;
+  visibility: hidden;
+}
+
+.naughty-message {
+  color: rgb(243, 11, 11) !important;
+}
+
 #navbar {
   height: fit-content;
   width: fit-content;
@@ -72,9 +81,11 @@ body {
 
 .email {
   background-color: rgb(21, 197, 21);
+  padding: 3px;
 }
 
 .date {
+  padding: 3px;
   background-color: orange;
 }
 

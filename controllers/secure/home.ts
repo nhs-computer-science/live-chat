@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 
 import homeModel from '../../models/secure/home';
+import date from '../../util/date';
+import filterMessage from '../../util/filterMessage';
 
 const getHomePage = async (req: Request, res: Response) => {
   const messages = [...(await homeModel.fetchMessages())];
@@ -10,15 +12,28 @@ const getHomePage = async (req: Request, res: Response) => {
   });
 
   res.render('secure/home', {
-    chatStored: req.query.chatStored === 'yes' ? true : false,
     messages: await homeModel.fetchMessages(),
+    filterMessage,
+    date,
   });
 };
 
-const postHomePage = async (req: Request, res: Response) => {
-  if (await homeModel.storeMessage(req.body.message, req, res)) {
-    res.redirect('/home/?chatStored=yes');
+const postHomePage = (req: Request, res: Response) => {
+  if (!req.session || !req.session.client) {
+    return res.redirect('/regsiter/?serverSideError=yes');
   }
+
+  let data: string = '';
+  req.on('data', (chunk: Buffer): void => {
+    data += chunk;
+  });
+  req.on('end', async (): Promise<void> => {
+    if (await homeModel.storeMessage(JSON.parse(data), req, res)) {
+      res.sendStatus(200);
+    } else {
+      res.sendStatus(404);
+    }
+  });
 };
 
 export default {

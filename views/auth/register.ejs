@@ -27,6 +27,8 @@
                         <p class="auth-failed">Must have a student email!</p>
                     <% } else if (emailInUse) { %>
                         <p class="auth-failed">Email in use!</p>
+                    <% } else if (blacklisted) { %>
+                        <p class="auth-failed">Email has been blacklisted (most likely due to innapropriate chat behavior in the past). Please email nhscompsciclub@gmail.com for help!</p>
                     <% } %>
                     <input type="text" class="form-control" id="first-name" aria-describedby="emailHelp" placeholder="First Name" name="firstName" required >
                     <% if (notRealFirstName) { %>
