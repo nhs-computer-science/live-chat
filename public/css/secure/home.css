@@ -9,12 +9,11 @@ html,
 body {
   margin: 0px;
   height: 100%;
-  background-color: rgb(51, 50, 50);
+  background-color: rgb(55, 55, 55);
 }
 
 #chat-wrapper {
   display: flex;
-  margin-top: 8%;
   height: 100%;
   justify-content: center;
   flex-direction: row;
@@ -26,6 +25,7 @@ body {
 
 #chat-area {
   border: 1px solid white;
+  border-top: none;
   border-bottom: none;
   width: 80%;
   position: relative;
@@ -47,8 +47,13 @@ body {
 }
 
 .nav-link-wrapper {
-  color: white;
   padding: 10px;
+}
+
+.nav-link-wrapper button {
+  background-color: rgba(17, 105, 187, 0.124) !important;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  border-radius: 0.25rem;
 }
 
 #server-error {

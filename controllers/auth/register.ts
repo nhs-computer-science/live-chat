@@ -11,6 +11,10 @@ import destroySession from '../../util/destroySession';
 dotenv.config({ path: path.join(__dirname, '../', 'env', '.env') });
 
 const getRegisterPage = async (req: Request, res: Response) => {
+  if (typeof req.session.client === 'object') {
+    req.session.client = null;
+  }
+
   res.render('auth/register', {
     notStudentEmail: req.query.notStudentEmail === 'yes' ? true : false,
     emailInUse: req.query.emailInUse === 'yes' ? true : false,

@@ -3,6 +3,10 @@ import { Request, Response } from 'express';
 import loginModel from '../../models/authentication/login';
 
 const getLoginPage = async (req: Request, res: Response) => {
+  if (typeof req.session.client === 'object') {
+    req.session.client = null;
+  }
+
   res.render('auth/login', {
     authFailed: req.query.authFailed === 'yes' ? true : false,
   });

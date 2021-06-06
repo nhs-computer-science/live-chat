@@ -9,18 +9,42 @@
     <%- include('../includes/bootstrap.ejs') %>
     <%- include('../includes/font-awesome.ejs') %>
 
+    <%- include('../includes/secure/settings-modal.ejs') %>
+    <%- include('../includes/secure/people-modal.ejs') %>
+
     <link rel="stylesheet" href="/css/secure/home.css" />
 
 </head>
 <body>
     <main id="chat-wrapper">
         <ul id="navbar">
-            <li class="nav-link-wrapper"></li>
-            <li class="nav-link-wrapper">PEOPLE</li>
-            <li class="nav-link-wrapper">SETTINGS</li>
-            <li class="nav-link-wrapper">WEBSITE</li>
-            <li class="nav-link-wrapper">LOG OUT</li>
-            <li class="nav-link-wrapper clear-chats-btn"><button onclick="clearChat()">CLEAR</button></li>
+            <li class="nav-link-wrapper">
+                <button type="btn" class="btn btn-info">
+                    <img src="https://img.icons8.com/nolan/64/conference-call.png" width="45" height="45"/>
+                </button>
+            </li>
+            <li class="nav-link-wrapper">
+                <button type="btn" class="btn btn-outline-info" onclick="clearChat()">
+                    <img src="https://img.icons8.com/nolan/64/erase.png"  width="45" height="45"/>
+                </button>
+            </li>
+            <li class="nav-link-wrapper">
+                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#settings-modal">
+                    <img src="https://img.icons8.com/nolan/64/apple-settings.png"  width="45" height="45"/>
+                </button>
+            </li>
+            <li class="nav-link-wrapper">
+                <button type="btn" class="btn btn-outline-info">
+                    <img src="https://img.icons8.com/nolan/64/privacy.png" width="45" height="45"/>
+                </button>
+            </li>
+            <li class="nav-link-wrapper">
+                <a href="/login">
+                    <button type="btn" class="btn btn-info" >
+                        <img src="https://img.icons8.com/nolan/64/logout-rounded-left.png"  width="45" height="45"/>
+                    </button>
+                </a>
+            </li>
         </ul>
         <div id="chat-area">
             <ul id="messages-wrapper">
@@ -30,8 +54,8 @@
                         <span class="date"><%= date(new Date(), new Date(messages[i].createdAt)) %></span>
                         <p class="message"><%= filterMessage(messages[i].message) %></p>
                     </li>
-                    <% } %>
-                    <li></li>
+                <% } %>
+                <li></li>
             </ul>
             <form onsubmit="storeChat(); event.preventDefault()" id="message-form">
                 <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Message" name="message" required id="message"/>
@@ -70,6 +94,8 @@
         const clearChat = () => {
             const messagesWrapper = document.getElementById('messages-wrapper');
             messagesWrapper.innerHTML = null;
+
+            alert('Chat was cleared! But do not worry; once you refresh the page, past chats will re-render.');
         }
 
         const scrollToLastChat = () => {
