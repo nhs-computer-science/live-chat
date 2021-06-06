@@ -1,4 +1,6 @@
 import { Request, Response } from 'express';
+import bcrpyt from 'bcrypt';
+import Client from '../../schema/Client';
 
 import MessageSchema from '../../schema/Message';
 import serverSideError from '../../util/serverSideError';
@@ -18,7 +20,18 @@ const storeMessage = async (
     serverSideError(res, '/home');
   });
 
+const comparePasswords = async (
+  p: string,
+  hash: string,
+  res: Response
+): Promise<boolean | void> => await bcrpyt.compare(p, hash);
+
+const deleteAccount = async (e: string): Promise<object> =>
+  await Client.deleteOne({ email: e });
+
 export default {
   fetchMessages,
   storeMessage,
+  comparePasswords,
+  deleteAccount,
 };

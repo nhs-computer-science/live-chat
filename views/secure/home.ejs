@@ -9,8 +9,9 @@
     <%- include('../includes/bootstrap.ejs') %>
     <%- include('../includes/font-awesome.ejs') %>
 
-    <%- include('../includes/secure/settings-modal.ejs') %>
-    <%- include('../includes/secure/people-modal.ejs') %>
+    <%- include('./modals/settings-modal.ejs') %>
+    <%- include('./modals//people-modal.ejs') %>
+    <%- include('./modals/privacy-modal.ejs') %>
 
     <link rel="stylesheet" href="/css/secure/home.css" />
 
@@ -19,7 +20,7 @@
     <main id="chat-wrapper">
         <ul id="navbar">
             <li class="nav-link-wrapper">
-                <button type="btn" class="btn btn-info">
+                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#people-modal">
                     <img src="https://img.icons8.com/nolan/64/conference-call.png" width="45" height="45"/>
                 </button>
             </li>
@@ -34,7 +35,7 @@
                 </button>
             </li>
             <li class="nav-link-wrapper">
-                <button type="btn" class="btn btn-outline-info">
+                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#privacy-modal">
                     <img src="https://img.icons8.com/nolan/64/privacy.png" width="45" height="45"/>
                 </button>
             </li>
@@ -77,7 +78,7 @@
                 headers: {
                     'Content-Type': 'application/json',
                   },
-                body: JSON.stringify(chat.value.trim()),
+                body: JSON.stringify({ chat: chat.value.trim() }),
             }).then(() => {
                 if (serverError) {
                     serverError.style.visibility = 'hidden';
@@ -99,11 +100,26 @@
         }
 
         const scrollToLastChat = () => {
-            console.log(5);
             const messages = document.querySelectorAll('.message-wrapper');
             messages[messages.length - 1].scrollIntoView({ behavior: 'smooth' });
         }
 
         scrollToLastChat();
+    </script>
+    <script defer>
+        const colorTheme = window.sessionStorage.getItem('theme');
+        
+        const html = document.querySelector('html');
+        const body = document.querySelector('body');
+
+        if (colorTheme === 'midnight-check') {
+
+        } else if (colorTheme === 'vibrant-sunset') {
+
+        } else if (colorTheme === 'pearly-white') {
+
+        } else {
+
+        }
     </script>
 </html>

@@ -1,0 +1,138 @@
+<link rel="stylesheet" href="/css/secure/settings-modal.css" />
+<div class="modal fade" id="settings-modal" tabindex="-1" role="dialog" aria-labelledby="settings-modal-label" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="settings-modal-label">Settings <img src="https://img.icons8.com/dusk/64/000000/settings.png" width="35" height="35"/></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="accordion" id="accordionExample">
+          <div class="card">
+            <div class="card-header" id="headingOne">
+              <h2 class="mb-0">
+                <button class="btn btn-link  dropdown-btn" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  Theme&nbsp;&nbsp;&nbsp;<img src="https://img.icons8.com/dusk/64/000000/paint-palette.png" width="25" height="25"/>
+                </button>
+              </h2>
+            </div>
+            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+              <div class="card-body">
+                <h6 id="theme-header">Select a Color Theme!</h6>
+                <ul id="color-themes">
+                  <li class="color-theme">
+                    <button type="btn" class="btn btn-light" onclick="moveCheckBox('midnight-check')">
+                      Midnight (default)
+                    </button>
+                    <span id="midnight-check" class="check">
+                      <img src="https://img.icons8.com/color/48/000000/checked-checkbox.png" width="30" height="30"/>
+                    </span>
+                  </li>
+                  <li class="color-theme">
+                    <button type="btn" class="btn btn-light" onclick="moveCheckBox('vibrant-sunset-check')">
+                      Vibrant Sunset
+                    </button>
+                    <span id="vibrant-sunset-check" class="check">
+                      <img src="https://img.icons8.com/color/48/000000/checked-checkbox.png" width="30" height="30"/>
+                    </span>
+                  </li>
+                  <li class="color-theme">
+                    <button type="btn" class="btn btn-light" onclick="moveCheckBox('pearly-white-check')">
+                      Pearly White
+                    </button>
+                    <span id="pearly-white-check" class="check">
+                      <img src="https://img.icons8.com/color/48/000000/checked-checkbox.png" width="25" height="25"/>
+                    </span>
+                  </li>
+                  <li class="color-theme">
+                    <button type="btn" class="btn btn-light" onclick="moveCheckBox('rainbow-check')">
+                      Rainbow
+                    </button>
+                    <span id="rainbow-check" class="check">
+                      <img src="https://img.icons8.com/color/48/000000/checked-checkbox.png" width="25" height="25"/>
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header" id="headingTwo">
+              <h2 class="mb-0">
+                <button class="btn btn-link collapsed  dropdown-btn" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  Account  <img src="https://img.icons8.com/officel/30/000000/private-cloud-storage.png"/>
+                </button>
+              </h2>
+            </div>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+              <div class="card-body">
+                <ul class="list-group">
+                  <li class="list-group-item" id="client-email">Email: <div><%= email %></div></li>
+                  <li class="list-group-item" id="client-password">Password: <div><%= password %></div></li>
+                </ul>
+                <div id="account-handler-buttons">
+                  <button type="button" class="btn btn-danger" onclick="deleteAccountConfirmation()">Delete Account</button>
+                  <button type="button" class="btn btn-light">Change Password</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header" id="headingThree">
+              <h2 class="mb-0">
+                <button class="btn btn-link collapsed dropdown-btn" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                  Admin&nbsp;&nbsp;&nbsp;<img src="https://img.icons8.com/dusk/64/000000/admin-settings-male.png" width="25" height="25"/>
+                </button>
+              </h2>
+            </div>
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+              <div class="card-body">
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  const deleteAccountConfirmation = () => {
+    const res = prompt('Type in your account password to confirm the deletion of this account.');
+
+    fetch('/home', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+          },
+        body: JSON.stringify({ password: res.trim() }),
+    }).then(async (res) => {
+      if (await res.text() === 'true') {
+        window.location.href = '/register/?accountDeleted=yes';
+      } else {
+        alert('Invalid password. Please try again, or contact nhscompsciclub@gmail.com for more help.');
+      }
+    })
+  };
+
+  const moveCheckBox = (id) => {
+    const checks = document.querySelectorAll('.check');
+
+    checks.forEach((check) => {
+      if (check.id !== id) {
+        check.style.display = 'none'
+      } else {
+        check.style.display = 'inline-block'
+        window.sessionStorage.setItem('theme', id);
+      }
+    });
+  }
+</script>
+<script defer>
+  moveCheckBox(window.sessionStorage.getItem('theme') || 'midnight-check');
+</script>

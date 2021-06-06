@@ -16,6 +16,8 @@ const getHomePage = async (req, res) => {
         messages: await home_1.default.fetchMessages(),
         filterMessage: filterMessage_1.default,
         date: date_1.default,
+        email: req.session.client.email,
+        password: req.session.client.password,
     });
 };
 const postHomePage = (req, res) => {
@@ -27,11 +29,24 @@ const postHomePage = (req, res) => {
         data += chunk;
     });
     req.on('end', async () => {
-        if (await home_1.default.storeMessage(JSON.parse(data), req, res)) {
-            res.sendStatus(200);
+        const payload = JSON.parse(data);
+        if (payload.hasOwnProperty('password')) {
+            const passwordsMatch = await home_1.default.comparePasswords(payload.password, req.session.client.password, res);
+            if (passwordsMatch) {
+                const accountDeleted = await home_1.default.deleteAccount(req.session.client.email);
+                res.send(true);
+            }
+            else {
+                res.send(false);
+            }
         }
-        else {
-            res.sendStatus(404);
+        else if (payload.hasOwnProperty('chat')) {
+            if (await home_1.default.storeMessage(payload.chat, req, res)) {
+                res.sendStatus(200);
+            }
+            else {
+                res.sendStatus(404);
+            }
         }
     });
 };

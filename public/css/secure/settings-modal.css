@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata&display=swap');
+
+* {
+  font-family: 'Inconsolata', monospace !important;
+  box-sizing: border-box !important;
+}
+
+#color-themes {
+  padding: 0px;
+}
+
+.color-theme {
+  list-style: none;
+  margin: 5px 0px 5px 0px;
+}
+
+.color-theme button {
+  width: 175px;
+  padding: 5px;
+}
+
+#client-email div {
+  margin-top: 5px;
+}
+
+#client-password div {
+  color: rgb(7, 153, 7);
+  margin-top: 5px;
+}
+
+#theme-header {
+  margin-bottom: 20px;
+  color: white;
+}
+
+#account-handler-buttons {
+  margin-top: 10px;
+}
+
+.dropdown-btn {
+  color: white;
+}
+
+.dropdown-btn:hover {
+  text-decoration: none;
+}
+
+.card-header,
+.modal-body,
+.modal-content {
+  background-color: rgb(44, 44, 44);
+}
+
+.modal-body {
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.card-body {
+  background-color: rgb(55, 55, 55);
+}
+
+.modal-title,
+.close {
+  color: white !important;
+}
