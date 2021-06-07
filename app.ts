@@ -6,10 +6,11 @@ import mongoose from 'mongoose';
 import path from 'path';
 import dotenv from 'dotenv';
 
-import attendanceRoute from './routes/attendance/attendance';
+import passwordResetRoute from './routes/auth/password-reset';
 import attendanceTokenRoute from './routes/attendance/attendanceToken';
-import loginRoute from './routes/auth/login';
+import attendanceRoute from './routes/attendance/attendance';
 import registerRoute from './routes/auth/register';
+import loginRoute from './routes/auth/login';
 import homeRoute from './routes/secure/home';
 
 import authenticateSession from './middleware/authenticateSession';
@@ -57,6 +58,7 @@ app.get('/', (req: Request, res: Response): void => {
   res.redirect('/register');
 });
 
+app.use('/password-reset', passwordResetRoute);
 app.use('/register', registerRoute);
 app.use('/login', loginRoute);
 app.use('/attendance', attendanceRoute);

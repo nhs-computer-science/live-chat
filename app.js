@@ -9,10 +9,11 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const path_1 = __importDefault(require("path"));
 const dotenv_1 = __importDefault(require("dotenv"));
-const attendance_1 = __importDefault(require("./routes/attendance/attendance"));
+const password_reset_1 = __importDefault(require("./routes/auth/password-reset"));
 const attendanceToken_1 = __importDefault(require("./routes/attendance/attendanceToken"));
-const login_1 = __importDefault(require("./routes/auth/login"));
+const attendance_1 = __importDefault(require("./routes/attendance/attendance"));
 const register_1 = __importDefault(require("./routes/auth/register"));
+const login_1 = __importDefault(require("./routes/auth/login"));
 const home_1 = __importDefault(require("./routes/secure/home"));
 const authenticateSession_1 = __importDefault(require("./middleware/authenticateSession"));
 const app = express_1.default();
@@ -43,6 +44,7 @@ app.use(express_session_1.default({
 app.get('/', (req, res) => {
     res.redirect('/register');
 });
+app.use('/password-reset', password_reset_1.default);
 app.use('/register', register_1.default);
 app.use('/login', login_1.default);
 app.use('/attendance', attendance_1.default);

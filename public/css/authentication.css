@@ -61,6 +61,10 @@ a {
   margin: 5px 0px 5px 0px;
 }
 
+.confirmation-email-sent {
+  margin-top: 35px;
+}
+
 #create-account-btn,
 #login-btn {
   margin: 20px 5px 20px 0px;

@@ -7,12 +7,6 @@ const home_1 = __importDefault(require("../../models/secure/home"));
 const date_1 = __importDefault(require("../../util/date"));
 const filterMessage_1 = __importDefault(require("../../util/filterMessage"));
 const getHomePage = async (req, res) => {
-    if (req.secure) {
-        console.log('secureeeeeeeee');
-    }
-    else {
-        console.log('not secureeeeee');
-    }
     const messages = [...(await home_1.default.fetchMessages())];
     messages.forEach((message) => {
         const m = { ...message };
@@ -38,6 +32,7 @@ const postHomePage = (req, res) => {
         const payload = JSON.parse(data);
         if (payload.hasOwnProperty('password')) {
             const passwordsMatch = await home_1.default.comparePasswords(payload.password, req.session.client.password, res);
+            ``;
             if (passwordsMatch) {
                 const accountDeleted = await home_1.default.deleteAccount(req.session.client.email);
                 res.send(true);
