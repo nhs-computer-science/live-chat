@@ -56,7 +56,7 @@
                 <li></li>
             </ul>
             <form onsubmit="storeChat(); event.preventDefault()" id="message-form">
-                <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Message" name="message" required id="message"/>
+                <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Message" name="message" required id="message" autocapitalize="true" spellcheck="true"/>
                 <button type="submit" class="btn btn-success" id="send-chat-btn">Send</button>
             </form>
             <div class="alert alert-danger" id="server-error" role="alert">

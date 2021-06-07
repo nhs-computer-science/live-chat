@@ -5,6 +5,12 @@ import date from '../../util/date';
 import filterMessage from '../../util/filterMessage';
 
 const getHomePage = async (req: Request, res: Response) => {
+  if (req.secure) {
+    console.log('secureeeeeeeee');
+  } else {
+    console.log('not secureeeeee');
+  }
+
   const messages = [...(await homeModel.fetchMessages())];
   messages.forEach((message) => {
     const m = { ...message };

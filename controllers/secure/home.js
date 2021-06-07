@@ -7,6 +7,12 @@ const home_1 = __importDefault(require("../../models/secure/home"));
 const date_1 = __importDefault(require("../../util/date"));
 const filterMessage_1 = __importDefault(require("../../util/filterMessage"));
 const getHomePage = async (req, res) => {
+    if (req.secure) {
+        console.log('secureeeeeeeee');
+    }
+    else {
+        console.log('not secureeeeee');
+    }
     const messages = [...(await home_1.default.fetchMessages())];
     messages.forEach((message) => {
         const m = { ...message };
