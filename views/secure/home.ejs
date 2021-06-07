@@ -11,7 +11,6 @@
 
     <%- include('./modals/settings-modal.ejs') %>
     <%- include('./modals//people-modal.ejs') %>
-    <%- include('./modals/privacy-modal.ejs') %>
 
     <link rel="stylesheet" href="/css/secure/home.css" />
 
@@ -35,16 +34,14 @@
                 </button>
             </li>
             <li class="nav-link-wrapper">
-                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#privacy-modal">
-                    <img src="https://img.icons8.com/nolan/64/privacy.png" width="45" height="45"/>
-                </button>
-            </li>
-            <li class="nav-link-wrapper">
                 <a href="/login">
                     <button type="btn" class="btn btn-info" >
                         <img src="https://img.icons8.com/nolan/64/logout-rounded-left.png"  width="45" height="45"/>
                     </button>
                 </a>
+            </li>
+            <li class="nav-link-wrapper" id="chat-spinner-wrapper">
+                <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
             </li>
         </ul>
         <div id="chat-area">
@@ -72,6 +69,9 @@
         const storeChat = () => {
             const chat = document.getElementById('message');
             const serverError = document.getElementById('sever-error');
+            const chatSpinnerWrapper = document.getElementById('chat-spinner-wrapper');
+
+            chatSpinnerWrapper.style.visibility = 'visible'
 
             fetch('/home', {
                 method: 'POST',
@@ -84,10 +84,18 @@
                     serverError.style.visibility = 'hidden';
                 }
 
-                chat.value = null;
                 scrollToLastChat();
+                
+                setTimeout(() => {
+                    chatSpinnerWrapper.style.visibility = 'hidden';
+                    chat.value = null;
+                }, 500);
             }).catch((e) => {
                 serverError.style.visibility = 'visible';
+
+                setTimeout(() => {
+                    chatSpinnerWrapper.style.visibility = 'hidden';
+                }, 500);
             });
         }
     </script>

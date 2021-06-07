@@ -7,7 +7,9 @@
 
 html,
 body {
-  background-color: rgb(87, 81, 81) !important;
+  background: #aa4b6b;
+  background: -webkit-linear-gradient(to right, #3b8d99, #6b6b83, #aa4b6b);
+  background: linear-gradient(to right, #3b8d99, #6b6b83, #aa4b6b);
   margin: 0px;
   height: 100%;
 }
@@ -23,11 +25,6 @@ p {
   text-align: left;
 }
 
-input,
-.alert {
-  border-radius: 0px !important;
-}
-
 .auth-failed {
   color: maroon;
 }
@@ -37,7 +34,7 @@ a {
 }
 
 #email {
-  margin-top: 50px;
+  margin-top: 25px;
 }
 
 .loading-spinner-wrapper {
@@ -51,9 +48,11 @@ a {
 #register-form,
 #login-form {
   background-color: white;
+  border-radius: 0.25rem;
   padding: 30px;
   display: flex;
   flex-direction: column;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   width: 60%;
   margin: auto;
 }

@@ -7,10 +7,11 @@
     <title>Login</title>
     <link rel="stylesheet" href="/css/authentication.css" />
 
-    <script src="/js/login.js" defer></script>
-
     <%- include('../includes/bootstrap.ejs') %>
 
+    <script defer>
+
+    </script>
 </head>
 <body>
     <div id="form-wrapper">
@@ -21,6 +22,7 @@
             <div class="alert alert-info" role="alert">
                 Dont't have an attendance token? Click <a href="/attendance-token">here</a> to get one!
             </div>
+            <img src="/images/logo.png" width="60" height="60"/>
             <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Email" name="email" required>
             <% if (authFailed) { %>
                 <p class="auth-failed">Invalid email and/or password!</p>
@@ -30,7 +32,7 @@
                 <p class="auth-failed">Invalid email and/or password!</p>
             <% } %>
             <div id="submit-btn-wrapper">
-                <button type="submit" class="btn btn-warning" id="login-btn">Log In</button>
+                <button type="submit" class="btn btn-info" id="login-btn">Log In</button>
                 <div class="spinner-border text-primary loading-spinner-wrapper" role="status">
                     <span class="sr-only">Loading...</span>
                 </div>

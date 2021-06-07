@@ -9,6 +9,9 @@ html,
 body {
   margin: 0px;
   height: 100%;
+  background: #aa4b6b;
+  background: -webkit-linear-gradient(to right, #3b8d99, #6b6b83, #aa4b6b);
+  background: linear-gradient(to right, #3b8d99, #6b6b83, #aa4b6b);
 }
 
 #form-wrapper {
@@ -30,9 +33,9 @@ body {
 #token,
 #generate-token-btn,
 #submit-token-btn {
-  border-radius: 0px;
   height: 50px;
   width: 250px;
+  border: none;
 }
 
 .loading-spinner-wrapper {
@@ -59,6 +62,7 @@ body {
 
 p {
   text-align: center;
+  color: white;
 }
 
 a {
