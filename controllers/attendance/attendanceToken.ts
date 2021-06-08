@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 
 import attendanceTokenModel from '../../models/attendance/attendanceToken';
 import email from '../../email/skeleton';
-import serverError from '../../helper/serverError/serverError';
+import serverError from '../../helpers/serverError/serverError';
 
 const getAttendanceTokenPage = (req: Request, res: Response): void => {
   res.render('attendance/attendance-token', {

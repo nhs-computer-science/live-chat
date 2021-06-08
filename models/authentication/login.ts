@@ -1,5 +1,5 @@
 import ClientSchema from '../../schema/Client';
-import queries from '../../helper/queries/queries';
+import queries from '../../helpers/queries/queries';
 import bcrypt from 'bcrypt';
 
 const accountExists = async (

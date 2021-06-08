@@ -1,5 +1,5 @@
 import AttendanceSchema from '../../schema/Attendance';
-import queries from '../../helper/queries/queries';
+import queries from '../../helpers/queries/queries';
 
 const authenticateToken = async (t: string) =>
   await queries.findOne({

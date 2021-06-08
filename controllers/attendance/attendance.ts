@@ -6,7 +6,7 @@ dotenv.config({ path: path.join(__dirname, '../', '../', './env', '.env') });
 
 import attendanceModel from '../../models/attendance/attendance';
 import email from '../../email/skeleton';
-import serverError from '../../helper/serverError/serverError';
+import serverError from '../../helpers/serverError/serverError';
 
 const getAttendancePage = (req: Request, res: Response): void => {
   res.render('attendance/attendance', {

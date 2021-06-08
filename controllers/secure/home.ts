@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 
 import homeModel from '../../models/secure/home';
-import date from '../../helper/date/date';
-import chatFilter from '../../helper/chatFilter/chatFilter';
+import date from '../../helpers/date/date';
+import chatFilter from '../../helpers/chatFilter/chatFilter';
 
 const getHomePage = async (req: Request, res: Response) => {
   const messages = [...(await homeModel.fetchMessages())];

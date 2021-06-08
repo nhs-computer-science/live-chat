@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 
 import registerModel from '../../models/authentication/register';
-import token from '../../helper/token/token';
+import token from '../../helpers/token/token';
 import email from '../../email/skeleton';
 
 dotenv.config({ path: path.join(__dirname, '../', 'env', '.env') });

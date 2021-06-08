@@ -2,8 +2,8 @@ import path from 'path';
 import dotenv from 'dotenv';
 
 import AttendanceSchema from '../../schema/Attendance';
-import token from '../../helper/token/token';
-import queries from '../../helper/queries/queries';
+import token from '../../helpers/token/token';
+import queries from '../../helpers/queries/queries';
 
 dotenv.config({ path: path.join(__dirname, '../', '../', './env', '.env') });
 

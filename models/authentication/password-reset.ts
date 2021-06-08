@@ -1,5 +1,5 @@
 import ClientSchema from '../../schema/Client';
-import queries from '../../helper/queries/queries';
+import queries from '../../helpers/queries/queries';
 import bcrypt from 'bcrypt';
 import EmailConfirmationTokenSchema from '../../schema/EmailConfirmationToken';
 

@@ -1,6 +1,6 @@
 import ClientSchema from '../../schema/Client';
 import EmailConfirmationTokenSchema from '../../schema/EmailConfirmationToken';
-import queries from '../../helper/queries/queries';
+import queries from '../../helpers/queries/queries';
 import bcrypt from 'bcrypt';
 
 type QueryResult = Promise<object | void>;

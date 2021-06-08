@@ -2,7 +2,7 @@ import bcrpyt from 'bcrypt';
 
 import ClientSchema from '../../schema/Client';
 import MessageSchema from '../../schema/Message';
-import queries from '../../helper/queries/queries';
+import queries from '../../helpers/queries/queries';
 import email from '../../email/skeleton';
 
 type QueryResult = Promise<object | void>;
