@@ -42,15 +42,15 @@ const postRegisterPage = async (req, res) => {
                 return res.redirect(`${URL}?blacklisted${QUERY_VALUE}`);
             }
         });
-        if (!register_1.default.hasStudentEmail(payload.email)) {
-            return res.redirect(`${URL}?notStudentEmail${QUERY_VALUE}`);
-        }
-        if (!register_1.default.isFirstNameReal(payload.firstName, payload.email)) {
-            return res.redirect(`${URL}?notRealFirstName${QUERY_VALUE}`);
-        }
-        if (!register_1.default.isLastNameReal(payload.lastName, payload.email)) {
-            return res.redirect(`${URL}?notRealLastName${QUERY_VALUE}`);
-        }
+        // if (!registerModel.hasStudentEmail(payload.email)) {
+        //   return res.redirect(`${URL}?notStudentEmail${QUERY_VALUE}`);
+        // }
+        // if (!registerModel.isFirstNameReal(payload.firstName, payload.email)) {
+        //   return res.redirect(`${URL}?notRealFirstName${QUERY_VALUE}`);
+        // }
+        // if (!registerModel.isLastNameReal(payload.lastName, payload.email)) {
+        //   return res.redirect(`${URL}?notRealLastName${QUERY_VALUE}`);
+        // }
         if (!register_1.default.doPasswordsMatch(payload.password, payload.passwordConf)) {
             return res.redirect(`${URL}?passwordsNotMatching${QUERY_VALUE}`);
         }

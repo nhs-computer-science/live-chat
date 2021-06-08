@@ -5,9 +5,9 @@ import ClientSchema from '../../schema/Client';
 import EmailConfirmationToken from '../../schema/EmailConfirmationToken';
 import bcrypt from 'bcrypt';
 
-const hasStudentEmail = (e: string): boolean => true;
-// e.split('@')[1] === 'student.gn.k12.ny.us' ||
-// e.split('@')[1] === 'greatneck.k12.ny.us';
+const hasStudentEmail = (e: string): boolean =>
+  e.split('@')[1] === 'student.gn.k12.ny.us' ||
+  e.split('@')[1] === 'greatneck.k12.ny.us';
 
 const isFirstNameReal = (fName: string, e: string): boolean =>
   fName.charAt(0) === e.charAt(0);
