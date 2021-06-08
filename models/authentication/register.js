@@ -7,8 +7,9 @@ const serverSideError_1 = __importDefault(require("../../util/serverSideError"))
 const Client_1 = __importDefault(require("../../schema/Client"));
 const EmailConfirmationToken_1 = __importDefault(require("../../schema/EmailConfirmationToken"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
-const hasStudentEmail = (e) => e.split('@')[1] === 'student.gn.k12.ny.us' ||
-    e.split('@')[1] === 'greatneck.k12.ny.us';
+const hasStudentEmail = (e) => true;
+// e.split('@')[1] === 'student.gn.k12.ny.us' ||
+// e.split('@')[1] === 'greatneck.k12.ny.us';
 const isFirstNameReal = (fName, e) => fName.charAt(0) === e.charAt(0);
 const isLastNameReal = (lName, e) => e.split('@')[0].substring(1).slice(0, -1) === lName;
 const doPasswordsMatch = (p1, p2) => p1.trim() === p2.trim();
