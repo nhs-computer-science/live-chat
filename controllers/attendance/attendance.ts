@@ -6,7 +6,7 @@ dotenv.config({ path: path.join(__dirname, '../', '../', './env', '.env') });
 
 import attendanceModel from '../../models/attendance/attendance';
 import email from '../../email/skeleton';
-import serverSideError from '../../util/serverSideError';
+import serverError from '../../helper/serverError/serverError';
 
 const getAttendancePage = (req: Request, res: Response): void => {
   res.render('attendance/attendance', {
@@ -51,7 +51,7 @@ const postAttendancePage = async (
         res.redirect(`${URL}?attendanceUpdated${QUERY_VALUE}`);
       }
     } else {
-      serverSideError(res, URL);
+      serverError(res, URL);
     }
   } else {
     res.redirect(`${URL}?invalidToken${QUERY_VALUE}`);

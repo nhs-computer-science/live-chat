@@ -17,6 +17,10 @@ const Client = new Mongoose.Schema(
     password: {
       type: String,
     },
+
+    notifications: {
+      type: Array,
+    },
   },
   { timestamps: true }
 );

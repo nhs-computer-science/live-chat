@@ -1,12 +1,18 @@
 import AttendanceSchema from '../../schema/Attendance';
+import queries from '../../helper/queries/queries';
 
 const authenticateToken = async (t: string) =>
-  await AttendanceSchema.findOne({ token: t });
+  await queries.findOne({
+    schema: AttendanceSchema,
+    filterProperty: 'token',
+    filterValue: t,
+  });
 
 const updateAttendance = async (t: string, m: number) =>
-  await AttendanceSchema.updateOne(
-    { token: t },
-    { fall2021MeetingsAttended: m + 1 }
+  await queries.updateOne(
+    { schema: AttendanceSchema, filterProperty: 'token', filterValue: t },
+    'fall2021MeetingsAttended',
+    m + 1
   );
 
 export default {

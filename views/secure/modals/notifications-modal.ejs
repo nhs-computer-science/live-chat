@@ -1,0 +1,48 @@
+<link rel="stylesheet" href="/css/secure/notifications-modal.css" />
+<div class="modal fade" id="notifications-modal" tabindex="-1" role="dialog" aria-labelledby="notifications-modal-label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="notifications-modal-label">Notifications<img src="https://img.icons8.com/bubbles/50/000000/appointment-reminders.png" height="35" width="35"/></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <ul class="list-group">
+            <li class="list-group-item" id="instructions-header">Instructions</li>
+            <li class="list-group-item">
+              Whenever someone sends a chat, you have the option to enable notifications for him or her. If you only want to receieve an email notification for when your close friends send a chat, then feel free to select the 'Enable' button next to their names in order to enable notifications. 
+            </li>
+          </ul>
+          <div id="receive-all-wrapper">
+            <p id="receive-all-header">Receive All Notifications</p>
+            <button type='btn' class="btn btn-success" id="receive-all-notifications-btn">Enable</button>
+            <div id="loading-spinner-wrapper">
+              <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
+          </div>
+          <ul id="users">
+            <% for (const client in clients) { %>
+              <li class="user">
+                <p class="user-email"><%= clients[client].email %></p>
+                <button type="btn" class="btn btn-success enable-notifications-btn" id=<%= clients[client].email %> >Enable</button>
+              </li>
+            <% } %>
+          </ul>
+          <div class="alert alert-success" id="settings-updated-alert" role="alert">
+            Settings updated successfuly!
+          </div>
+          <div class="alert alert-danger" id="settings-failed-alert" role="alert">
+            Unable to update settings! Please try again later, or email nhscompsciclub@gmail.com for help.
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="save-changes-btn">Save changes</button>
+        </div>
+      </div>
+    </div>
+</div>

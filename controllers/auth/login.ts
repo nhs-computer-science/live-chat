@@ -14,13 +14,10 @@ const getLoginPage = async (req: Request, res: Response) => {
 
 const postLoginPage = async (req: Request, res: Response) => {
   const payload: object = req.body;
-  const URL: string = '/login/';
 
   const accountExists = await loginModel.accountExists(
     payload.email,
-    payload.password,
-    res,
-    URL
+    payload.password
   );
 
   if (typeof accountExists === 'object') {

@@ -1,28 +1,24 @@
-import { Response } from 'express';
 import path from 'path';
 import dotenv from 'dotenv';
 
-import Attendance from '../../schema/Attendance';
-import generateToken from '../../util/generateToken';
-import serverSideError from '../../util/serverSideError';
+import AttendanceSchema from '../../schema/Attendance';
+import token from '../../helper/token/token';
+import queries from '../../helper/queries/queries';
 
 dotenv.config({ path: path.join(__dirname, '../', '../', './env', '.env') });
 
-const emailInUse = async (e: string): Promise<object | null> =>
-  await Attendance.findOne({ email: e });
+const emailInUse = async (e: string) =>
+  await queries.findOne({
+    schema: AttendanceSchema,
+    filterProperty: 'email',
+    filterValue: e,
+  });
 
-const createAttendanceToken = async (
-  e: string,
-  r: Response,
-  BASE_URL: string
-): Promise<object | null> =>
-  await Attendance.create({
-    token: generateToken(8),
+const createAttendanceToken = async (e: string) =>
+  await queries.create(AttendanceSchema, {
+    token: token(8),
     email: e,
     fall2021MeetingsAttended: 0,
-  }).catch((e: Error): void => {
-    console.log(e);
-    serverSideError(r, BASE_URL);
   });
 
 const retrieveEmailSubject = (): string => `Attendance Token Created!`;

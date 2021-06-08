@@ -1,37 +1,51 @@
-import { Request, Response } from 'express';
 import bcrpyt from 'bcrypt';
-import Client from '../../schema/Client';
 
+import ClientSchema from '../../schema/Client';
 import MessageSchema from '../../schema/Message';
-import serverSideError from '../../util/serverSideError';
+import queries from '../../helper/queries/queries';
+import email from '../../email/skeleton';
 
-const fetchMessages = async () => await MessageSchema.find();
+type QueryResult = Promise<object | void>;
 
-const storeMessage = async (
-  c: string,
-  req: Request,
-  res: Response
-): Promise<object | void> =>
-  await MessageSchema.create({
-    email: req.session.client.email,
+const fetchMessages = async (): QueryResult =>
+  await queries.findAll(MessageSchema);
+
+const storeMessage = async (c: string, e: string): QueryResult =>
+  await queries.create(MessageSchema, {
+    email: e,
     message: c,
-  }).catch((e: Error): void => {
-    console.log(e);
-    serverSideError(res, '/home');
   });
 
 const comparePasswords = async (
   p: string,
-  hash: string,
-  res: Response
+  hash: string
 ): Promise<boolean | void> => await bcrpyt.compare(p, hash);
 
-const deleteAccount = async (e: string): Promise<object> =>
-  await Client.deleteOne({ email: e });
+const deleteAccount = async (e: string): QueryResult =>
+  await queries.deleteEntries({
+    schema: ClientSchema,
+    filterProperty: 'email',
+    filterValue: e,
+  });
+
+const updateNotifications = async (e: string, emails: string[]): QueryResult =>
+  await queries.updateOne(
+    { schema: ClientSchema, filterProperty: 'email', filterValue: e },
+    'notifications',
+    emails
+  );
+
+const fetchClients = async (): QueryResult =>
+  await queries.findAll(ClientSchema);
+
+const sendNotifications = async () => {};
 
 export default {
   fetchMessages,
   storeMessage,
   comparePasswords,
   deleteAccount,
+  updateNotifications,
+  fetchClients,
+  sendNotifications,
 };

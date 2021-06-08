@@ -1,12 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Inconsolata&display=swap');
-
-* {
-  font-family: 'Inconsolata', monospace !important;
-  box-sizing: border-box !important;
-}
-
 #color-themes {
   padding: 0px;
+}
+
+#theme-header {
+  margin-bottom: 20px;
+}
+
+#account-handler-buttons {
+  margin-top: 10px;
+}
+
+#settings-updated-alert,
+#settings-failed-alert {
+  display: none;
 }
 
 .color-theme {
@@ -28,17 +34,11 @@
   margin-top: 5px;
 }
 
-#theme-header {
-  margin-bottom: 20px;
-  color: white;
-}
-
-#account-handler-buttons {
-  margin-top: 10px;
-}
-
-.dropdown-btn {
-  color: white;
+#theme-header,
+.dropdown-btn,
+.modal-title,
+.close {
+  color: white !important;
 }
 
 .dropdown-btn:hover {
@@ -57,9 +57,4 @@
 
 .card-body {
   background-color: rgb(55, 55, 55);
-}
-
-.modal-title,
-.close {
-  color: white !important;
 }

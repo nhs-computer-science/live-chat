@@ -1,24 +1,32 @@
-import bcrypt from 'bcrypt';
-
 import ClientSchema from '../../schema/Client';
+import queries from '../../helper/queries/queries';
+import bcrypt from 'bcrypt';
 import EmailConfirmationTokenSchema from '../../schema/EmailConfirmationToken';
 
-const emailExists = async (e: string): Promise<object | void> =>
-  await ClientSchema.findOne({ email: e });
+type QueryResult = Promise<object | void>;
 
-const storeToken = async (e: string, t: string): Promise<object | void> =>
-  await EmailConfirmationTokenSchema.create({ email: e, token: t });
+const emailExists = async (e: string): QueryResult =>
+  await queries.findOne({
+    schema: ClientSchema,
+    filterProperty: 'email',
+    filterValue: e,
+  });
 
-const compareTokens = async (t: string): Promise<object | void> =>
-  await EmailConfirmationTokenSchema.findOne({ token: t });
+const create = async (payload: object): QueryResult =>
+  await queries.create(EmailConfirmationTokenSchema, payload);
 
-const hashPassword = async (
-  password: string,
-  saltRounds: number
-): Promise<string | void> => await bcrypt.hash(password, saltRounds);
+const storeToken = async (e: string, t: string): QueryResult =>
+  await create({ email: e, token: t });
 
-const changePassword = async (p: string, e: string): Promise<object | void> =>
-  ClientSchema.updateOne({ email: e, password: await hashPassword(p, 10) });
+const compareTokens = async (t: string): QueryResult =>
+  await create({ token: t });
+
+const changePassword = async (p: string, e: string): QueryResult =>
+  await queries.updateOne(
+    { schema: ClientSchema, filterProperty: 'email', filterValue: e },
+    'password',
+    await bcrypt.hash(p, 10)
+  );
 
 export default {
   emailExists,

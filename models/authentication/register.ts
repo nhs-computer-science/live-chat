@@ -1,9 +1,9 @@
-import { Response } from 'express';
-import serverSideError from '../../util/serverSideError';
-
 import ClientSchema from '../../schema/Client';
-import EmailConfirmationToken from '../../schema/EmailConfirmationToken';
+import EmailConfirmationTokenSchema from '../../schema/EmailConfirmationToken';
+import queries from '../../helper/queries/queries';
 import bcrypt from 'bcrypt';
+
+type QueryResult = Promise<object | void>;
 
 const hasStudentEmail = (e: string): boolean =>
   e.split('@')[1] === 'student.gn.k12.ny.us' ||
@@ -18,45 +18,30 @@ const isLastNameReal = (lName: string, e: string): boolean =>
 const doPasswordsMatch = (p1: string, p2: string): boolean =>
   p1.trim() === p2.trim();
 
-const isEmailInUse = async (e: string) =>
-  await ClientSchema.findOne({ email: e });
+const isEmailInUse = async (e: string): QueryResult =>
+  await queries.findOne({
+    schema: EmailConfirmationTokenSchema,
+    filterProperty: 'email',
+    filterValue: e,
+  });
 
-const storeConfEmailToken = async (
-  e: string,
-  t: string,
-  BASE_URL: string,
-  r: Response
-): Promise<object | null> =>
-  await EmailConfirmationToken.create({ email: e, token: t }).catch(
-    (e: Error): void => {
-      console.log(e);
-      serverSideError(r, BASE_URL);
-    }
-  );
+const storeConfEmailToken = async (e: string, t: string): QueryResult =>
+  await queries.create(EmailConfirmationTokenSchema, { email: e, token: t });
 
-const verifyToken = async (t: string) =>
-  await EmailConfirmationToken.findOne({ token: t });
+const verifyToken = async (t: string): QueryResult =>
+  await queries.findOne({
+    schema: EmailConfirmationTokenSchema,
+    filterProperty: 'token',
+    filterValue: t,
+  });
 
 const hashPassword = async (
-  password: string,
-  saltRounds: number,
-  BASE_URL: string,
-  r: Response
-): Promise<string | void> =>
-  await bcrypt.hash(password, saltRounds).catch((e: Error): void => {
-    console.log(e);
-    serverSideError(r, BASE_URL);
-  });
+  p: string,
+  saltRounds: number
+): Promise<string | void> => await bcrypt.hash(p, saltRounds);
 
-const createAccount = async (
-  payload: object,
-  BASE_URL: string,
-  r: Response
-): Promise<object | null> =>
-  await ClientSchema.create({ ...payload }).catch((e: Error): void => {
-    console.log(e);
-    serverSideError(r, BASE_URL);
-  });
+const createAccount = async (payload: object): QueryResult =>
+  await queries.create(ClientSchema, { payload });
 
 export default {
   hasStudentEmail,
@@ -66,6 +51,6 @@ export default {
   isEmailInUse,
   storeConfEmailToken,
   verifyToken,
-  createAccount,
   hashPassword,
+  createAccount,
 };

@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 
 import attendanceTokenModel from '../../models/attendance/attendanceToken';
 import email from '../../email/skeleton';
-import serverSideError from '../../util/serverSideError';
+import serverError from '../../helper/serverError/serverError';
 
 const getAttendanceTokenPage = (req: Request, res: Response): void => {
   res.render('attendance/attendance-token', {
@@ -29,19 +29,14 @@ const postAttendanceTokenPage = async (
     return res.redirect(`${URL}?isEmailInUse${QUERY_VALUE}`);
   }
 
-  const tokenModel = await attendanceTokenModel.createAttendanceToken(
-    e,
-    res,
-    URL
-  );
+  const tokenModel = await attendanceTokenModel.createAttendanceToken(e);
 
   const attendanceEmailTokenSent = await email(
     e,
     attendanceTokenModel.retrieveEmailSubject(),
     attendanceTokenModel.retrieveEmailBody(tokenModel.token)
   ).catch((e: Error): void => {
-    console.log(e);
-    return serverSideError(res, URL);
+    return serverError(res, URL);
   });
 
   if (attendanceEmailTokenSent) {

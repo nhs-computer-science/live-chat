@@ -1,9 +1,7 @@
 import { Request, Response } from 'express';
 
 import email from '../../email/skeleton';
-import generateToken from '../../util/generateToken';
 import passwordResetModel from '../../models/authentication/password-reset';
-import { compare } from 'bcrypt';
 
 const getPasswordResetPage = (req: Request, res: Response) => {
   res.render('auth/password-reset', {
@@ -25,7 +23,7 @@ const postPasswordResetPage = async (req: Request, res: Response) => {
     if (await passwordResetModel.emailExists(payload.email)) {
       req.session.tentativeClient = { clientEmail: payload.email };
 
-      const token = generateToken(8);
+      const token = token(8);
 
       await passwordResetModel.storeToken(
         req.session.tentativeClient.clientEmail,

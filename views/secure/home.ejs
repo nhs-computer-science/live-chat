@@ -11,8 +11,18 @@
 
     <%- include('./modals/settings-modal.ejs') %>
     <%- include('./modals//people-modal.ejs') %>
+    <%- include('./modals//notifications-modal.ejs') %>
 
     <link rel="stylesheet" href="/css/secure/home.css" />
+
+    <link rel="stylesheet" href="/css/loading-spinner.css" />
+
+    <script src="/js/helpers/DOM-methods.js" defer></script>
+    <script src="/js/helpers/http.js" defer></script>
+
+    <script src="/js/secure/home.js" defer></script>
+
+    <script src="/js/secure/modals/notifications.js" defer></script>
 
 </head>
 <body>
@@ -34,6 +44,11 @@
                 </button>
             </li>
             <li class="nav-link-wrapper">
+                <button type="button" class="btn btn-info notifications-modal-btn" data-toggle="modal" data-target="#notifications-modal">
+                    <img src="https://img.icons8.com/nolan/64/appointment-reminders.png" width="45" height="45"/>
+                </button>
+            </li>
+            <li class="nav-link-wrapper">
                 <a href="/login">
                     <button type="btn" class="btn btn-info" >
                         <img src="https://img.icons8.com/nolan/64/logout-rounded-left.png"  width="45" height="45"/>
@@ -50,12 +65,12 @@
                     <li class="message-wrapper">
                         <span class="email"><%= messages[i].email %></span>
                         <span class="date"><%= date(new Date(), new Date(messages[i].createdAt)) %></span>
-                        <p class="message"><%= filterMessage(messages[i].message) %></p>
+                        <p class="message"><%= chatFilter(messages[i].message) %></p>
                     </li>
                 <% } %>
                 <li></li>
             </ul>
-            <form onsubmit="storeChat(); event.preventDefault()" id="message-form">
+            <form onsubmit="storeChatMessage(); event.preventDefault()" id="message-form">
                 <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Message" name="message" required id="message" autocapitalize="true" spellcheck="true"/>
                 <button type="submit" class="btn btn-success" id="send-chat-btn">Send</button>
             </form>
@@ -65,69 +80,4 @@
         </div>
     </main>
 </body>
-    <script defer>
-        const storeChat = () => {
-            const chat = document.getElementById('message');
-            const serverError = document.getElementById('sever-error');
-            const chatSpinnerWrapper = document.getElementById('chat-spinner-wrapper');
-
-            chatSpinnerWrapper.style.visibility = 'visible'
-
-            fetch('/home', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                  },
-                body: JSON.stringify({ chat: chat.value.trim() }),
-            }).then(() => {
-                if (serverError) {
-                    serverError.style.visibility = 'hidden';
-                }
-
-                scrollToLastChat();
-                
-                setTimeout(() => {
-                    chatSpinnerWrapper.style.visibility = 'hidden';
-                    chat.value = null;
-                }, 500);
-            }).catch((e) => {
-                serverError.style.visibility = 'visible';
-
-                setTimeout(() => {
-                    chatSpinnerWrapper.style.visibility = 'hidden';
-                }, 500);
-            });
-        }
-    </script>
-    <script defer>
-        const clearChat = () => {
-            const messagesWrapper = document.getElementById('messages-wrapper');
-            messagesWrapper.innerHTML = null;
-
-            alert('Chat was cleared! But do not worry; once you refresh the page, past chats will re-render.');
-        }
-
-        const scrollToLastChat = () => {
-            const messages = document.querySelectorAll('.message-wrapper');
-            messages[messages.length - 1].scrollIntoView({ behavior: 'smooth' });
-        }
-
-        scrollToLastChat();
-    </script>
-    <script defer>
-        const colorTheme = window.sessionStorage.getItem('theme');
-        
-        const html = document.querySelector('html');
-        const body = document.querySelector('body');
-
-        if (colorTheme === 'midnight-check') {
-
-        } else if (colorTheme === 'vibrant-sunset') {
-
-        } else if (colorTheme === 'pearly-white') {
-
-        } else {
-
-        }
-    </script>
 </html>

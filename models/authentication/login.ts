@@ -1,31 +1,21 @@
-import { Response } from 'express';
-import bcrpyt from 'bcrypt';
-
 import ClientSchema from '../../schema/Client';
-import serverSideError from '../../util/serverSideError';
+import queries from '../../helper/queries/queries';
+import bcrypt from 'bcrypt';
 
 const accountExists = async (
   e: string,
-  p: string,
-  r: Response,
-  URL: string
+  p: string
 ): Promise<boolean | object> => {
-  const account = await ClientSchema.findOne({ email: e });
-  if (!account) {
+  const account = await queries.findOne({
+    schema: ClientSchema,
+    filterProperty: 'email',
+    filterValue: e,
+  });
+
+  if (!account || !(await bcrypt.compare(p, account.password))) {
     return false;
   } else {
-    const passwordsMatch = await bcrpyt
-      .compare(p, account.password)
-      .catch((e: Error): void => {
-        console.log(e);
-        serverSideError(r, URL);
-      });
-
-    if (passwordsMatch) {
-      return account;
-    } else {
-      return false;
-    }
+    return account;
   }
 };
 
