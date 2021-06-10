@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const skeleton_1 = __importDefault(require("../../email/skeleton"));
 const password_reset_1 = __importDefault(require("../../models/authentication/password-reset"));
+const token_1 = __importDefault(require("../../helpers/token/token"));
 const getPasswordResetPage = (req, res) => {
     res.render('auth/password-reset', {
         emailDoesNotExist: req.query.emailDoesNotExist === 'yes' ? true : false,
@@ -21,9 +22,9 @@ const postPasswordResetPage = async (req, res) => {
     if (payload.hasOwnProperty('email')) {
         if (await password_reset_1.default.emailExists(payload.email)) {
             req.session.tentativeClient = { clientEmail: payload.email };
-            const token = token(8);
-            await password_reset_1.default.storeToken(req.session.tentativeClient.clientEmail, token);
-            await skeleton_1.default(req.session.tentativeClient.clientEmail, 'Email Confirmation Token', `Token: ${token}`);
+            const t = token_1.default(8);
+            await password_reset_1.default.storeToken(req.session.tentativeClient.clientEmail, t);
+            await skeleton_1.default(req.session.tentativeClient.clientEmail, 'Email Confirmation Token', `Token: ${t}`);
             res.redirect(`${URL}tokenSent${QUERY_VALUE}`);
         }
         else {
@@ -32,6 +33,7 @@ const postPasswordResetPage = async (req, res) => {
     }
     else if (payload.hasOwnProperty('token')) {
         const compareTokens = await password_reset_1.default.compareTokens(payload.token);
+        console.log(compareTokens);
         if (!compareTokens) {
             return res.redirect(`${URL}invalidToken${QUERY_VALUE}`);
         }

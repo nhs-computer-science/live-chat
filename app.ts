@@ -44,13 +44,13 @@ app.use(
     secret: process.env.CLIENT_SECRET!,
     resave: false,
     saveUninitialized: false,
-    // store: MongoStore.create({
-    //   clientPromise: clientP,
-    //   stringify: false,
-    //   autoRemove: 'interval',
-    //   autoRemoveInterval: 1,
-    //   ttl: 1 * 24 * 60 * 60,
-    // }),
+    store: MongoStore.create({
+      clientPromise: clientP,
+      stringify: false,
+      autoRemove: 'interval',
+      autoRemoveInterval: 1,
+      ttl: 1 * 24 * 60 * 60,
+    }),
   })
 );
 

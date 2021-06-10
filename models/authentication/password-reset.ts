@@ -19,7 +19,11 @@ const storeToken = async (e: string, t: string): QueryResult =>
   await create({ email: e, token: t });
 
 const compareTokens = async (t: string): QueryResult =>
-  await create({ token: t });
+  await queries.findOne({
+    schema: EmailConfirmationTokenSchema,
+    filterProperty: 'token',
+    filterValue: t,
+  });
 
 const changePassword = async (p: string, e: string): QueryResult =>
   await queries.updateOne(

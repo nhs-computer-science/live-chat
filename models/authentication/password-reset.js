@@ -14,7 +14,11 @@ const emailExists = async (e) => await queries_1.default.findOne({
 });
 const create = async (payload) => await queries_1.default.create(EmailConfirmationToken_1.default, payload);
 const storeToken = async (e, t) => await create({ email: e, token: t });
-const compareTokens = async (t) => await create({ token: t });
+const compareTokens = async (t) => await queries_1.default.findOne({
+    schema: EmailConfirmationToken_1.default,
+    filterProperty: 'token',
+    filterValue: t,
+});
 const changePassword = async (p, e) => await queries_1.default.updateOne({ schema: Client_1.default, filterProperty: 'email', filterValue: e }, 'password', await bcrypt_1.default.hash(p, 10));
 exports.default = {
     emailExists,

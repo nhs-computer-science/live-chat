@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const connect_mongo_1 = __importDefault(require("connect-mongo"));
 const express_session_1 = __importDefault(require("express-session"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const mongoose_1 = __importDefault(require("mongoose"));
@@ -33,13 +34,13 @@ app.use(express_session_1.default({
     secret: process.env.CLIENT_SECRET,
     resave: false,
     saveUninitialized: false,
-    // store: MongoStore.create({
-    //   clientPromise: clientP,
-    //   stringify: false,
-    //   autoRemove: 'interval',
-    //   autoRemoveInterval: 1,
-    //   ttl: 1 * 24 * 60 * 60,
-    // }),
+    store: connect_mongo_1.default.create({
+        clientPromise: clientP,
+        stringify: false,
+        autoRemove: 'interval',
+        autoRemoveInterval: 1,
+        ttl: 1 * 24 * 60 * 60,
+    }),
 }));
 app.get('/', (req, res) => {
     res.redirect('/register');

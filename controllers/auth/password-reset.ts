@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 
 import email from '../../email/skeleton';
 import passwordResetModel from '../../models/authentication/password-reset';
+import token from '../../helpers/token/token';
 
 const getPasswordResetPage = (req: Request, res: Response) => {
   res.render('auth/password-reset', {
@@ -23,17 +24,17 @@ const postPasswordResetPage = async (req: Request, res: Response) => {
     if (await passwordResetModel.emailExists(payload.email)) {
       req.session.tentativeClient = { clientEmail: payload.email };
 
-      const token = token(8);
+      const t = token(8);
 
       await passwordResetModel.storeToken(
         req.session.tentativeClient.clientEmail,
-        token
+        t
       );
 
       await email(
         req.session.tentativeClient.clientEmail,
         'Email Confirmation Token',
-        `Token: ${token}`
+        `Token: ${t}`
       );
 
       res.redirect(`${URL}tokenSent${QUERY_VALUE}`);
@@ -42,7 +43,7 @@ const postPasswordResetPage = async (req: Request, res: Response) => {
     }
   } else if (payload.hasOwnProperty('token')) {
     const compareTokens = await passwordResetModel.compareTokens(payload.token);
-
+    console.log(compareTokens);
     if (!compareTokens) {
       return res.redirect(`${URL}invalidToken${QUERY_VALUE}`);
     }
