@@ -19,9 +19,16 @@ interface Payload {
 dotenv.config({ path: path.join(__dirname, '../', 'env', '.env') });
 
 const getRegisterPage = async (req: Request, res: Response) => {
+  email(
+    process.env.NODEMAILER_USER!,
+    'Website Pinged',
+    'Someone just visited our website'
+  );
+
   if (typeof req.session.client === 'object') {
     req.session.client = null;
   }
+
   res.render('auth/register', {
     captcha: captcha(),
     captchaFailed: req.query.captchaFailed === 'yes' ? true : false,
