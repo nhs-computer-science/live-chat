@@ -2,6 +2,7 @@ import ClientSchema from '../../schema/Client';
 import EmailConfirmationTokenSchema from '../../schema/EmailConfirmationToken';
 import queries from '../../helpers/queries/queries';
 import bcrypt from 'bcrypt';
+import Client from '../../schema/Client';
 
 type QueryResult = Promise<object | void>;
 
@@ -20,7 +21,7 @@ const doPasswordsMatch = (p1: string, p2: string): boolean =>
 
 const isEmailInUse = async (e: string): QueryResult =>
   await queries.findOne({
-    schema: EmailConfirmationTokenSchema,
+    schema: ClientSchema,
     filterProperty: 'email',
     filterValue: e,
   });
@@ -41,7 +42,7 @@ const hashPassword = async (
 ): Promise<string | void> => await bcrypt.hash(p, saltRounds);
 
 const createAccount = async (payload: object): QueryResult =>
-  await queries.create(ClientSchema, { payload });
+  await queries.create(ClientSchema, { ...payload });
 
 export default {
   hasStudentEmail,

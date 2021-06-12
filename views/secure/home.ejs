@@ -10,8 +10,7 @@
     <%- include('../includes/font-awesome.ejs') %>
 
     <%- include('./modals/settings-modal.ejs') %>
-    <%- include('./modals//people-modal.ejs') %>
-    <%- include('./modals//notifications-modal.ejs') %>
+    <%- include('./modals/notifications-modal.ejs') %>
 
     <link rel="stylesheet" href="/css/secure/home.css" />
 
@@ -19,27 +18,26 @@
 
     <script src="/js/helpers/DOM-methods.js" defer></script>
     <script src="/js/helpers/http.js" defer></script>
-
+    
     <script src="/js/secure/home.js" defer></script>
-
+    
+    <script src="/js/secure/modals/settings.js" defer></script>
     <script src="/js/secure/modals/notifications.js" defer></script>
 
 </head>
 <body>
+    <div class="alert alert-success" id="admin-alert" role="alert">
+        You are currently logged in as an admin! To remove your admin status, visit the Admin tab on the sidebar; you can always become an admin again if you know the secret token. 
+    </div>
     <main id="chat-wrapper">
         <ul id="navbar">
-            <li class="nav-link-wrapper">
-                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#people-modal">
-                    <img src="https://img.icons8.com/nolan/64/conference-call.png" width="45" height="45"/>
-                </button>
-            </li>
             <li class="nav-link-wrapper">
                 <button type="btn" class="btn btn-outline-info" onclick="clearChat()">
                     <img src="https://img.icons8.com/nolan/64/erase.png"  width="45" height="45"/>
                 </button>
             </li>
             <li class="nav-link-wrapper">
-                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#settings-modal">
+                <button type="button" class="btn btn-info settings-modal-btn" data-toggle="modal" data-target="#settings-modal">
                     <img src="https://img.icons8.com/nolan/64/apple-settings.png"  width="45" height="45"/>
                 </button>
             </li>
@@ -55,6 +53,15 @@
                     </button>
                 </a>
             </li>
+            <% if (isAdmin) { %>
+                <li class="nav-link-wrapper" id="admin-wrapper">
+                    <a href="/admin">
+                        <button type="btn" class="btn btn-info" >
+                            <img src="https://img.icons8.com/fluent/48/000000/microsoft-admin.png" width="45" height="45"/>
+                        </button>
+                    </a>
+                </li>
+            <% } %>
             <li class="nav-link-wrapper" id="chat-spinner-wrapper">
                 <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
             </li>
@@ -65,6 +72,9 @@
                     <li class="message-wrapper">
                         <span class="email"><%= messages[i].email %></span>
                         <span class="date"><%= date(new Date(), new Date(messages[i].createdAt)) %></span>
+                        <% if (isAdmin) { %>
+                            <span><button type="btn" class="btn btn-danger delete-chat-btn">Delete</button></span>
+                        <% } %>
                         <p class="message"><%= chatFilter(messages[i].message) %></p>
                     </li>
                 <% } %>

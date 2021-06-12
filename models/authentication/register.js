@@ -13,7 +13,7 @@ const isFirstNameReal = (fName, e) => fName.charAt(0) === e.charAt(0);
 const isLastNameReal = (lName, e) => e.split('@')[0].substring(1).slice(0, -1) === lName;
 const doPasswordsMatch = (p1, p2) => p1.trim() === p2.trim();
 const isEmailInUse = async (e) => await queries_1.default.findOne({
-    schema: EmailConfirmationToken_1.default,
+    schema: Client_1.default,
     filterProperty: 'email',
     filterValue: e,
 });
@@ -24,7 +24,7 @@ const verifyToken = async (t) => await queries_1.default.findOne({
     filterValue: t,
 });
 const hashPassword = async (p, saltRounds) => await bcrypt_1.default.hash(p, saltRounds);
-const createAccount = async (payload) => await queries_1.default.create(Client_1.default, { payload });
+const createAccount = async (payload) => await queries_1.default.create(Client_1.default, { ...payload });
 exports.default = {
     hasStudentEmail,
     isFirstNameReal,

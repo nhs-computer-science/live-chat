@@ -81,20 +81,33 @@
               </div>
             </div>
           </div>
-          <div class="card">
-            <div class="card-header" id="headingThree">
-              <h2 class="mb-0">
-                <button class="btn btn-link collapsed dropdown-btn" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                  Admin&nbsp;&nbsp;&nbsp;<img src="https://img.icons8.com/dusk/64/000000/admin-settings-male.png" width="25" height="25"/>
-                </button>
-              </h2>
-            </div>
-            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-              <div class="card-body">
-
+          <% if (!isAdmin) { %>
+            <div class="card">
+              <div class="card-header" id="headingThree">
+                <h2 class="mb-0">
+                  <button class="btn btn-link collapsed dropdown-btn" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    Admin&nbsp;&nbsp;&nbsp;<img src="https://img.icons8.com/dusk/64/000000/admin-settings-male.png" width="25" height="25"/>
+                  </button>
+                </h2>
+              </div>
+              <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                <div class="card-body">
+                  <div id="admin-token-wrapper">
+                    <input type="email" class="form-control" id="admin-token" placeholder="Admin Token" name="adminToken" required>
+                    <button type="btn" class="btn btn-info" id="submit-admin-token-btn">Submit</button>
+                    <div id="admin-token-spinner-wrapper">
+                      <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="alert alert-danger" id="invalid-admin-token-alert" role="alert">
+                    Invalid admin token!
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+          <% } %>
         </div>
       </div>
       <div class="modal-footer">

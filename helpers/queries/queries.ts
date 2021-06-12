@@ -37,8 +37,11 @@ const deleteEntries = async (
 
 const findAll = async (schema: Model<any>): QueryResult => await schema.find();
 
-const create = async (schema: Model<any>, payload: object): QueryResult =>
-  await schema.create({ ...payload });
+const create = async (schema: Model<any>, payload: object): QueryResult => {
+  const p = await schema.create({ ...payload });
+  console.log(p);
+  return p;
+};
 
 export default {
   updateOne,

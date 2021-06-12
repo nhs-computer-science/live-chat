@@ -14,6 +14,10 @@ const Client = new Mongoose.Schema(
       type: String,
     },
 
+    isAdmin: {
+      type: Boolean,
+    },
+
     password: {
       type: String,
     },

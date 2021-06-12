@@ -1,7 +1,16 @@
 "use strict";
 const chatMessage = document.getElementById('message');
 const chatMessageSpinnerWrapper = document.getElementById('chat-spinner-wrapper');
-window.addEventListener('load', () => scrollToLastChat());
+window.addEventListener('load', () => {
+    if (document.getElementById('admin-wrapper')) {
+        const adminAlert = document.getElementById('admin-alert');
+        adminAlert.style.display = 'block';
+        setTimeout(() => {
+            adminAlert.style.display = 'none';
+        }, 8000);
+    }
+    scrollToLastChat();
+});
 const clearChatMessage = () => setValue(chatMessage, '');
 const storeChatMessage = () => {
     const serverError = document.getElementById('sever-error');

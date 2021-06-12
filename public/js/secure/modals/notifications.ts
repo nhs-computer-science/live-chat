@@ -9,8 +9,8 @@ const enableNotificationsBtns = document.querySelectorAll(
   '.enable-notifications-btn'
 )!;
 const saveChangesBtn = document.getElementById('save-changes-btn')!;
-const loadingSpinnerWrapper = document.getElementById(
-  'loading-spinner-wrapper'
+const receiveNotificationsSpinnerWrapper = document.getElementById(
+  'receive-notifications-spinner-wrapper'
 )!;
 const settingsUpdatedAlert = document.getElementById('settings-updated-alert')!;
 const settingsFailedAlert = document.getElementById('settings-failed-alert')!;
@@ -31,6 +31,7 @@ const hideSettingsUpdatedAlert = (): void => {
 };
 
 notificationsModalBtn.addEventListener('click', (): void => {
+  disableSaveChangesBtn();
   hideSettingsUpdatedAlert();
 
   if (sessionStorage.getItem(receiveAllNotificationsBtn.id)! === 'btn-danger') {
@@ -76,6 +77,8 @@ const accessBtns = (cb: (btn: Element) => void): void => {
 
 accessBtns((btn: Element): void => {
   btn.addEventListener('click', (): void => {
+    saveChangesBtn.disabled = '';
+    saveChangesBtn.style.cursor = 'pointer';
     hideSettingsUpdatedAlert();
     changeBtnAppearence(btn);
   });
@@ -97,6 +100,11 @@ receiveAllNotificationsBtn.addEventListener('click', (): void => {
   }
 });
 
+const disableSaveChangesBtn = (): void => {
+  saveChangesBtn.disabled = 'true';
+  saveChangesBtn.style.cursor = 'not-allowed';
+};
+
 saveChangesBtn.addEventListener('click', (): void => {
   accessBtns((btn: Element): void => {
     if (btn.textContent === 'Enable') {
@@ -117,14 +125,14 @@ saveChangesBtn.addEventListener('click', (): void => {
   const postRequestFinished = (element: HTMLElement): void => {
     setTimeout((): void => {
       setDisplay(element, 'block');
-      setVisibility(loadingSpinnerWrapper, false);
+      setVisibility(receiveNotificationsSpinnerWrapper, false);
     }, 500);
   };
   if (
     settingsUpdatedAlert.style.display !== 'block' &&
     settingsFailedAlert.style.display !== 'block'
   ) {
-    setVisibility(loadingSpinnerWrapper, true);
+    setVisibility(receiveNotificationsSpinnerWrapper, true);
     POSTRequest(
       '/home',
       { notificationEmails: emails },
@@ -136,6 +144,7 @@ saveChangesBtn.addEventListener('click', (): void => {
         }
       }
     );
+    disableSaveChangesBtn();
   } else {
     alert('Make sure to change your settings before saving them!');
   }

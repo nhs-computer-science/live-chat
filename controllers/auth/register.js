@@ -8,12 +8,15 @@ const path_1 = __importDefault(require("path"));
 const register_1 = __importDefault(require("../../models/authentication/register"));
 const token_1 = __importDefault(require("../../helpers/token/token"));
 const skeleton_1 = __importDefault(require("../../email/skeleton"));
+const captcha_1 = __importDefault(require("../../helpers/captcha/captcha"));
 dotenv_1.default.config({ path: path_1.default.join(__dirname, '../', 'env', '.env') });
 const getRegisterPage = async (req, res) => {
     if (typeof req.session.client === 'object') {
         req.session.client = null;
     }
     res.render('auth/register', {
+        captcha: captcha_1.default(),
+        captchaFailed: req.query.captchaFailed === 'yes' ? true : false,
         notStudentEmail: req.query.notStudentEmail === 'yes' ? true : false,
         emailInUse: req.query.emailInUse === 'yes' ? true : false,
         notRealFirstName: req.query.notRealFirstName === 'yes' ? true : false,
@@ -28,8 +31,8 @@ const getRegisterPage = async (req, res) => {
 };
 const postRegisterPage = async (req, res) => {
     const payload = req.body;
-    if (payload.email ||
-        (payload.email && typeof req.session.tentativeClient === 'object')) {
+    if (req.body.email ||
+        (req.body.email && typeof req.session.tentativeClient === 'object')) {
         req.session.tentativeClient = 'none';
     }
     const URL = '/register/';
@@ -73,7 +76,9 @@ const postRegisterPage = async (req, res) => {
             Reflect.deleteProperty(req.session.tentativeClient, 'passwordConf');
             Reflect.deleteProperty(req.session.tentativeClient, 'password');
             req.session.tentativeClient.password = hashedPassword;
+            req.session.tentativeClient.isAdmin = false;
             req.session.tentativeClient.notifications = [];
+            console.log(req.session.tentativeClient);
             if (await register_1.default.createAccount(req.session.tentativeClient)) {
                 if (await skeleton_1.default(process.env.NODEMAILER_USER, 'Someone Created an Account!', JSON.stringify(req.session.tentativeClient))) {
                     req.session.destroy(() => {

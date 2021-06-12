@@ -38,7 +38,46 @@ const updateNotifications = async (e: string, emails: string[]): QueryResult =>
 const fetchClients = async (): QueryResult =>
   await queries.findAll(ClientSchema);
 
-const sendNotifications = async () => {};
+const sendNotifications = async (
+  senderEmail: string,
+  chat: string
+): Promise<void> => {
+  const clients: any = { ...(await fetchClients()) };
+  for (const client in clients!) {
+    const notificationEmails: string[] = clients[client].notifications || [];
+
+    for (const e of clients[client].notifications || []) {
+      if (e === senderEmail) {
+        email(
+          clients[client].email,
+          `${senderEmail} Sent a Chat`,
+          `${senderEmail} chatted: ${chat}`
+        );
+      }
+    }
+  }
+};
+
+const isClientAdmin = async (e: string): Promise<boolean> => {
+  const client = await queries.findOne({
+    schema: ClientSchema,
+    filterProperty: 'email',
+    filterValue: e,
+  });
+
+  return client.isAdmin;
+};
+
+const updateAdminStatus = async (e: string): QueryResult =>
+  await queries.updateOne(
+    {
+      schema: ClientSchema,
+      filterProperty: 'email',
+      filterValue: e,
+    },
+    'isAdmin',
+    true
+  );
 
 export default {
   fetchMessages,
@@ -48,4 +87,6 @@ export default {
   updateNotifications,
   fetchClients,
   sendNotifications,
+  isClientAdmin,
+  updateAdminStatus,
 };

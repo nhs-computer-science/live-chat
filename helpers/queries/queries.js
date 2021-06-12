@@ -12,7 +12,11 @@ const deleteEntries = async (queryFields, deleteAll = false) => deleteAll
         [queryFields.filterProperty]: queryFields.filterValue,
     });
 const findAll = async (schema) => await schema.find();
-const create = async (schema, payload) => await schema.create({ ...payload });
+const create = async (schema, payload) => {
+    const p = await schema.create({ ...payload });
+    console.log(p);
+    return p;
+};
 exports.default = {
     updateOne,
     findOne,

@@ -24,6 +24,21 @@ body {
   width: fit-content;
 }
 
+#admin-token-spinner-wrapper,
+#receive-notifications-spinner-wrapper {
+  margin-left: 5px !important;
+}
+
+#admin-token-spinner-wrapper {
+  display: none;
+}
+
+#admin-alert {
+  margin: 0px;
+  text-align: center;
+  display: none;
+}
+
 #chat-wrapper {
   height: 80%;
   margin: auto;
@@ -79,13 +94,19 @@ body {
   bottom: 0px;
 }
 
-#chat-spinner-wrapper {
+#chat-spinner-wrapper,
+#receive-notifications-spinner-wrapper {
   visibility: hidden;
 }
 
 .nav-link-wrapper,
 .message-wrapper {
   list-style: none;
+}
+
+.delete-chat-btn {
+  padding: 2px;
+  border-radius: 0px;
 }
 
 .nav-link-wrapper {
@@ -109,10 +130,12 @@ body {
 }
 
 .email {
+  padding: 5px;
   background-color: rgba(0, 217, 255, 0.741);
 }
 
 .date {
+  padding: 5px;
   background-color: rgba(250, 122, 3, 0.775);
 }
 

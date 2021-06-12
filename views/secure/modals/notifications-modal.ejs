@@ -18,7 +18,7 @@
           <div id="receive-all-wrapper">
             <p id="receive-all-header">Receive All Notifications</p>
             <button type='btn' class="btn btn-success" id="receive-all-notifications-btn">Enable</button>
-            <div id="loading-spinner-wrapper">
+            <div id="receive-notifications-spinner-wrapper">
               <div class="spinner-border text-primary" role="status">
                 <span class="sr-only">Loading...</span>
               </div>
@@ -26,10 +26,12 @@
           </div>
           <ul id="users">
             <% for (const client in clients) { %>
-              <li class="user">
-                <p class="user-email"><%= clients[client].email %></p>
-                <button type="btn" class="btn btn-success enable-notifications-btn" id=<%= clients[client].email %> >Enable</button>
-              </li>
+              <% if (clients[client].email !== email) { %>
+                <li class="user">
+                  <p class="user-email"><%= clients[client].email %></p>
+                  <button type="btn" class="btn btn-success enable-notifications-btn" id=<%= clients[client].email %> >Enable</button>
+                </li>
+              <% } %>
             <% } %>
           </ul>
           <div class="alert alert-success" id="settings-updated-alert" role="alert">

@@ -8,7 +8,7 @@ const POSTRequest = (url: string, payload: object, cb: (any: any) => void) => {
   })
     .then(async (responseData): Promise<void> => {
       const parsedData: any = await responseData.text();
-      cb(parsedData || true);
+      cb(parsedData);
     })
     .catch((): void => cb(false));
 };

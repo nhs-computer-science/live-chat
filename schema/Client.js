@@ -14,6 +14,9 @@ const Client = new mongoose_1.default.Schema({
     lastName: {
         type: String,
     },
+    isAdmin: {
+        type: Boolean,
+    },
     password: {
         type: String,
     },

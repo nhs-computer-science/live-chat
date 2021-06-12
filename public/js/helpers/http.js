@@ -9,7 +9,7 @@ const POSTRequest = (url, payload, cb) => {
     })
         .then(async (responseData) => {
         const parsedData = await responseData.text();
-        cb(parsedData || true);
+        cb(parsedData);
     })
         .catch(() => cb(false));
 };

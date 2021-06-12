@@ -11,8 +11,28 @@
 }
 
 #settings-updated-alert,
-#settings-failed-alert {
+#settings-failed-alert,
+#invalid-admin-token-alert {
   display: none;
+}
+
+#invalid-admin-token-alert {
+  margin-top: 10px;
+}
+
+#admin-token-wrapper {
+  background-color: white;
+  display: flex;
+  padding: 15px;
+}
+
+#admin-token,
+#submit-admin-token-btn {
+  border-radius: 0px;
+}
+
+#admin-token {
+  border-right: none;
 }
 
 .color-theme {

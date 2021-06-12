@@ -47,6 +47,10 @@
                     <% if (passwordsNotMatching) { %>
                         <p class="auth-failed">Passwords must match</p>
                     <% } %>
+                    <!-- <input type="text" class="form-control" id="password" aria-describedby="emailHelp" placeholder="<%= `Not a robot? Answer this: ${captcha.num1} + ${captcha.num2} = ?` %>" name="captchaResponse" required />
+                    <% if (captchaFailed) { %>
+                        <p class="auth-failed">Incorrect captcha answer</p>
+                    <% } %> -->
                 <% } else { %>
                     <% if (!accountCreated && !invalidToken) { %>
                         <div class="alert alert-success" role="alert">

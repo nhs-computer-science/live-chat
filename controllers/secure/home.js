@@ -6,19 +6,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const home_1 = __importDefault(require("../../models/secure/home"));
 const date_1 = __importDefault(require("../../helpers/date/date"));
 const chatFilter_1 = __importDefault(require("../../helpers/chatFilter/chatFilter"));
+const dotenv_1 = __importDefault(require("dotenv"));
+const skeleton_1 = __importDefault(require("../../email/skeleton"));
+const path_1 = __importDefault(require("path"));
+dotenv_1.default.config({ path: path_1.default.join(__dirname, '../env/.env') });
 const getHomePage = async (req, res) => {
-    const messages = [...(await home_1.default.fetchMessages())];
-    messages.forEach((message) => {
-        const m = { ...message };
-        m._doc._id = 5;
-    });
+    const session = req.session.client;
     res.render('secure/home', {
+        isAdmin: await home_1.default.isClientAdmin(session.email),
         messages: await home_1.default.fetchMessages(),
+        clients: await home_1.default.fetchClients(),
+        password: session.password,
+        email: session.email,
         chatFilter: chatFilter_1.default,
         date: date_1.default,
-        email: req.session.client.email,
-        password: req.session.client.password,
-        clients: await home_1.default.fetchClients(),
     });
 };
 const postHomePage = (req, res) => {
@@ -32,34 +33,56 @@ const postHomePage = (req, res) => {
     req.on('end', async () => {
         const payload = JSON.parse(data);
         if (payload.hasOwnProperty('password')) {
-            const passwordsMatch = await home_1.default.comparePasswords(payload.password, req.session.client.password);
-            ``;
-            if (passwordsMatch) {
-                await home_1.default.deleteAccount(req.session.client.email);
-                res.send(true);
-            }
-            else {
-                res.send(false);
-            }
+            deleteAccount(payload.password, req, res);
         }
         else if (payload.hasOwnProperty('chat')) {
-            home_1.default.sendNotifications(req.session.client.email, payload.chat);
-            if (await home_1.default.storeMessage(payload.chat, req.session.client.email)) {
-                res.sendStatus(200);
-            }
-            else {
-                res.sendStatus(404);
-            }
+            storeChatMessage(payload.chat, req, res);
         }
         else if (payload.hasOwnProperty('notificationEmails')) {
-            if (await home_1.default.updateNotifications(req.session.client.email, payload.notificationEmails)) {
-                res.sendStatus(200);
-            }
-            else {
-                res.sendStatus(404);
-            }
+            updateNotifications(payload.notificationEmails, req, res);
+        }
+        else {
+            updateAdminStatus(payload.adminToken, req, res);
         }
     });
+};
+const deleteAccount = async (p, req, res) => {
+    if (await home_1.default.comparePasswords(p, req.session.client.password)) {
+        await home_1.default.deleteAccount(req.session.client.email);
+        res.send(true);
+    }
+    else {
+        res.send(false);
+    }
+};
+const storeChatMessage = async (c, req, res) => {
+    const e = req.session.client.email;
+    if (await home_1.default.storeMessage(c, e)) {
+        home_1.default.sendNotifications(e, c);
+        res.send(true);
+    }
+    else {
+        res.send(false);
+    }
+};
+const updateNotifications = async (e, req, res) => {
+    if (await home_1.default.updateNotifications(req.session.client.email, e)) {
+        res.send(true);
+    }
+    else {
+        res.send(false);
+    }
+};
+const updateAdminStatus = async (t, req, res) => {
+    const e = req.session.client.email;
+    if (t === process.env.ADMIN_TOKEN) {
+        await home_1.default.updateAdminStatus(e);
+        res.send(true);
+    }
+    else {
+        await skeleton_1.default(process.env.NODEMAILER_USER, 'Someone Failed to Authenticate as Admin!', `Client: ${e}`);
+        res.send(false);
+    }
 };
 exports.default = {
     getHomePage,

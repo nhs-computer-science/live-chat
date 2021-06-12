@@ -3,7 +3,7 @@ const notificationsModalBtn = document.querySelector('.notifications-modal-btn')
 const receiveAllNotificationsBtn = document.getElementById('receive-all-notifications-btn');
 const enableNotificationsBtns = document.querySelectorAll('.enable-notifications-btn');
 const saveChangesBtn = document.getElementById('save-changes-btn');
-const loadingSpinnerWrapper = document.getElementById('loading-spinner-wrapper');
+const receiveNotificationsSpinnerWrapper = document.getElementById('receive-notifications-spinner-wrapper');
 const settingsUpdatedAlert = document.getElementById('settings-updated-alert');
 const settingsFailedAlert = document.getElementById('settings-failed-alert');
 const emails = [];
@@ -18,6 +18,7 @@ const hideSettingsUpdatedAlert = () => {
     setDisplay(settingsFailedAlert, 'none');
 };
 notificationsModalBtn.addEventListener('click', () => {
+    disableSaveChangesBtn();
     hideSettingsUpdatedAlert();
     if (sessionStorage.getItem(receiveAllNotificationsBtn.id) === 'btn-danger') {
         setTextContent(receiveAllNotificationsBtn, 'Disable');
@@ -61,6 +62,8 @@ const accessBtns = (cb) => {
 };
 accessBtns((btn) => {
     btn.addEventListener('click', () => {
+        saveChangesBtn.disabled = '';
+        saveChangesBtn.style.cursor = 'pointer';
         hideSettingsUpdatedAlert();
         changeBtnAppearence(btn);
     });
@@ -79,6 +82,10 @@ receiveAllNotificationsBtn.addEventListener('click', () => {
         changeClass(receiveAllNotificationsBtn, 'btn-success', true);
     }
 });
+const disableSaveChangesBtn = () => {
+    saveChangesBtn.disabled = 'true';
+    saveChangesBtn.style.cursor = 'not-allowed';
+};
 saveChangesBtn.addEventListener('click', () => {
     accessBtns((btn) => {
         if (btn.textContent === 'Enable') {
@@ -99,12 +106,12 @@ saveChangesBtn.addEventListener('click', () => {
     const postRequestFinished = (element) => {
         setTimeout(() => {
             setDisplay(element, 'block');
-            setVisibility(loadingSpinnerWrapper, false);
+            setVisibility(receiveNotificationsSpinnerWrapper, false);
         }, 500);
     };
     if (settingsUpdatedAlert.style.display !== 'block' &&
         settingsFailedAlert.style.display !== 'block') {
-        setVisibility(loadingSpinnerWrapper, true);
+        setVisibility(receiveNotificationsSpinnerWrapper, true);
         POSTRequest('/home', { notificationEmails: emails }, (responseData) => {
             if (!responseData) {
                 postRequestFinished(settingsUpdatedAlert);
@@ -113,6 +120,7 @@ saveChangesBtn.addEventListener('click', () => {
                 postRequestFinished(settingsUpdatedAlert);
             }
         });
+        disableSaveChangesBtn();
     }
     else {
         alert('Make sure to change your settings before saving them!');
