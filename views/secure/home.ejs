@@ -10,9 +10,14 @@
     <%- include('../includes/font-awesome.ejs') %>
 
     <%- include('./modals/settings-modal.ejs') %>
+    <%- include('./modals/admin-modal.ejs') %>
     <%- include('./modals/notifications-modal.ejs') %>
 
     <link rel="stylesheet" href="/css/secure/home.css" />
+
+    <link rel="stylesheet" href="/css/secure/admin-modal.css" />
+    <link rel="stylesheet" href="/css/secure/notifications-modal.css" />
+    <link rel="stylesheet" href="/css/secure/admin-modal.css" />
 
     <link rel="stylesheet" href="/css/loading-spinner.css" />
 
@@ -21,6 +26,7 @@
     
     <script src="/js/secure/home.js" defer></script>
     
+    <script src="/js/secure/modals/admin.js" defer></script>
     <script src="/js/secure/modals/settings.js" defer></script>
     <script src="/js/secure/modals/notifications.js" defer></script>
 
@@ -55,11 +61,9 @@
             </li>
             <% if (isAdmin) { %>
                 <li class="nav-link-wrapper" id="admin-wrapper">
-                    <a href="/admin">
-                        <button type="btn" class="btn btn-info" >
-                            <img src="https://img.icons8.com/fluent/48/000000/microsoft-admin.png" width="45" height="45"/>
-                        </button>
-                    </a>
+                    <button type="button" class="btn btn-info admin-modal-btn" data-toggle="modal" data-target="#admin-modal" >
+                        <img src="https://img.icons8.com/fluent/48/000000/microsoft-admin.png" width="45" height="45"/>
+                    </button>
                 </li>
             <% } %>
             <li class="nav-link-wrapper" id="chat-spinner-wrapper">
@@ -73,7 +77,7 @@
                         <span class="email"><%= messages[i].email %></span>
                         <span class="date"><%= date(new Date(), new Date(messages[i].createdAt)) %></span>
                         <% if (isAdmin) { %>
-                            <span><button type="btn" class="btn btn-danger delete-chat-btn">Delete</button></span>
+                            <span><button type="btn" class="btn btn-danger delete-chat-btn" id="<%= messages[i]._id %>">Delete</button></span>
                         <% } %>
                         <p class="message"><%= chatFilter(messages[i].message) %></p>
                     </li>

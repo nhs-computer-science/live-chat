@@ -1,10 +1,14 @@
-const settingsModalBtn = document.querySelector('.settings-modal-btn')!;
-const adminToken = document.getElementById('admin-token')!;
-const submitAdminTokenBtn = document.getElementById('submit-admin-token-btn')!;
-const invalidAdminTokenAlert = document.getElementById(
+const settingsModalBtn: HTMLElement = document.querySelector(
+  '.settings-modal-btn'
+)!;
+const adminToken: HTMLElement = document.getElementById('admin-token')!;
+const submitAdminTokenBtn: HTMLElement = document.getElementById(
+  'submit-admin-token-btn'
+)!;
+const invalidAdminTokenAlert: HTMLElement = document.getElementById(
   'invalid-admin-token-alert'
 )!;
-const adminTokenSpinnerWrapper = document.getElementById(
+const adminTokenSpinnerWrapper: HTMLElement = document.getElementById(
   'admin-token-spinner-wrapper'
 )!;
 
@@ -23,7 +27,7 @@ submitAdminTokenBtn.addEventListener('click', () => {
   POSTRequest(
     '/home',
     { adminToken: adminToken.value.trim() },
-    (responseData): void => {
+    (responseData: any): void => {
       if (responseData === 'false') {
         adminTokenPostRequestFinished();
         setDisplay(invalidAdminTokenAlert, 'block');

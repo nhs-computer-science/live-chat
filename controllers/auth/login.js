@@ -17,7 +17,6 @@ const postLoginPage = async (req, res) => {
     const accountExists = await login_1.default.accountExists(payload.email, payload.password);
     if (typeof accountExists === 'object') {
         req.session.client = accountExists;
-        console.log(true);
         res.redirect('/home');
     }
     else {

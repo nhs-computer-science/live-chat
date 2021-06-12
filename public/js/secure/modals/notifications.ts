@@ -1,19 +1,24 @@
-const notificationsModalBtn = document.querySelector(
+const notificationsModalBtn: HTMLElement = document.querySelector(
   '.notifications-modal-btn'
 )!;
 
-const receiveAllNotificationsBtn = document.getElementById(
+const receiveAllNotificationsBtn: HTMLElement = document.getElementById(
   'receive-all-notifications-btn'
 )!;
-const enableNotificationsBtns = document.querySelectorAll(
+const enableNotificationsBtns: NodeListOf<Element> = document.querySelectorAll(
   '.enable-notifications-btn'
 )!;
-const saveChangesBtn = document.getElementById('save-changes-btn')!;
+const saveChangesBtn: HTMLElement =
+  document.getElementById('save-changes-btn')!;
 const receiveNotificationsSpinnerWrapper = document.getElementById(
   'receive-notifications-spinner-wrapper'
 )!;
-const settingsUpdatedAlert = document.getElementById('settings-updated-alert')!;
-const settingsFailedAlert = document.getElementById('settings-failed-alert')!;
+const settingsUpdatedAlert: HTMLElement = document.getElementById(
+  'settings-updated-alert'
+)!;
+const settingsFailedAlert: HTMLElement = document.getElementById(
+  'settings-failed-alert'
+)!;
 
 const emails: string[] = [];
 
@@ -136,8 +141,8 @@ saveChangesBtn.addEventListener('click', (): void => {
     POSTRequest(
       '/home',
       { notificationEmails: emails },
-      (responseData): void => {
-        if (!responseData) {
+      (responseData: any): void => {
+        if (responseData === 'false') {
           postRequestFinished(settingsUpdatedAlert);
         } else {
           postRequestFinished(settingsUpdatedAlert);

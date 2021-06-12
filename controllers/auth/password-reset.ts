@@ -43,7 +43,7 @@ const postPasswordResetPage = async (req: Request, res: Response) => {
     }
   } else if (payload.hasOwnProperty('token')) {
     const compareTokens = await passwordResetModel.compareTokens(payload.token);
-    console.log(compareTokens);
+
     if (!compareTokens) {
       return res.redirect(`${URL}invalidToken${QUERY_VALUE}`);
     }

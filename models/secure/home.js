@@ -40,6 +40,15 @@ const isClientAdmin = async (e) => {
     });
     return client.isAdmin;
 };
+const deleteChatMessage = async (id) => await queries_1.default.deleteEntries({
+    schema: Message_1.default,
+    filterProperty: '_id',
+    filterValue: id,
+});
+const fetchAllAdmins = async () => await queries_1.default.findAll(Client_1.default, {
+    filterProperty: 'isAdmin',
+    filterValue: true,
+});
 const updateAdminStatus = async (e) => await queries_1.default.updateOne({
     schema: Client_1.default,
     filterProperty: 'email',
@@ -54,5 +63,7 @@ exports.default = {
     fetchClients,
     sendNotifications,
     isClientAdmin,
+    deleteChatMessage,
+    fetchAllAdmins,
     updateAdminStatus,
 };

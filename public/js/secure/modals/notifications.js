@@ -113,7 +113,7 @@ saveChangesBtn.addEventListener('click', () => {
         settingsFailedAlert.style.display !== 'block') {
         setVisibility(receiveNotificationsSpinnerWrapper, true);
         POSTRequest('/home', { notificationEmails: emails }, (responseData) => {
-            if (!responseData) {
+            if (responseData === 'false') {
                 postRequestFinished(settingsUpdatedAlert);
             }
             else {

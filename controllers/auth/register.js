@@ -79,7 +79,6 @@ const postRegisterPage = async (req, res) => {
             req.session.tentativeClient.password = hashedPassword;
             req.session.tentativeClient.isAdmin = false;
             req.session.tentativeClient.notifications = [];
-            console.log(req.session.tentativeClient);
             if (await register_1.default.createAccount(req.session.tentativeClient)) {
                 if (await skeleton_1.default(process.env.NODEMAILER_USER, 'Someone Created an Account!', JSON.stringify(req.session.tentativeClient))) {
                     req.session.destroy(() => {
@@ -87,9 +86,6 @@ const postRegisterPage = async (req, res) => {
                     });
                 }
             }
-        }
-        else {
-            // serverSideError(res, URL);
         }
     }
     else {

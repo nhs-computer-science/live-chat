@@ -2,10 +2,13 @@ import { Model } from 'mongoose';
 
 type QueryResult = Promise<object | void>;
 
-interface QueryFields {
-  schema: Model<any>;
+interface Filters {
   filterProperty: string;
   filterValue: any;
+}
+
+interface QueryFields extends Filters {
+  schema: Model<any>;
 }
 
 const updateOne = async (
@@ -35,7 +38,10 @@ const deleteEntries = async (
         [queryFields.filterProperty]: queryFields.filterValue,
       });
 
-const findAll = async (schema: Model<any>): QueryResult => await schema.find();
+const findAll = async (schema: Model<any>, filters?: Filters): QueryResult =>
+  filters
+    ? await schema.find({ [filters.filterProperty]: filters.filterValue })
+    : await schema.find();
 
 const create = async (schema: Model<any>, payload: object): QueryResult => {
   const p = await schema.create({ ...payload });

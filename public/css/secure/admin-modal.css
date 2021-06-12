@@ -1,0 +1,27 @@
+#admin-token {
+  color: green;
+  margin-top: 10px;
+  margin-left: 5px;
+  display: none;
+}
+
+.admin-body-wrapper {
+  display: flex;
+}
+
+#show-admin-token-btn {
+  height: 40px !important;
+  margin-right: 10px;
+}
+
+.btn-link {
+  color: white !important;
+}
+
+.btn-link:hover {
+  text-decoration: none;
+}
+
+.btn-link img {
+  margin-left: 5px;
+}

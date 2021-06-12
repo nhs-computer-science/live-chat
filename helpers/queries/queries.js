@@ -11,7 +11,9 @@ const deleteEntries = async (queryFields, deleteAll = false) => deleteAll
     : await queryFields.schema.deleteOne({
         [queryFields.filterProperty]: queryFields.filterValue,
     });
-const findAll = async (schema) => await schema.find();
+const findAll = async (schema, filters) => filters
+    ? await schema.find({ [filters.filterProperty]: filters.filterValue })
+    : await schema.find();
 const create = async (schema, payload) => {
     const p = await schema.create({ ...payload });
     console.log(p);

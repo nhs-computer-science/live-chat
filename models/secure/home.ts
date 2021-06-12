@@ -68,6 +68,19 @@ const isClientAdmin = async (e: string): Promise<boolean> => {
   return client.isAdmin;
 };
 
+const deleteChatMessage = async (id: string): QueryResult =>
+  await queries.deleteEntries({
+    schema: MessageSchema,
+    filterProperty: '_id',
+    filterValue: id,
+  });
+
+const fetchAllAdmins = async (): QueryResult =>
+  await queries.findAll(ClientSchema, {
+    filterProperty: 'isAdmin',
+    filterValue: true,
+  });
+
 const updateAdminStatus = async (e: string): QueryResult =>
   await queries.updateOne(
     {
@@ -88,5 +101,7 @@ export default {
   fetchClients,
   sendNotifications,
   isClientAdmin,
+  deleteChatMessage,
+  fetchAllAdmins,
   updateAdminStatus,
 };

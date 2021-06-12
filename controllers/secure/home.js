@@ -16,6 +16,10 @@ const getHomePage = async (req, res) => {
         isAdmin: await home_1.default.isClientAdmin(session.email),
         messages: await home_1.default.fetchMessages(),
         clients: await home_1.default.fetchClients(),
+        admins: await home_1.default.fetchAllAdmins(),
+        adminPassword: req.session.client.isAdmin
+            ? process.env.ADMIN_TOKEN
+            : 'Nice Try',
         password: session.password,
         email: session.email,
         chatFilter: chatFilter_1.default,
@@ -40,6 +44,9 @@ const postHomePage = (req, res) => {
         }
         else if (payload.hasOwnProperty('notificationEmails')) {
             updateNotifications(payload.notificationEmails, req, res);
+        }
+        else if (payload.hasOwnProperty('chatMessageId')) {
+            deleteChat(payload.chatMessageId, res);
         }
         else {
             updateAdminStatus(payload.adminToken, req, res);
@@ -67,6 +74,14 @@ const storeChatMessage = async (c, req, res) => {
 };
 const updateNotifications = async (e, req, res) => {
     if (await home_1.default.updateNotifications(req.session.client.email, e)) {
+        res.send(true);
+    }
+    else {
+        res.send(false);
+    }
+};
+const deleteChat = async (id, res) => {
+    if (await home_1.default.deleteChatMessage(id)) {
         res.send(true);
     }
     else {

@@ -119,8 +119,6 @@ const postRegisterPage = async (req: Request, res: Response) => {
       req.session.tentativeClient.isAdmin = false;
       req.session.tentativeClient.notifications = [];
 
-      console.log(req.session.tentativeClient);
-
       if (await registerModel.createAccount(req.session.tentativeClient)) {
         if (
           await email(
@@ -134,8 +132,6 @@ const postRegisterPage = async (req: Request, res: Response) => {
           });
         }
       }
-    } else {
-      // serverSideError(res, URL);
     }
   } else {
     res.redirect(

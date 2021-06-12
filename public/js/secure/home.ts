@@ -2,12 +2,41 @@ const chatMessage: HTMLElement = document.getElementById('message')!;
 const chatMessageSpinnerWrapper: HTMLElement = document.getElementById(
   'chat-spinner-wrapper'
 )!;
+const deleteChatBtn: NodeListOf<Element> =
+  document.querySelectorAll('.delete-chat-btn');
+const chatSpinnerWrapper = document.getElementById('chat-spinner-wrapper')!;
+
+deleteChatBtn.forEach((btn: Element): void => {
+  const makeChatSpinnerWrapperVisible = (): void => {
+    setTimeout((): void => {
+      setVisibility(chatSpinnerWrapper, false);
+    }, 500);
+  };
+
+  btn.addEventListener('click', (): void => {
+    setVisibility(chatSpinnerWrapper, true);
+    POSTRequest(
+      '/home',
+      { chatMessageId: btn.id },
+      (responseData: any): void => {
+        if (responseData !== 'false') {
+          const messagesWrapper: HTMLElement =
+            document.getElementById('messages-wrapper')!;
+          messagesWrapper.removeChild(btn.parentElement!.parentElement!);
+          makeChatSpinnerWrapperVisible();
+        } else {
+          makeChatSpinnerWrapperVisible();
+        }
+      }
+    );
+  });
+});
 
 window.addEventListener('load', (): void => {
   if (document.getElementById('admin-wrapper')) {
-    const adminAlert = document.getElementById('admin-alert')!;
+    const adminAlert: HTMLElement = document.getElementById('admin-alert')!;
     adminAlert.style.display = 'block';
-    setTimeout(() => {
+    setTimeout((): void => {
       adminAlert.style.display = 'none';
     }, 8000);
   }
@@ -23,7 +52,7 @@ const storeChatMessage = (): void => {
   POSTRequest(
     '/home',
     { chat: chatMessage.value.trim() },
-    (responseData): void => {
+    (responseData: any): void => {
       if (!responseData) {
         setTimeout((): void => {
           setVisibility(chatMessageSpinnerWrapper, false);

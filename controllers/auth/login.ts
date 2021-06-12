@@ -22,7 +22,6 @@ const postLoginPage = async (req: Request, res: Response) => {
 
   if (typeof accountExists === 'object') {
     req.session.client = accountExists;
-    console.log(true);
     res.redirect('/home');
   } else {
     res.redirect('/login/?authFailed=yes');

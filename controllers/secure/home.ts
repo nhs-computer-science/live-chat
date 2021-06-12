@@ -6,6 +6,7 @@ import chatFilter from '../../helpers/chatFilter/chatFilter';
 import dotenv from 'dotenv';
 import email from '../../email/skeleton';
 import path from 'path';
+import { resolveSoa } from 'node:dns';
 
 dotenv.config({ path: path.join(__dirname, '../env/.env') });
 
@@ -15,6 +16,10 @@ const getHomePage = async (req: Request, res: Response) => {
     isAdmin: await homeModel.isClientAdmin(session.email),
     messages: await homeModel.fetchMessages(),
     clients: await homeModel.fetchClients(),
+    admins: await homeModel.fetchAllAdmins(),
+    adminPassword: req.session.client.isAdmin
+      ? process.env.ADMIN_TOKEN
+      : 'Nice Try',
     password: session.password,
     email: session.email,
     chatFilter,
@@ -42,6 +47,8 @@ const postHomePage = (req: Request, res: Response) => {
       storeChatMessage(payload.chat, req, res);
     } else if (payload.hasOwnProperty('notificationEmails')) {
       updateNotifications(payload.notificationEmails, req, res);
+    } else if (payload.hasOwnProperty('chatMessageId')) {
+      deleteChat(payload.chatMessageId, res);
     } else {
       updateAdminStatus(payload.adminToken, req, res);
     }
@@ -81,6 +88,14 @@ const updateNotifications = async (
   res: Response
 ): Promise<void> => {
   if (await homeModel.updateNotifications(req.session.client.email, e)) {
+    res.send(true);
+  } else {
+    res.send(false);
+  }
+};
+
+const deleteChat = async (id: string, res: Response) => {
+  if (await homeModel.deleteChatMessage(id)) {
     res.send(true);
   } else {
     res.send(false);
