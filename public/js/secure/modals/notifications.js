@@ -2,7 +2,7 @@
 const notificationsModalBtn = document.querySelector('.notifications-modal-btn');
 const receiveAllNotificationsBtn = document.getElementById('receive-all-notifications-btn');
 const enableNotificationsBtns = document.querySelectorAll('.enable-notifications-btn');
-const saveChangesBtn = document.getElementById('save-changes-btn');
+const saveChangesBtn = document.querySelector('.save-changes-btn');
 const receiveNotificationsSpinnerWrapper = document.getElementById('receive-notifications-spinner-wrapper');
 const settingsUpdatedAlert = document.getElementById('settings-updated-alert');
 const settingsFailedAlert = document.getElementById('settings-failed-alert');
@@ -43,7 +43,21 @@ notificationsModalBtn.addEventListener('click', () => {
         }
     });
 });
-const changeBtnAppearence = (btn) => {
+const changeBtnAppearence = (btn, d) => {
+    if (d === 'enable') {
+        console.log('enabled');
+        setTextContent(btn, 'Enable');
+        changeClass(btn, 'btn-success', true);
+        changeClass(btn, 'btn-danger', false);
+        return;
+    }
+    else if (d === 'disable') {
+        console.log('disabled');
+        setTextContent(btn, 'Disable');
+        changeClass(btn, 'btn-danger', true);
+        changeClass(btn, 'btn-success', false);
+        return;
+    }
     if (btn.textContent === 'Enable') {
         setTextContent(btn, 'Disable');
         changeClass(btn, 'btn-success', false);
@@ -70,13 +84,14 @@ accessBtns((btn) => {
 });
 receiveAllNotificationsBtn.addEventListener('click', () => {
     hideSettingsUpdatedAlert();
-    accessBtns((btn) => changeBtnAppearence(btn));
     if (receiveAllNotificationsBtn.textContent === 'Enable') {
+        accessBtns((btn) => changeBtnAppearence(btn, 'disable'));
         setTextContent(receiveAllNotificationsBtn, 'Disable');
         changeClass(receiveAllNotificationsBtn, 'btn-success', false);
         changeClass(receiveAllNotificationsBtn, 'btn-danger', true);
     }
     else {
+        accessBtns((btn) => changeBtnAppearence(btn, 'enable'));
         setTextContent(receiveAllNotificationsBtn, 'Enable');
         changeClass(receiveAllNotificationsBtn, 'btn-danger', false);
         changeClass(receiveAllNotificationsBtn, 'btn-success', true);

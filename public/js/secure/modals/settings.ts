@@ -1,7 +1,7 @@
 const settingsModalBtn: HTMLElement = document.querySelector(
   '.settings-modal-btn'
 )!;
-const adminToken: HTMLElement = document.getElementById('admin-token')!;
+const adminToken: HTMLElement = document.getElementById('admin-t')!;
 const submitAdminTokenBtn: HTMLElement = document.getElementById(
   'submit-admin-token-btn'
 )!;
@@ -33,7 +33,7 @@ submitAdminTokenBtn.addEventListener('click', () => {
         setDisplay(invalidAdminTokenAlert, 'block');
       } else {
         adminTokenPostRequestFinished();
-        window.location.reload();
+        location.reload();
       }
       setValue(adminToken, '');
     }

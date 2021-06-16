@@ -46,17 +46,17 @@ window.addEventListener('load', (): void => {
 const clearChatMessage = (): void => setValue(chatMessage, '');
 
 const storeChatMessage = (): void => {
-  const serverError: HTMLElement = document.getElementById('sever-error')!;
+  const serverError: HTMLElement = document.getElementById('server-error')!;
 
   setVisibility(chatMessageSpinnerWrapper, true);
   POSTRequest(
     '/home',
     { chat: chatMessage.value.trim() },
     (responseData: any): void => {
-      if (!responseData) {
+      if (responseData === 'false') {
         setTimeout((): void => {
-          setVisibility(chatMessageSpinnerWrapper, false);
           setVisibility(serverError, true);
+          setVisibility(chatMessageSpinnerWrapper, false);
           clearChatMessage();
         }, 500);
       } else {

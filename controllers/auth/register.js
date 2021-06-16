@@ -28,6 +28,7 @@ const getRegisterPage = async (req, res) => {
         accountCreated: req.query.accountCreated === 'yes' ? true : false,
         serverSideError: req.query.serverSideError === 'yes' ? true : false,
         blacklisted: req.query.blacklisted === 'yes' ? true : false,
+        passwordNotSecure: req.query.passwordNotSecure === 'yes' ? true : false,
     });
 };
 const postRegisterPage = async (req, res) => {
@@ -39,11 +40,6 @@ const postRegisterPage = async (req, res) => {
     const URL = '/register/';
     const QUERY_VALUE = '=yes';
     if (req.session.tentativeClient === 'none') {
-        process.env.BLACKLISTED_EMAILS.split('|').forEach((e) => {
-            if (e.toUpperCase() === payload.email.toUpperCase()) {
-                return res.redirect(`${URL}?blacklisted${QUERY_VALUE}`);
-            }
-        });
         if (!register_1.default.hasStudentEmail(payload.email)) {
             return res.redirect(`${URL}?notStudentEmail${QUERY_VALUE}`);
         }
@@ -55,6 +51,9 @@ const postRegisterPage = async (req, res) => {
         }
         if (!register_1.default.doPasswordsMatch(payload.password, payload.passwordConf)) {
             return res.redirect(`${URL}?passwordsNotMatching${QUERY_VALUE}`);
+        }
+        if (!register_1.default.isPasswordSecure(payload.password)) {
+            return res.redirect(`${URL}?passwordNotSecure${QUERY_VALUE}`);
         }
         const isEmailInUse = await register_1.default.isEmailInUse(payload.email.trim());
         if (isEmailInUse) {

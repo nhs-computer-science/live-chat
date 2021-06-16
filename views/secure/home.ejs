@@ -29,10 +29,9 @@
     <script src="/js/secure/modals/admin.js" defer></script>
     <script src="/js/secure/modals/settings.js" defer></script>
     <script src="/js/secure/modals/notifications.js" defer></script>
-
 </head>
 <body>
-    <div class="alert alert-success" id="admin-alert" role="alert">
+    <div class="alert alert-success" id="admin-alert" role="alezrt">
         You are currently logged in as an admin! To remove your admin status, visit the Admin tab on the sidebar; you can always become an admin again if you know the secret token. 
     </div>
     <main id="chat-wrapper">
@@ -74,7 +73,7 @@
             <ul id="messages-wrapper">
                 <% for (let i = 0; i < messages.length; i++) { %>
                     <li class="message-wrapper">
-                        <span class="email"><%= messages[i].email %></span>
+                        <span class="email"><%= `${messages[i].firstName.charAt(0).toUpperCase() + messages[i].firstName.substring(1)} ${messages[i].lastName.charAt(0).toUpperCase() + messages[i].lastName.substring(1)}` %></span>
                         <span class="date"><%= date(new Date(), new Date(messages[i].createdAt)) %></span>
                         <% if (isAdmin) { %>
                             <span><button type="btn" class="btn btn-danger delete-chat-btn" id="<%= messages[i]._id %>">Delete</button></span>
@@ -88,8 +87,12 @@
                 <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Message" name="message" required id="message" autocapitalize="true" spellcheck="true"/>
                 <button type="submit" class="btn btn-success" id="send-chat-btn">Send</button>
             </form>
+            <!-- <form method="POST" action="/home" enctype="multipart/form-data">
+                <input type="file" name="image" id="image" required/>
+                <button type="submit">submit</button>
+            </form> -->
             <div class="alert alert-danger" id="server-error" role="alert">
-                Something went wrong; your chat wasn't delivered! Please try again. 
+                Something went wrong; your chat wasn't delivered or your account may be blacklisted from sending messages! Please try again. 
             </div>
         </div>
     </main>

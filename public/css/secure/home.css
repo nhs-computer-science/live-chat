@@ -71,6 +71,7 @@ body {
 #server-error {
   border-radius: 0px;
   visibility: hidden;
+  margin-bottom: 30px;
 }
 
 #navbar {

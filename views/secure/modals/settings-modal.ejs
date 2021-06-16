@@ -23,19 +23,51 @@
                 <h6 id="theme-header">Select a Color Theme!</h6>
                 <ul id="color-themes">
                   <li class="color-theme">
-                    <button type="btn" class="btn btn-light" onclick="moveCheckBox('midnight-check')">
-                      Midnight (default)
+                    <button type="btn" class="btn btn-light" onclick="moveCheckBox('cotton-candy-check')">
+                      Cotton Candy (default)
                     </button>
-                    <span id="midnight-check" class="check">
+                    <span id="cotton-candy-check" class="check">
                       <img src="https://img.icons8.com/color/48/000000/checked-checkbox.png" width="30" height="30"/>
                     </span>
                   </li>
                   <li class="color-theme">
-                    <button type="btn" class="btn btn-light" onclick="moveCheckBox('vibrant-sunset-check')">
-                      Vibrant Sunset
+                    <button type="btn" class="btn btn-light" onclick="moveCheckBox('orange-sunset-check')">
+                      Orange Sunset
                     </button>
-                    <span id="vibrant-sunset-check" class="check">
+                    <span id="orange-sunset-check" class="check">
                       <img src="https://img.icons8.com/color/48/000000/checked-checkbox.png" width="30" height="30"/>
+                    </span>
+                  </li>
+                  <li class="color-theme">
+                    <button type="btn" class="btn btn-light" onclick="moveCheckBox('purple-sunset-check')">
+                      Purple Sunset
+                    </button>
+                    <span id="purple-sunset-check" class="check">
+                      <img src="https://img.icons8.com/color/48/000000/checked-checkbox.png" width="25" height="25"/>
+                    </span>
+                  </li>
+                  <li class="color-theme">
+                    <button type="btn" class="btn btn-light" onclick="moveCheckBox('flamingo-check')">
+                      Flamingo
+                    </button>
+                    <span id="flamingo-check" class="check">
+                      <img src="https://img.icons8.com/color/48/000000/checked-checkbox.png" width="25" height="25"/>
+                    </span>
+                  </li>
+                  <li class="color-theme">
+                    <button type="btn" class="btn btn-light" onclick="moveCheckBox('northern-lights-check')">
+                      Northern Lights
+                    </button>
+                    <span id="northern-lights-check" class="check">
+                      <img src="https://img.icons8.com/color/48/000000/checked-checkbox.png" width="25" height="25"/>
+                    </span>
+                  </li>
+                  <li class="color-theme">
+                    <button type="btn" class="btn btn-light" onclick="moveCheckBox('asteroid-check')">
+                      Asteroid
+                    </button>
+                    <span id="asteroid-check" class="check">
+                      <img src="https://img.icons8.com/color/48/000000/checked-checkbox.png" width="25" height="25"/>
                     </span>
                   </li>
                   <li class="color-theme">
@@ -43,14 +75,6 @@
                       Pearly White
                     </button>
                     <span id="pearly-white-check" class="check">
-                      <img src="https://img.icons8.com/color/48/000000/checked-checkbox.png" width="25" height="25"/>
-                    </span>
-                  </li>
-                  <li class="color-theme">
-                    <button type="btn" class="btn btn-light" onclick="moveCheckBox('rainbow-check')">
-                      Rainbow
-                    </button>
-                    <span id="rainbow-check" class="check">
                       <img src="https://img.icons8.com/color/48/000000/checked-checkbox.png" width="25" height="25"/>
                     </span>
                   </li>
@@ -93,7 +117,7 @@
               <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
                 <div class="card-body">
                   <div id="admin-token-wrapper">
-                    <input type="email" class="form-control" id="admin-token" placeholder="Admin Token" name="adminToken" required>
+                    <input type="password" class="form-control" id="admin-t" placeholder="Admin Token" name="adminToken" required>
                     <button type="btn" class="btn btn-info" id="submit-admin-token-btn">Submit</button>
                     <div id="admin-token-spinner-wrapper">
                       <div class="spinner-border text-primary" role="status">
@@ -146,8 +170,39 @@
         window.sessionStorage.setItem('theme', id);
       }
     });
+
+    const colorTheme = window.sessionStorage.getItem('theme').split('-check')[0] ?? 'cotton-candy';
+
+    const setColorTheme = (b1, b2, b3) => {
+      const body = document.querySelector('body');
+      const html = document.querySelector('html');
+
+      body.style.background = b1;
+      body.style.background = b2;
+      body.style.background = b3;
+
+      html.style.background = b1;
+      html.style.background = b2;
+      html.style.background = b3;
+    }
+
+    if (colorTheme === 'cotton-candy') {
+      setColorTheme('#aa4b6b', '-webkit-linear-gradient(to right, #3b8d99, #6b6b83, #aa4b6b)', 'linear-gradient(to right, #3b8d99, #6b6b83, #aa4b6b)');
+    } else if (colorTheme === 'orange-sunset') {
+      setColorTheme('#FF5F6D', '-webkit-linear-gradient(to right, #FFC371, #FF5F6D)', 'linear-gradient(to right, #FFC371, #FF5F6D)');
+    } else if (colorTheme === 'pearly-white') {
+      setColorTheme('#ADA996', '-webkit-linear-gradient(to right, #EAEAEA, #DBDBDB, #F2F2F2, #ADA996)', 'linear-gradient(to right, #EAEAEA, #DBDBDB, #F2F2F2, #ADA996)');
+    } else if (colorTheme === 'purple-sunset') {
+      setColorTheme('#7F00FF', '-webkit-linear-gradient(to right, #E100FF, #7F00FF)', 'linear-gradient(to right, #E100FF, #7F00FF)');
+    } else if (colorTheme === 'flamingo') {
+      setColorTheme('#ec008c', '-webkit-linear-gradient(to right, #fc6767, #ec008c)', 'linear-gradient(to right, #fc6767, #ec008c)');
+    } else if (colorTheme === 'northern-lights') {
+      setColorTheme(' #8360c3', '-webkit-linear-gradient(to right, #2ebf91, #8360c3)', 'linear-gradient(to right, #2ebf91, #8360c3)');
+    } else if (colorTheme === 'asteroid') {
+      setColorTheme(' #0F2027', '-webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027)', 'linear-gradient(to right, #2C5364, #203A43, #0F2027)');
+    }
   }
 </script>
 <script defer>
-  moveCheckBox(window.sessionStorage.getItem('theme') || 'midnight-check');
+  moveCheckBox(window.sessionStorage.getItem('theme') || 'cotton-candy');
 </script>

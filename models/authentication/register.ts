@@ -2,7 +2,6 @@ import ClientSchema from '../../schema/Client';
 import EmailConfirmationTokenSchema from '../../schema/EmailConfirmationToken';
 import queries from '../../helpers/queries/queries';
 import bcrypt from 'bcrypt';
-import Client from '../../schema/Client';
 
 type QueryResult = Promise<object | void>;
 
@@ -11,10 +10,11 @@ const hasStudentEmail = (e: string): boolean =>
   e.split('@')[1] === 'greatneck.k12.ny.us';
 
 const isFirstNameReal = (fName: string, e: string): boolean =>
-  fName.charAt(0) === e.charAt(0);
+  fName.charAt(0).toUpperCase() === e.charAt(0).toUpperCase();
 
 const isLastNameReal = (lName: string, e: string): boolean =>
-  e.split('@')[0].substring(1).slice(0, -1) === lName;
+  e.split('@')[0].substring(1).slice(0, -1).toUpperCase() ===
+  lName.toUpperCase();
 
 const doPasswordsMatch = (p1: string, p2: string): boolean =>
   p1.trim() === p2.trim();
@@ -36,6 +36,21 @@ const verifyToken = async (t: string): QueryResult =>
     filterValue: t,
   });
 
+const isPasswordSecure = (p: string): boolean => {
+  if (
+    p.length < 10 ||
+    p.includes('=') ||
+    p.includes('!') ||
+    p.includes('.') ||
+    p.includes('(') ||
+    p.includes(')')
+  ) {
+    return false;
+  }
+
+  return true;
+};
+
 const hashPassword = async (
   p: string,
   saltRounds: number
@@ -52,6 +67,7 @@ export default {
   isEmailInUse,
   storeConfEmailToken,
   verifyToken,
+  isPasswordSecure,
   hashPassword,
   createAccount,
 };

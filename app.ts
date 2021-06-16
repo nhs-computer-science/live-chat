@@ -5,6 +5,7 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import path from 'path';
 import dotenv from 'dotenv';
+import multer from 'multer';
 
 import passwordResetRoute from './routes/auth/password-reset';
 import attendanceTokenRoute from './routes/attendance/attendanceToken';
@@ -34,9 +35,31 @@ const clientP = mongoose
   })
   .then((m) => m.connection.getClient());
 
+const fileStorage = multer.diskStorage({
+  destination: (req: Request, file: File, cb: Function): void =>
+    cb(null, 'images'),
+  filename: (req: Request, file: File, cb: Function): void =>
+    cb(null, new Date().toISOString() + '-' + file.originalname),
+});
+
+const fileFilter = (req: Request, file: File, cb: Function): void => {
+  if (
+    file.mimetype === 'image/png' ||
+    file.mimetype === 'image/jpg' ||
+    file.mimetype === 'image/jpeg'
+  ) {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
+
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 app.use(Express.static(path.join(__dirname, './public')));
+app.use(
+  multer({ storage: fileStorage, fileFilter: fileFilter }).single('image')
+);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(
   session({

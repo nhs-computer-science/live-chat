@@ -2,16 +2,55 @@
   color: green;
   margin-top: 10px;
   margin-left: 5px;
+}
+
+#blacklist-form input,
+#blacklist-form button {
+  border-radius: 0px;
+  border: none;
+}
+
+#removed-blacklist-email-alert,
+#removed-blacklist-email-fail-alert,
+#blacklist-email-spinner-wrapper,
+#blacklist-failed-alert,
+#admin-token {
   display: none;
 }
 
-.admin-body-wrapper {
-  display: flex;
+#blacklist-form {
+  margin-bottom: 15px;
 }
 
 #show-admin-token-btn {
   height: 40px !important;
   margin-right: 10px;
+}
+
+.admin-body-wrapper,
+#blacklist-form {
+  display: flex;
+}
+
+.admin {
+  color: rgb(10, 151, 10);
+}
+
+.remove-blacklisted-email-btn {
+  margin-left: 45px;
+}
+
+.blacklisted-email-wrapper {
+  padding: 5px;
+  padding-left: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.blacklisted-email {
+  color: red;
+  margin: 0px;
 }
 
 .btn-link {

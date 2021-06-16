@@ -43,11 +43,8 @@ const findAll = async (schema: Model<any>, filters?: Filters): QueryResult =>
     ? await schema.find({ [filters.filterProperty]: filters.filterValue })
     : await schema.find();
 
-const create = async (schema: Model<any>, payload: object): QueryResult => {
-  const p = await schema.create({ ...payload });
-  console.log(p);
-  return p;
-};
+const create = async (schema: Model<any>, payload: object): QueryResult =>
+  await schema.create({ ...payload });
 
 export default {
   updateOne,

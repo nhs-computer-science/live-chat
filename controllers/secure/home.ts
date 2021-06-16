@@ -6,13 +6,17 @@ import chatFilter from '../../helpers/chatFilter/chatFilter';
 import dotenv from 'dotenv';
 import email from '../../email/skeleton';
 import path from 'path';
-import { resolveSoa } from 'node:dns';
 
 dotenv.config({ path: path.join(__dirname, '../env/.env') });
 
 const getHomePage = async (req: Request, res: Response) => {
   const session = req.session.client;
   res.render('secure/home', {
+    blacklistedEmails:
+      req.session.client.isAdmin ||
+      (await homeModel.isClientAdmin(session.email))
+        ? await homeModel.fetchBlacklistedEmails()
+        : [],
     isAdmin: await homeModel.isClientAdmin(session.email),
     messages: await homeModel.fetchMessages(),
     clients: await homeModel.fetchClients(),
@@ -28,29 +32,35 @@ const getHomePage = async (req: Request, res: Response) => {
 };
 
 const postHomePage = (req: Request, res: Response) => {
+  console.log(req.file);
   if (!req.session || !req.session.client) {
     return res.redirect('/regsiter/?serverSideError=yes');
   }
-
   let data: string = '';
-
   req.on('data', (chunk: Buffer): void => {
     data += chunk;
   });
 
   req.on('end', async (): Promise<void> => {
-    const payload: object = JSON.parse(data);
-
+    const payload: Payload = JSON.parse(data);
     if (payload.hasOwnProperty('password')) {
-      deleteAccount(payload.password, req, res);
+      deleteAccount(payload.password!, req, res);
     } else if (payload.hasOwnProperty('chat')) {
-      storeChatMessage(payload.chat, req, res);
+      storeChatMessage(payload.chat!, req, res);
     } else if (payload.hasOwnProperty('notificationEmails')) {
-      updateNotifications(payload.notificationEmails, req, res);
+      updateNotifications(payload.notificationEmails!, req, res);
     } else if (payload.hasOwnProperty('chatMessageId')) {
-      deleteChat(payload.chatMessageId, res);
+      deleteChat(payload.chatMessageId!, res);
+    } else if (payload.hasOwnProperty('blacklistedEmail')) {
+      blacklistEmail(payload.blacklistedEmail!, res);
+    } else if (payload.hasOwnProperty('blacklistedEmailRemoval')) {
+      removeBlacklistedEmail(payload.blacklistedEmailRemoval!, res);
+    } else if (payload.hasOwnProperty('image')) {
+      console.log(payload.image);
+    } else if (payload.hasOwnProperty('removeAdminStatus')) {
+      updateAdminStatus(null, req, res, true);
     } else {
-      updateAdminStatus(payload.adminToken, req, res);
+      updateAdminStatus(payload.adminToken!, req, res);
     }
   });
 };
@@ -74,7 +84,10 @@ const storeChatMessage = async (
   res: Response
 ): Promise<void> => {
   const e: string = req.session.client.email;
-  if (await homeModel.storeMessage(c, e)) {
+  if (
+    !(await homeModel.isEmailBlacklisted(e)) &&
+    (await homeModel.storeMessage(c, req.session.client))
+  ) {
     homeModel.sendNotifications(e, c);
     res.send(true);
   } else {
@@ -94,7 +107,7 @@ const updateNotifications = async (
   }
 };
 
-const deleteChat = async (id: string, res: Response) => {
+const deleteChat = async (id: string, res: Response): Promise<void> => {
   if (await homeModel.deleteChatMessage(id)) {
     res.send(true);
   } else {
@@ -102,22 +115,64 @@ const deleteChat = async (id: string, res: Response) => {
   }
 };
 
-const updateAdminStatus = async (
-  t: string,
-  req: Request,
+const blacklistEmail = async (e: string, res: Response): Promise<void> => {
+  const client = { ...(await homeModel.findClient(e)) };
+  if (
+    JSON.stringify(client) === '{}' ||
+    (await homeModel.isEmailBlacklisted(e))
+  ) {
+    res.send(false);
+  } else {
+    if (
+      await homeModel.blacklistClient(
+        client._doc.email,
+        client._doc.firstName,
+        client._doc.lastName
+      )
+    ) {
+      res.send(true);
+    } else {
+      res.send(false);
+    }
+  }
+};
+
+const removeBlacklistedEmail = async (
+  e: string,
   res: Response
 ): Promise<void> => {
-  const e = req.session.client.email;
-  if (t === process.env.ADMIN_TOKEN) {
-    await homeModel.updateAdminStatus(e);
+  if (await homeModel.removeBlacklistedEmail(e)) {
     res.send(true);
   } else {
-    await email(
-      process.env.NODEMAILER_USER!,
-      'Someone Failed to Authenticate as Admin!',
-      `Client: ${e}`
-    );
     res.send(false);
+  }
+};
+
+const updateAdminStatus = async (
+  t: string | null,
+  req: Request,
+  res: Response,
+  removeAdmin?: boolean
+): Promise<void> => {
+  const e = req.session.client.email;
+
+  if (removeAdmin) {
+    await homeModel
+      .updateAdminStatus(e, false)
+      .catch((): Response<void> => res.send(false));
+    res.send(true);
+  } else {
+    if (t === process.env.ADMIN_TOKEN) {
+      await homeModel.updateAdminStatus(e, true);
+      res.send(true);
+    } else {
+      await email(
+        process.env.NODEMAILER_USER!,
+        'Someone Failed to Authenticate as Admin!',
+        `Client: ${e}`
+      );
+      res.send(false);
+    }
   }
 };
 

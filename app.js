@@ -10,6 +10,7 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const path_1 = __importDefault(require("path"));
 const dotenv_1 = __importDefault(require("dotenv"));
+const multer_1 = __importDefault(require("multer"));
 const password_reset_1 = __importDefault(require("./routes/auth/password-reset"));
 const attendanceToken_1 = __importDefault(require("./routes/attendance/attendanceToken"));
 const attendance_1 = __importDefault(require("./routes/attendance/attendance"));
@@ -26,9 +27,24 @@ const clientP = mongoose_1.default
     useFindAndModify: false,
 })
     .then((m) => m.connection.getClient());
+const fileStorage = multer_1.default.diskStorage({
+    destination: (req, file, cb) => cb(null, 'images'),
+    filename: (req, file, cb) => cb(null, new Date().toISOString() + '-' + file.originalname),
+});
+const fileFilter = (req, file, cb) => {
+    if (file.mimetype === 'image/png' ||
+        file.mimetype === 'image/jpg' ||
+        file.mimetype === 'image/jpeg') {
+        cb(null, true);
+    }
+    else {
+        cb(null, false);
+    }
+};
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 app.use(express_1.default.static(path_1.default.join(__dirname, './public')));
+app.use(multer_1.default({ storage: fileStorage, fileFilter: fileFilter }).single('image'));
 app.use(body_parser_1.default.urlencoded({ extended: false }));
 app.use(express_session_1.default({
     secret: process.env.CLIENT_SECRET,

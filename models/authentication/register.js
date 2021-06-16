@@ -9,8 +9,9 @@ const queries_1 = __importDefault(require("../../helpers/queries/queries"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const hasStudentEmail = (e) => e.split('@')[1] === 'student.gn.k12.ny.us' ||
     e.split('@')[1] === 'greatneck.k12.ny.us';
-const isFirstNameReal = (fName, e) => fName.charAt(0) === e.charAt(0);
-const isLastNameReal = (lName, e) => e.split('@')[0].substring(1).slice(0, -1) === lName;
+const isFirstNameReal = (fName, e) => fName.charAt(0).toUpperCase() === e.charAt(0).toUpperCase();
+const isLastNameReal = (lName, e) => e.split('@')[0].substring(1).slice(0, -1).toUpperCase() ===
+    lName.toUpperCase();
 const doPasswordsMatch = (p1, p2) => p1.trim() === p2.trim();
 const isEmailInUse = async (e) => await queries_1.default.findOne({
     schema: Client_1.default,
@@ -23,6 +24,17 @@ const verifyToken = async (t) => await queries_1.default.findOne({
     filterProperty: 'token',
     filterValue: t,
 });
+const isPasswordSecure = (p) => {
+    if (p.length < 10 ||
+        p.includes('=') ||
+        p.includes('!') ||
+        p.includes('.') ||
+        p.includes('(') ||
+        p.includes(')')) {
+        return false;
+    }
+    return true;
+};
 const hashPassword = async (p, saltRounds) => await bcrypt_1.default.hash(p, saltRounds);
 const createAccount = async (payload) => await queries_1.default.create(Client_1.default, { ...payload });
 exports.default = {
@@ -33,6 +45,7 @@ exports.default = {
     isEmailInUse,
     storeConfEmailToken,
     verifyToken,
+    isPasswordSecure,
     hashPassword,
     createAccount,
 };

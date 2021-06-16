@@ -1,18 +1,22 @@
 import bcrpyt from 'bcrypt';
+import { Model } from 'mongoose';
 
 import ClientSchema from '../../schema/Client';
 import MessageSchema from '../../schema/Message';
 import queries from '../../helpers/queries/queries';
 import email from '../../email/skeleton';
+import BlacklistedSchema from '../../schema/blacklistedEmail';
 
 type QueryResult = Promise<object | void>;
 
 const fetchMessages = async (): QueryResult =>
   await queries.findAll(MessageSchema);
 
-const storeMessage = async (c: string, e: string): QueryResult =>
+const storeMessage = async (c: string, client: object): QueryResult =>
   await queries.create(MessageSchema, {
-    email: e,
+    email: client.email,
+    firstName: client.firstName,
+    lastName: client.lastName,
     message: c,
   });
 
@@ -46,7 +50,7 @@ const sendNotifications = async (
   for (const client in clients!) {
     const notificationEmails: string[] = clients[client].notifications || [];
 
-    for (const e of clients[client].notifications || []) {
+    for (const e of notificationEmails) {
       if (e === senderEmail) {
         email(
           clients[client].email,
@@ -57,6 +61,13 @@ const sendNotifications = async (
     }
   }
 };
+
+const findClient = async (e: string): Promise<object | void> =>
+  await queries.findOne({
+    schema: ClientSchema,
+    filterProperty: 'email',
+    filterValue: e,
+  });
 
 const isClientAdmin = async (e: string): Promise<boolean> => {
   const client = await queries.findOne({
@@ -75,13 +86,43 @@ const deleteChatMessage = async (id: string): QueryResult =>
     filterValue: id,
   });
 
+const blacklistClient = async (
+  e: string,
+  fn: string,
+  ln: string
+): Promise<object | void> => {
+  console.log('in here');
+  return await queries.create(BlacklistedSchema, {
+    email: e,
+    firstName: fn,
+    lastName: ln,
+  });
+};
+
 const fetchAllAdmins = async (): QueryResult =>
   await queries.findAll(ClientSchema, {
     filterProperty: 'isAdmin',
     filterValue: true,
   });
 
-const updateAdminStatus = async (e: string): QueryResult =>
+const fetchBlacklistedEmails = async (): QueryResult =>
+  await queries.findAll(BlacklistedSchema);
+
+const isEmailBlacklisted = async (e: string): QueryResult =>
+  await queries.findOne({
+    schema: BlacklistedSchema,
+    filterProperty: 'email',
+    filterValue: e,
+  });
+
+const removeBlacklistedEmail = async (e: string): QueryResult =>
+  await queries.deleteEntries({
+    schema: BlacklistedSchema,
+    filterProperty: 'email',
+    filterValue: e,
+  });
+
+const updateAdminStatus = async (e: string, isAdmin: boolean): QueryResult =>
   await queries.updateOne(
     {
       schema: ClientSchema,
@@ -89,7 +130,7 @@ const updateAdminStatus = async (e: string): QueryResult =>
       filterValue: e,
     },
     'isAdmin',
-    true
+    isAdmin
   );
 
 export default {
@@ -103,5 +144,10 @@ export default {
   isClientAdmin,
   deleteChatMessage,
   fetchAllAdmins,
+  findClient,
+  fetchBlacklistedEmails,
+  isEmailBlacklisted,
   updateAdminStatus,
+  removeBlacklistedEmail,
+  blacklistClient,
 };

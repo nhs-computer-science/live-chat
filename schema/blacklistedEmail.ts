@@ -1,6 +1,6 @@
 import Mongoose from 'mongoose';
 
-const Message = new Mongoose.Schema(
+const BlacklistedEmail = new Mongoose.Schema(
   {
     email: {
       type: String,
@@ -13,12 +13,8 @@ const Message = new Mongoose.Schema(
     lastName: {
       type: String,
     },
-
-    message: {
-      type: String,
-    },
   },
   { timestamps: true }
 );
 
-export default Mongoose.model('messages', Message);
+export default Mongoose.model('blacklistedEmail', BlacklistedEmail);

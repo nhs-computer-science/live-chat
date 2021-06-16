@@ -35,13 +35,13 @@ window.addEventListener('load', () => {
 });
 const clearChatMessage = () => setValue(chatMessage, '');
 const storeChatMessage = () => {
-    const serverError = document.getElementById('sever-error');
+    const serverError = document.getElementById('server-error');
     setVisibility(chatMessageSpinnerWrapper, true);
     POSTRequest('/home', { chat: chatMessage.value.trim() }, (responseData) => {
-        if (!responseData) {
+        if (responseData === 'false') {
             setTimeout(() => {
-                setVisibility(chatMessageSpinnerWrapper, false);
                 setVisibility(serverError, true);
+                setVisibility(chatMessageSpinnerWrapper, false);
                 clearChatMessage();
             }, 500);
         }

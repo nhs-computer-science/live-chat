@@ -9,10 +9,12 @@ const enableNotificationsBtns: NodeListOf<Element> = document.querySelectorAll(
   '.enable-notifications-btn'
 )!;
 const saveChangesBtn: HTMLElement =
-  document.getElementById('save-changes-btn')!;
+  document.querySelector('.save-changes-btn')!;
+
 const receiveNotificationsSpinnerWrapper = document.getElementById(
   'receive-notifications-spinner-wrapper'
 )!;
+
 const settingsUpdatedAlert: HTMLElement = document.getElementById(
   'settings-updated-alert'
 )!;
@@ -62,7 +64,20 @@ notificationsModalBtn.addEventListener('click', (): void => {
   });
 });
 
-const changeBtnAppearence = (btn: Element): void => {
+const changeBtnAppearence = (btn: Element, d?: string): void => {
+  if (d === 'enable') {
+    console.log('enabled');
+    setTextContent(btn, 'Enable');
+    changeClass(btn, 'btn-success', true);
+    changeClass(btn, 'btn-danger', false);
+    return;
+  } else if (d === 'disable') {
+    console.log('disabled');
+    setTextContent(btn, 'Disable');
+    changeClass(btn, 'btn-danger', true);
+    changeClass(btn, 'btn-success', false);
+    return;
+  }
   if (btn.textContent === 'Enable') {
     setTextContent(btn, 'Disable');
     changeClass(btn, 'btn-success', false);
@@ -92,13 +107,13 @@ accessBtns((btn: Element): void => {
 receiveAllNotificationsBtn.addEventListener('click', (): void => {
   hideSettingsUpdatedAlert();
 
-  accessBtns((btn: Element): void => changeBtnAppearence(btn));
-
   if (receiveAllNotificationsBtn.textContent === 'Enable') {
+    accessBtns((btn: Element): void => changeBtnAppearence(btn, 'disable'));
     setTextContent(receiveAllNotificationsBtn, 'Disable');
     changeClass(receiveAllNotificationsBtn, 'btn-success', false);
     changeClass(receiveAllNotificationsBtn, 'btn-danger', true);
   } else {
+    accessBtns((btn: Element): void => changeBtnAppearence(btn, 'enable'));
     setTextContent(receiveAllNotificationsBtn, 'Enable');
     changeClass(receiveAllNotificationsBtn, 'btn-danger', false);
     changeClass(receiveAllNotificationsBtn, 'btn-success', true);

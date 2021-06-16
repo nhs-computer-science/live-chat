@@ -1,5 +1,7 @@
 #color-themes {
   padding: 0px;
+  overflow: scroll;
+  max-height: 200px;
 }
 
 #theme-header {
@@ -41,7 +43,7 @@
 }
 
 .color-theme button {
-  width: 175px;
+  width: 200px;
   padding: 5px;
 }
 

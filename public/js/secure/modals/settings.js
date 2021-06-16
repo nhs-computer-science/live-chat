@@ -1,6 +1,6 @@
 "use strict";
 const settingsModalBtn = document.querySelector('.settings-modal-btn');
-const adminToken = document.getElementById('admin-token');
+const adminToken = document.getElementById('admin-t');
 const submitAdminTokenBtn = document.getElementById('submit-admin-token-btn');
 const invalidAdminTokenAlert = document.getElementById('invalid-admin-token-alert');
 const adminTokenSpinnerWrapper = document.getElementById('admin-token-spinner-wrapper');
@@ -21,7 +21,7 @@ submitAdminTokenBtn.addEventListener('click', () => {
         }
         else {
             adminTokenPostRequestFinished();
-            window.location.reload();
+            location.reload();
         }
         setValue(adminToken, '');
     });
