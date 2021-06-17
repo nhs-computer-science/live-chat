@@ -70,3 +70,11 @@ p {
 a {
   text-decoration: underline !important;
 }
+
+@media (max-width: 500px) and (orientation: portrait) {
+  #register-form,
+  #login-form {
+    margin-top: 50px;
+    width: 80%;
+  }
+}
