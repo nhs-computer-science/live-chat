@@ -39,10 +39,4 @@ const deleteFileExtension = (
   });
 };
 
-module.exports.deepFileExtensionRemoval = (
-  extension: string,
-  p: string
-): void =>
-  ls(p, (results: string[]): void =>
-    deleteFileExtension(results, extension, p)
-  );
+ls('./', (results: string[]): void => deleteFileExtension(results, 'js', './'));
