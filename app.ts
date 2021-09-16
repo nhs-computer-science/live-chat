@@ -36,13 +36,13 @@ const clientP = mongoose
   .then((m) => m.connection.getClient());
 
 const fileStorage = multer.diskStorage({
-  destination: (req: Request, file: File, cb: Function): void =>
+  destination: (_req: Request, _file: File, cb: Function): void =>
     cb(null, 'images'),
-  filename: (req: Request, file: File, cb: Function): void =>
+  filename: (_req: Request, file: File, cb: Function): void =>
     cb(null, new Date().toISOString() + '-' + file.originalname),
 });
 
-const fileFilter = (req: Request, file: File, cb: Function): void => {
+const fileFilter = (_req: Request, file: File, cb: Function): void => {
   if (
     file.mimetype === 'image/png' ||
     file.mimetype === 'image/jpg' ||
@@ -76,7 +76,7 @@ app.use(
   })
 );
 
-app.get('/', (req: Request, res: Response): void => {
+app.get('/', (_req: Request, res: Response): void => {
   res.redirect('/register');
 });
 

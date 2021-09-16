@@ -1,6 +1,4 @@
 import bcrpyt from 'bcrypt';
-import { Model } from 'mongoose';
-
 import ClientSchema from '../../schema/Client';
 import MessageSchema from '../../schema/Message';
 import queries from '../../helpers/queries/queries';
@@ -12,7 +10,14 @@ type QueryResult = Promise<object | void>;
 const fetchMessages = async (): QueryResult =>
   await queries.findAll(MessageSchema);
 
-const storeMessage = async (c: string, client: object): QueryResult =>
+interface Message {
+  email: string;
+  firstName: string;
+  lastName: string;
+  message: string;
+}
+
+const storeMessage = async (c: string, client: Message): QueryResult =>
   await queries.create(MessageSchema, {
     email: client.email,
     firstName: client.firstName,
@@ -46,6 +51,7 @@ const sendNotifications = async (
   senderEmail: string,
   chat: string
 ): Promise<void> => {
+  console.log(true);
   const clients: any = { ...(await fetchClients()) };
   for (const client in clients!) {
     const notificationEmails: string[] = clients[client].notifications || [];

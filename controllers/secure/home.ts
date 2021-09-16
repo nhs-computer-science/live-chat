@@ -10,6 +10,7 @@ import path from 'path';
 dotenv.config({ path: path.join(__dirname, '../env/.env') });
 
 const getHomePage = async (req: Request, res: Response) => {
+  console.log(req.session.client);
   const session = req.session.client;
   res.render('secure/home', {
     blacklistedEmails:

@@ -23,11 +23,11 @@
                 Dont't have an attendance token? Click <a href="/attendance-token">here</a> to get one!
             </div>
             <img src="/images/logo.png" width="60" height="60"/>
-            <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Email" name="email" required value="akhazzam1@student.gn.k12.ny.us">
+            <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Email" name="email" required>
             <% if (authFailed) { %>
                 <p class="auth-failed">Invalid email and/or password!</p>
             <% } %>
-            <input type="password" class="form-control" id="password" aria-describedby="emailHelp" placeholder="Password" name="password" required value="123">
+            <input type="password" class="form-control" id="password" aria-describedby="emailHelp" placeholder="Password" name="password" required>
             <% if (authFailed) { %>
                 <p class="auth-failed">Invalid email and/or password!</p>
             <% } %>
@@ -38,7 +38,7 @@
                 </div>
             </div>
             <p>Don't have an account? Register <a href="/register">here!</a></p>  
-            <p>Forgot your password? Recover or change it <a href="/password-reset">here!</a></p>   
+            <p>Forgot your password? Create a new one <a href="/password-reset">here!</a></p>   
         </form> 
     </div>
 </body>

@@ -127,7 +127,7 @@ const disableSaveChangesBtn = (): void => {
 
 saveChangesBtn.addEventListener('click', (): void => {
   accessBtns((btn: Element): void => {
-    if (btn.textContent === 'Enable') {
+    if (btn.textContent === 'Disable') {
       addEmail(btn);
       sessionStorage.setItem(btn.id, 'btn-success');
     } else {
@@ -160,6 +160,7 @@ saveChangesBtn.addEventListener('click', (): void => {
         if (responseData === 'false') {
           postRequestFinished(settingsUpdatedAlert);
         } else {
+          console.log(true);
           postRequestFinished(settingsUpdatedAlert);
         }
       }

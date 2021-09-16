@@ -18,6 +18,12 @@
   text-align: center;
 }
 
+#maintenance {
+  color: red;
+  text-align: center;
+  margin-top: 10px;
+}
+
 #receive-all-header {
   color: white;
   margin: 0px;
