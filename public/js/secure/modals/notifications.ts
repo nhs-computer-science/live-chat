@@ -160,7 +160,6 @@ saveChangesBtn.addEventListener('click', (): void => {
         if (responseData === 'false') {
           postRequestFinished(settingsUpdatedAlert);
         } else {
-          console.log(true);
           postRequestFinished(settingsUpdatedAlert);
         }
       }
