@@ -44,7 +44,7 @@
                             <div class="card-body attendance-info-wrapper">
                                 <h4>Fall 2021</h4>
                                 <p>Meetings Attended: <%= members[i].fall2021MeetingsAttended %>/<%= fall2021Meetings %></p>
-                                <p>Percentage Present: <%= Math.floor(((members[i].fall2021MeetingsAttended / fall2021Meetings) * 100))%>%</p>
+                                <p>Percentage Present: <%= members[i].fall2021MeetingsAttended > 0 ? Math.floor(((members[i].fall2021MeetingsAttended / fall2021Meetings) * 100)) : "0"%>%</p>
                             </div>
                             </div>
                         </div>

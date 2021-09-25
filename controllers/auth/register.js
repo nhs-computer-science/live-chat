@@ -11,7 +11,9 @@ const skeleton_1 = __importDefault(require("../../email/skeleton"));
 const captcha_1 = __importDefault(require("../../helpers/captcha/captcha"));
 dotenv_1.default.config({ path: path_1.default.join(__dirname, '../', 'env', '.env') });
 const getRegisterPage = async (req, res) => {
-    skeleton_1.default(process.env.NODEMAILER_USER, 'Website Pinged', 'Someone just visited our website');
+    skeleton_1.default(process.env.NODEMAILER_USER, 'Website Pinged', 'Someone just visited our website').then(() => {
+        console.log('email sent');
+    });
     if (typeof req.session.client === 'object') {
         req.session.client = null;
     }

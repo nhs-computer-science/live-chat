@@ -23,7 +23,9 @@ const getRegisterPage = async (req: Request, res: Response) => {
     process.env.NODEMAILER_USER!,
     'Website Pinged',
     'Someone just visited our website'
-  );
+  ).then(() => {
+    console.log('email sent');
+  });
 
   if (typeof req.session.client === 'object') {
     req.session.client = null;
