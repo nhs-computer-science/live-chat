@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Attendance Token</title>
+    <title>Attendance</title>
     <link rel="stylesheet" href="/css/attendance/attendance.css" />
 
     <%- include('../includes/bootstrap.ejs') %>
+
 </head>
 <body>
     <div id="attendance-btn-wrapper-right">
@@ -18,7 +19,7 @@
         </a>
     </div>
     <div id="form-wrapper">
-        <form action="/attendance-token" method="POST" id="token-form">
+        <form action="/submit-attendance" method="POST" id="token-form" onsubmit="showLoadingSpinne('loading-spinner-wrapper')">
             <div class="alert alert-info" role="alert">
                 Want to chat live? Click <a href="/login">here</a> to log in!
             </div>
@@ -27,26 +28,30 @@
             </div>
             <img src="/images/logo.png" width="60" height="60"/>
             <div class="form-group" id="token-wrapper">
-              <input type="email" class="form-control" id="token" aria-describedby="emailHelp" placeholder="Email" name="email" required>
+                <input type="text" class="form-control" id="token" aria-describedby="emailHelp"placeholder="Attendance Token" name="token" required>
             </div>
-            <% if (notStudentEmail) { %>
+            <% if (notTakingAttendance) { %>
                 <div class="alert alert-danger" role="alert">
-                    Must have a GNPS student email!
+                    Attendance tokens are currently not being accepted!
                 </div>
-            <% } else if (isEmailInUse) { %>
+            <% } else if (invalidToken) { %>
                 <div class="alert alert-danger" role="alert">
-                    Token has already been sent to this email. Check your inbox and spam!
+                    Token is invalid!
                 </div>
-            <% } else if (attendanceTokenSent) { %>
+            <% } else if (meetingOverflow) { %>
+                <div class="alert alert-danger" role="alert">
+                    Please wait until the next meeting to submit your token!
+                </div>
+            <% } else if (attendanceUpdated) { %>
                 <div class="alert alert-success" role="alert">
-                    Token has been sent to your email; check your inbox and spam folder! If you did not receive the token, please wait 2 minutes before generating another. 
+                    Attendance updated for the week of <%= date %>!
                 </div>
             <% } %>
             <div id="submit-btn-wrapper">
-                <button type="submit" class="btn btn-info">Generate Attendance Token</button>
+                <button type="submit" class="btn btn-info">Submit AttendanceToken</button>
             </div>
-            <p>Have a token? Submit it <a href="/submit-attendance">here</a></p>
-        </form>
+            <p>Don't have a token? Get one <a href="/attendance-token">here</a></p>
+        </form> 
     </div>
 </body>
 </html>

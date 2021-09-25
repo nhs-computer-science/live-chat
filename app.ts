@@ -9,6 +9,7 @@ import multer from 'multer';
 
 import passwordResetRoute from './routes/auth/password-reset';
 import attendanceTokenRoute from './routes/attendance/attendanceToken';
+import submitAttendanceRoute from './routes/attendance/submitAttendance';
 import attendanceRoute from './routes/attendance/attendance';
 import registerRoute from './routes/auth/register';
 import loginRoute from './routes/auth/login';
@@ -83,8 +84,9 @@ app.get('/', (_req: Request, res: Response): void => {
 app.use('/password-reset', passwordResetRoute);
 app.use('/register', registerRoute);
 app.use('/login', loginRoute);
-app.use('/attendance', attendanceRoute);
+app.use('/submit-attendance', submitAttendanceRoute);
 app.use('/attendance-token', attendanceTokenRoute);
+app.use('/attendance', attendanceRoute);
 
 app.use('/', authenticateSession);
 

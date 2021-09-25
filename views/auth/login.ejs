@@ -17,7 +17,7 @@
     <div id="form-wrapper">
         <form action="/login" method="POST" id="login-form" onsubmit="showLoadingSpinner('loading-spinner-wrapper')">
             <div class="alert alert-info" role="alert">
-                Want to submit your attendance token? Click <a href="/attendance">here!</a>
+                Want to submit your attendance token? Click <a href="/submit-attendance">here!</a>
             </div>
             <div class="alert alert-info" role="alert">
                 Dont't have an attendance token? Click <a href="/attendance-token">here</a> to get one!
@@ -27,7 +27,7 @@
             <% if (authFailed) { %>
                 <p class="auth-failed">Invalid email and/or password!</p>
             <% } %>
-            <input type="password" class="form-control" id="password" aria-describedby="emailHelp" placeholder="Password" name="password" required>
+            <input type="password" class="form-control" id="password" aria-describedby="emailHelp" placeholder="Password" name="password"required>
             <% if (authFailed) { %>
                 <p class="auth-failed">Invalid email and/or password!</p>
             <% } %>

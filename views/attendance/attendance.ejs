@@ -11,40 +11,49 @@
 
 </head>
 <body>
+    <div id="attendance-btn-wrapper-left">
+        <a href="/register">
+            <div id="go-back-btn">
+                <button type="button" class="btn btn-success">
+                    <img src="https://img.icons8.com/ios/24/000000/circled-left.png" width="25" height="25"/>
+                    Go back!
+                </button>
+            </div>
+        </a>
+    </div>
     <div id="form-wrapper">
-        <form action="/attendance" method="POST" id="token-form" onsubmit="showLoadingSpinne('loading-spinner-wrapper')">
-            <div class="alert alert-info" role="alert">
-                Want to chat live? Click <a href="/login">here</a> to log in!
+        <form action="/attendance" method="POST" id="token-form">
+            <div class="form-group" id="search-for-member-wrapper">
+                <input type="text" class="form-control" id="member" placeholder="Member Name" name="member" required>
+                <button type="submit" class="btn btn-info">Search</button>
             </div>
-            <div class="alert alert-info" role="alert">
-                Don't have an account? Click <a href="/register">here</a> to register!
-            </div>
-            <img src="/images/logo.png" width="60" height="60"/>
-            <div class="form-group" id="token-wrapper">
-                <input type="text" class="form-control" id="token" aria-describedby="emailHelp"placeholder="Attendance Token" name="token" required>
-            </div>
-            <% if (notTakingAttendance) { %>
-                <div class="alert alert-danger" role="alert">
-                    Attendance tokens are currently not being accepted!
-                </div>
-            <% } else if (invalidToken) { %>
-                <div class="alert alert-danger" role="alert">
-                    Token is invalid!
-                </div>
-            <% } else if (meetingOverflow) { %>
-                <div class="alert alert-danger" role="alert">
-                    Please wait until the next meeting to submit your token!
-                </div>
-            <% } else if (attendanceUpdated) { %>
-                <div class="alert alert-success" role="alert">
-                    Attendance updated for the week of <%= date %>!
-                </div>
+        <% if (members) { %>
+            <p id="member-result-count"><%= members.length %> results found for "<%= searchText %>"</p>
+        <% } %>
+        <div class="accordion member-attendances" id="accordionExample">
+            <% if (members) { %>
+                <% for (let i = 0; i < members.length; i++) { %>
+                        <div class="card">
+                            <div class="card-header" id="heading<%= i %>">
+                                <button class="btn btn-link member-btn" type="button" data-toggle="collapse" data-target="#collapse<%= i %>" aria-expanded="true" aria-controls="collapse<%= i %>">
+                                    [<%= i + 1 %>] <%=  members[i].email %>
+                                    <img src="https://img.icons8.com/ios/50/000000/circled-chevron-down.png" height="25" width="25"/>
+                                </button>
+                            </div>
+                            <div id="collapse<%= i %>" class="collapse" aria-labelledby="heading<%= i %>" data-parent="#accordionExample">
+                            <div class="card-body attendance-info-wrapper">
+                                <h4>Fall 2021</h4>
+                                <p>Meetings Attended: <%= members[i].fall2021MeetingsAttended %>/<%= fall2021Meetings %></p>
+                                <p>Percentage Present: <%= Math.floor(((members[i].fall2021MeetingsAttended / fall2021Meetings) * 100))%>%</p>
+                            </div>
+                            </div>
+                        </div>
+                <% } %>
+            <% } else if (searchText) { %>
+                <p id="member-result-count">No results found for "<%= searchText %>"</p>
             <% } %>
-            <div id="submit-btn-wrapper">
-                <button type="submit" class="btn btn-info">Submit AttendanceToken</button>
-            </div>
-            <p>Don't have a token? Get one <a href="/attendance-token">here</a></p>
-        </form> 
+        </div>
+    </form>
     </div>
 </body>
 </html>

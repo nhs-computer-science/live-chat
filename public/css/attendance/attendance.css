@@ -14,6 +14,36 @@ body {
   background: linear-gradient(to right, #3b8d99, #6b6b83, #aa4b6b);
 }
 
+.attendance-info-wrapper,
+#member-result-count {
+  text-align: center;
+}
+
+.attendance-info-wrapper p {
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+}
+
+.attendance-info-wrapper h4 {
+  margin-bottom: 20px !important;
+}
+
+.member-btn {
+  width: 100%;
+  color: black !important;
+}
+
+.member-attendances {
+  max-height: 500px;
+  overflow-y: scroll;
+}
+
+#member-result-count {
+  margin: 0px !important;
+  margin-bottom: 10px !important;
+  color: #17a2b8;
+}
+
 #form-wrapper {
   height: 100vh;
   display: flex;
@@ -34,6 +64,27 @@ body {
 
 #token-wrapper {
   margin-top: 20px;
+}
+
+#search-for-member-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+#search-for-member-wrapper button {
+  margin-left: 10px;
+}
+
+#attendance-btn-wrapper-right {
+  text-align: right;
+  padding-top: 10px;
+  padding-right: 10px;
+}
+
+#attendance-btn-wrapper-left {
+  padding-top: 10px;
+  padding-left: 10px;
+  text-align: left;
 }
 
 .alert {
