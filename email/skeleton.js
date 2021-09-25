@@ -16,7 +16,7 @@ exports.default = async (recipient, subject, text) => {
         host,
         port,
         secure: false,
-        requireTLS: true,
+        ssl: false,
         auth: {
             user,
             pass,
