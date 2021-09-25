@@ -18,6 +18,7 @@ export default async (
     host,
     port,
     secure: false,
+    requireTLS: true,
     auth: {
       user,
       pass,
