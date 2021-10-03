@@ -57,7 +57,8 @@
                         </div>
                     <% } %>
                     <input type="text" class="form-control" id="token" aria-describedby="emailHelp" placeholder="Token" name="token" required>
-                <% } %>
+                    <% } %>
+                    <p>Passwords are securely hashed using the <a href="https://www.npmjs.com/package/bcrypt">bcryt</a> library.</p>
                 <div id="submit-btn-wrapper">
                     <button type="submit" class="btn btn-info" id="create-account-btn">Create Account</button>
                     <div class="spinner-border text-primary loading-spinner-wrapper" role="status">
