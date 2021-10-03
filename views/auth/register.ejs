@@ -56,7 +56,7 @@
                 <% } else { %>
                     <% if (!accountCreated && !invalidToken) { %>
                         <div class="alert alert-success" role="alert">
-                            A conformation token was sent to your email. Please enter it below!
+                            A conformation token was sent to your email. Please enter it below! Note: token expires in 30 seconds. 
                         </div>
                     <% } %>
                     <input type="text" class="form-control" id="token" aria-describedby="emailHelp" placeholder="Token" name="token" required>
