@@ -127,19 +127,18 @@ const storeChatMessage = (): void => {
           clearChatMessage();
         }, 500);
       } else {
-        console.log(responseData);
-        socket.emit('chat-sent', {
-          firstName: JSON.parse(responseData).client.firstName,
-          lastName: JSON.parse(responseData).client.lastName,
-          createdAt: JSON.parse(responseData).createdAt,
-          isAdmin: JSON.parse(responseData).isAdmin,
-          id: JSON.parse(responseData).id
-          chat: chatMessage.value.trim(),
-        });
-        scrollToLastChat();
         setTimeout((): void => {
           setVisibility(chatMessageSpinnerWrapper, false);
           clearChatMessage();
+          socket.emit('chat-sent', {
+            firstName: JSON.parse(responseData).client.firstName,
+            lastName: JSON.parse(responseData).client.lastName,
+            createdAt: JSON.parse(responseData).createdAt,
+            isAdmin: JSON.parse(responseData).isAdmin,
+            id: JSON.parse(responseData).id
+            chat: chatMessage.value.trim(),
+          });
+          scrollToLastChat();
         }, 500);
       }
     }
