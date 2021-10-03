@@ -13,9 +13,6 @@ const getAttendancePage = async (
     members: req.query.searchText
       ? (await attendanceModel.retrieveAllAttendances()).filter(
           (obj) =>
-            obj.email
-              .toUpperCase()
-              .includes(req.query.searchText.toUpperCase()) ||
             obj.email.toUpperCase() === req.query.searchText.toUpperCase()
         )
       : null,

@@ -10,10 +10,7 @@ dotenv_1.default.config({ path: path_1.default.join(__dirname, '../', '../', './
 const getAttendancePage = async (req, res) => {
     res.render('attendance/attendance', {
         members: req.query.searchText
-            ? (await attendance_1.default.retrieveAllAttendances()).filter((obj) => obj.email
-                .toUpperCase()
-                .includes(req.query.searchText.toUpperCase()) ||
-                obj.email.toUpperCase() === req.query.searchText.toUpperCase())
+            ? (await attendance_1.default.retrieveAllAttendances()).filter((obj) => obj.email.toUpperCase() === req.query.searchText.toUpperCase())
             : null,
         searchText: req.query.searchText || false,
         fall2021Meetings: process.env.FALL_2021_MEETINGS,
