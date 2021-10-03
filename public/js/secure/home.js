@@ -104,17 +104,19 @@ const storeChatMessage = () => {
             }, 500);
         }
         else {
-            setVisibility(chatMessageSpinnerWrapper, false);
-            clearChatMessage();
-            socket.emit('chat-sent', {
-                firstName: JSON.parse(responseData).client.firstName,
-                lastName: JSON.parse(responseData).client.lastName,
-                createdAt: JSON.parse(responseData).createdAt,
-                isAdmin: JSON.parse(responseData).isAdmin,
-                id: JSON.parse(responseData).id,
-                chat: chatMessage.value.trim(),
-            });
-            scrollToLastChat();
+            setTimeout(() => {
+                setVisibility(chatMessageSpinnerWrapper, false);
+                socket.emit('chat-sent', {
+                    firstName: JSON.parse(responseData).client.firstName,
+                    lastName: JSON.parse(responseData).client.lastName,
+                    createdAt: JSON.parse(responseData).createdAt,
+                    isAdmin: JSON.parse(responseData).isAdmin,
+                    id: JSON.parse(responseData).id,
+                    chat: chatMessage.value.trim(),
+                });
+                scrollToLastChat();
+                clearChatMessage();
+            }, 250);
         }
     });
 };

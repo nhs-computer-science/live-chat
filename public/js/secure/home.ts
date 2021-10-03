@@ -127,8 +127,8 @@ const storeChatMessage = (): void => {
           clearChatMessage();
         }, 500);
       } else {
+        setTimeout((): void => {
           setVisibility(chatMessageSpinnerWrapper, false);
-          clearChatMessage();
           socket.emit('chat-sent', {
             firstName: JSON.parse(responseData).client.firstName,
             lastName: JSON.parse(responseData).client.lastName,
@@ -138,6 +138,8 @@ const storeChatMessage = (): void => {
             chat: chatMessage.value.trim(),
           });
           scrollToLastChat();
+          clearChatMessage();
+        }, 250);
       }
     }
   );
