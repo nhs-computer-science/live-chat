@@ -99,9 +99,9 @@ const storeChatMessage = async (
       isAdmin: await homeModel.isClientAdmin(req.session.client.email),
       id: storeMsg._id,
     });
-    // } else {
-    //   res.send(false);
-    // }
+    } else {
+      res.send(false);
+    }
   }
 
   const updateNotifications = async (
