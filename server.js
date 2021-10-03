@@ -15,7 +15,6 @@ const server = app_1.default.listen(PORT, () => {
 });
 const io = socket_io_1.default(server);
 io.on('connection', (socket) => {
-    console.log('Made socket connection');
     socket.on('chat-sent', (data) => {
         console.log(data);
         io.emit('broadcast-message', {

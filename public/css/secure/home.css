@@ -105,6 +105,10 @@ body {
   list-style: none;
 }
 
+.message-wrapper:last-of-type {
+  margin-bottom: 20px !important;
+}
+
 .delete-chat-btn {
   padding: 1px;
   border-radius: 0px;
