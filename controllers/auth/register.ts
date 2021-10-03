@@ -19,13 +19,13 @@ interface Payload {
 dotenv.config({ path: path.join(__dirname, '../', 'env', '.env') });
 
 const getRegisterPage = async (req: Request, res: Response) => {
-  email(
-    process.env.NODEMAILER_USER!,
-    'Website Pinged',
-    'Someone just visited our website'
-  ).then(() => {
-    console.log('email sent');
-  });
+  // email(
+  //   process.env.NODEMAILER_USER!,
+  //   'Website Pinged',
+  //   'Someone just visited our website'
+  // ).then(() => {
+  //   console.log('email sent');
+  // });
 
   if (typeof req.session.client === 'object') {
     req.session.client = null;
