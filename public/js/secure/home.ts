@@ -127,7 +127,6 @@ const storeChatMessage = (): void => {
           clearChatMessage();
         }, 500);
       } else {
-        setTimeout((): void => {
           setVisibility(chatMessageSpinnerWrapper, false);
           clearChatMessage();
           socket.emit('chat-sent', {
@@ -139,7 +138,6 @@ const storeChatMessage = (): void => {
             chat: chatMessage.value.trim(),
           });
           scrollToLastChat();
-        }, 500);
       }
     }
   );
