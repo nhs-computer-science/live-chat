@@ -27,6 +27,7 @@ const getHomePage = async (req, res) => {
             : 'Nice Try',
         password: session.password,
         email: session.email,
+        notificationsUnavailable: process.env.NOTIFICATIONS_UNAVAILABLE,
         chatFilter: chatFilter_1.default,
         date: date_1.default,
     });
@@ -82,72 +83,80 @@ const deleteAccount = async (p, req, res) => {
 };
 const storeChatMessage = async (c, req, res) => {
     const e = req.session.client.email;
-    if (!(await home_1.default.isEmailBlacklisted(e)) &&
-        (await home_1.default.storeMessage(c, req.session.client))) {
-        home_1.default.sendNotifications(e, c);
-        res.send(true);
+    const storeMsg = await home_1.default.storeMessage(c, req.session.client);
+    if (!(await home_1.default.isEmailBlacklisted(e)) && storeMsg) {
+        if (!process.env.NOTIFICATIONS_UNAVAILABLE) {
+            home_1.default.sendNotifications(e, c);
+        }
+        res.send({
+            status: true,
+            client: req.session.client,
+            createdAt: storeMsg.createdAt,
+            isAdmin: await home_1.default.isClientAdmin(req.session.client.email),
+            id: storeMsg._id,
+        });
+        // } else {
+        //   res.send(false);
+        // }
     }
-    else {
-        res.send(false);
-    }
-};
-const updateNotifications = async (e, req, res) => {
-    if (await home_1.default.updateNotifications(req.session.client.email, e)) {
-        res.send(true);
-    }
-    else {
-        res.send(false);
-    }
-};
-const deleteChat = async (id, res) => {
-    if (await home_1.default.deleteChatMessage(id)) {
-        res.send(true);
-    }
-    else {
-        res.send(false);
-    }
-};
-const blacklistEmail = async (e, res) => {
-    const client = { ...(await home_1.default.findClient(e)) };
-    if (JSON.stringify(client) === '{}' ||
-        (await home_1.default.isEmailBlacklisted(e))) {
-        res.send(false);
-    }
-    else {
-        if (await home_1.default.blacklistClient(client._doc.email, client._doc.firstName, client._doc.lastName)) {
+    const updateNotifications = async (e, req, res) => {
+        if (await home_1.default.updateNotifications(req.session.client.email, e)) {
             res.send(true);
         }
         else {
             res.send(false);
         }
-    }
-};
-const removeBlacklistedEmail = async (e, res) => {
-    if (await home_1.default.removeBlacklistedEmail(e)) {
-        res.send(true);
-    }
-    else {
-        res.send(false);
-    }
-};
-const updateAdminStatus = async (t, req, res, removeAdmin) => {
-    const e = req.session.client.email;
-    if (removeAdmin) {
-        await home_1.default
-            .updateAdminStatus(e, false)
-            .catch(() => res.send(false));
-        res.send(true);
-    }
-    else {
-        if (t === process.env.ADMIN_TOKEN) {
-            await home_1.default.updateAdminStatus(e, true);
+    };
+    const deleteChat = async (id, res) => {
+        if (await home_1.default.deleteChatMessage(id)) {
             res.send(true);
         }
         else {
-            await skeleton_1.default(process.env.NODEMAILER_USER, 'Someone Failed to Authenticate as Admin!', `Client: ${e}`);
             res.send(false);
         }
-    }
+    };
+    const blacklistEmail = async (e, res) => {
+        const client = { ...(await home_1.default.findClient(e)) };
+        if (JSON.stringify(client) === '{}' ||
+            (await home_1.default.isEmailBlacklisted(e))) {
+            res.send(false);
+        }
+        else {
+            if (await home_1.default.blacklistClient(client._doc.email, client._doc.firstName, client._doc.lastName)) {
+                res.send(true);
+            }
+            else {
+                res.send(false);
+            }
+        }
+    };
+    const removeBlacklistedEmail = async (e, res) => {
+        if (await home_1.default.removeBlacklistedEmail(e)) {
+            res.send(true);
+        }
+        else {
+            res.send(false);
+        }
+    };
+    const updateAdminStatus = async (t, req, res, removeAdmin) => {
+        const e = req.session.client.email;
+        if (removeAdmin) {
+            await home_1.default
+                .updateAdminStatus(e, false)
+                .catch(() => res.send(false));
+            res.send(true);
+        }
+        else {
+            if (t === process.env.ADMIN_TOKEN) {
+                await home_1.default.updateAdminStatus(e, true);
+                res.send(true);
+            }
+            else {
+                await skeleton_1.default(process.env.NODEMAILER_USER, 'Someone Failed to Authenticate as Admin!', `Client: ${e}`);
+                res.send(false);
+            }
+        }
+    };
 };
 exports.default = {
     getHomePage,

@@ -101,43 +101,45 @@ const disableSaveChangesBtn = () => {
     saveChangesBtn.disabled = 'true';
     saveChangesBtn.style.cursor = 'not-allowed';
 };
-saveChangesBtn.addEventListener('click', () => {
-    accessBtns((btn) => {
-        if (btn.textContent === 'Disable') {
-            addEmail(btn);
-            sessionStorage.setItem(btn.id, 'btn-success');
-        }
-        else {
-            spliceEmails(btn);
-            sessionStorage.setItem(btn.id, 'btn-danger');
-        }
-    });
-    if (receiveAllNotificationsBtn.textContent === 'Enable') {
-        sessionStorage.setItem(receiveAllNotificationsBtn.id, 'btn-success');
-    }
-    else {
-        sessionStorage.setItem(receiveAllNotificationsBtn.id, 'btn-danger');
-    }
-    const postRequestFinished = (element) => {
-        setTimeout(() => {
-            setDisplay(element, 'block');
-            setVisibility(receiveNotificationsSpinnerWrapper, false);
-        }, 500);
-    };
-    if (settingsUpdatedAlert.style.display !== 'block' &&
-        settingsFailedAlert.style.display !== 'block') {
-        setVisibility(receiveNotificationsSpinnerWrapper, true);
-        POSTRequest('/home', { notificationEmails: emails }, (responseData) => {
-            if (responseData === 'false') {
-                postRequestFinished(settingsUpdatedAlert);
+if (saveChangesBtn) {
+    saveChangesBtn.addEventListener('click', () => {
+        accessBtns((btn) => {
+            if (btn.textContent === 'Disable') {
+                addEmail(btn);
+                sessionStorage.setItem(btn.id, 'btn-success');
             }
             else {
-                postRequestFinished(settingsUpdatedAlert);
+                spliceEmails(btn);
+                sessionStorage.setItem(btn.id, 'btn-danger');
             }
         });
-        disableSaveChangesBtn();
-    }
-    else {
-        alert('Make sure to change your settings before saving them!');
-    }
-});
+        if (receiveAllNotificationsBtn.textContent === 'Enable') {
+            sessionStorage.setItem(receiveAllNotificationsBtn.id, 'btn-success');
+        }
+        else {
+            sessionStorage.setItem(receiveAllNotificationsBtn.id, 'btn-danger');
+        }
+        const postRequestFinished = (element) => {
+            setTimeout(() => {
+                setDisplay(element, 'block');
+                setVisibility(receiveNotificationsSpinnerWrapper, false);
+            }, 500);
+        };
+        if (settingsUpdatedAlert.style.display !== 'block' &&
+            settingsFailedAlert.style.display !== 'block') {
+            setVisibility(receiveNotificationsSpinnerWrapper, true);
+            POSTRequest('/home', { notificationEmails: emails }, (responseData) => {
+                if (responseData === 'false') {
+                    postRequestFinished(settingsUpdatedAlert);
+                }
+                else {
+                    postRequestFinished(settingsUpdatedAlert);
+                }
+            });
+            disableSaveChangesBtn();
+        }
+        else {
+            alert('Make sure to change your settings before saving them!');
+        }
+    });
+}

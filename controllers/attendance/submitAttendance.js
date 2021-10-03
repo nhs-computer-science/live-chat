@@ -7,7 +7,6 @@ const path_1 = __importDefault(require("path"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config({ path: path_1.default.join(__dirname, '../', '../', './env', '.env') });
 const submitAttendance_1 = __importDefault(require("../../models/attendance/submitAttendance"));
-const skeleton_1 = __importDefault(require("../../email/skeleton"));
 const serverError_1 = __importDefault(require("../../helpers/serverError/serverError"));
 const getAttendancePage = (req, res) => {
     res.render('attendance/submit-attendance', {
@@ -32,7 +31,6 @@ const postAttendancePage = async (req, res) => {
             return res.redirect(`${URL}?meetingOverflow${QUERY_VALUE}`);
         }
         else if (await submitAttendance_1.default.updateAttendance(t, token.fall2021MeetingsAttended)) {
-            const emailSent = await skeleton_1.default(process.env.NODEMAILER_USER, 'Attendance Submitted!', `${token.email} submitted his or her attendance!`);
             if (emailSent) {
                 res.redirect(`${URL}?attendanceUpdated${QUERY_VALUE}`);
             }

@@ -12,17 +12,19 @@ const adminTokenPostRequestFinished = () => {
 settingsModalBtn.addEventListener('click', () => {
     setDisplay(invalidAdminTokenAlert, 'none');
 });
-submitAdminTokenBtn.addEventListener('click', () => {
-    adminTokenSpinnerWrapper.style.display = 'block';
-    POSTRequest('/home', { adminToken: adminToken.value.trim() }, (responseData) => {
-        if (responseData === 'false') {
-            adminTokenPostRequestFinished();
-            setDisplay(invalidAdminTokenAlert, 'block');
-        }
-        else {
-            adminTokenPostRequestFinished();
-            location.reload();
-        }
-        setValue(adminToken, '');
+if (submitAdminTokenBtn) {
+    submitAdminTokenBtn.addEventListener('click', () => {
+        adminTokenSpinnerWrapper.style.display = 'block';
+        POSTRequest('/home', { adminToken: adminToken.value.trim() }, (responseData) => {
+            if (responseData === 'false') {
+                adminTokenPostRequestFinished();
+                setDisplay(invalidAdminTokenAlert, 'block');
+            }
+            else {
+                adminTokenPostRequestFinished();
+                location.reload();
+            }
+            setValue(adminToken, '');
+        });
     });
-});
+}

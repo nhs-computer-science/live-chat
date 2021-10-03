@@ -22,20 +22,22 @@ settingsModalBtn.addEventListener('click', (): void => {
   setDisplay(invalidAdminTokenAlert, 'none');
 });
 
-submitAdminTokenBtn.addEventListener('click', () => {
-  adminTokenSpinnerWrapper.style.display = 'block';
-  POSTRequest(
-    '/home',
-    { adminToken: adminToken.value.trim() },
-    (responseData: any): void => {
-      if (responseData === 'false') {
-        adminTokenPostRequestFinished();
-        setDisplay(invalidAdminTokenAlert, 'block');
-      } else {
-        adminTokenPostRequestFinished();
-        location.reload();
+if (submitAdminTokenBtn) {
+  submitAdminTokenBtn.addEventListener('click', () => {
+    adminTokenSpinnerWrapper.style.display = 'block';
+    POSTRequest(
+      '/home',
+      { adminToken: adminToken.value.trim() },
+      (responseData: any): void => {
+        if (responseData === 'false') {
+          adminTokenPostRequestFinished();
+          setDisplay(invalidAdminTokenAlert, 'block');
+        } else {
+          adminTokenPostRequestFinished();
+          location.reload();
+        }
+        setValue(adminToken, '');
       }
-      setValue(adminToken, '');
-    }
-  );
-});
+    );
+  });
+}

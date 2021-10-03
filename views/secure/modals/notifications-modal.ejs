@@ -8,13 +8,17 @@
           </button>
         </div>
         <div class="modal-body">
+
           <ul class="list-group">
             <li class="list-group-item" id="instructions-header">Instructions</li>
             <li class="list-group-item">
-              Whenever someone sends a chat, you have the option to enable notifications for him or her. If you only want to receieve an email notification for when your close friends send a chat, then feel free to select the 'Enable' button next to their names in order to enable notifications. 
+              Whenever someone sends a chat, you have the option to enable notifications for him or her. If you only want to receieve an email notification for when someone you know sends a chat, then feel free to select the 'Enable' button next to his or her name in order to enable notifications. 
             </li>
           </ul>
-          <p id="maintenance">Note: there are some UI-related bugs on this modal, but email notifications still work!</p>
+          <% if (notificationsUnavailable) { %>
+            <p class="maintenance">Notifications are under maintenance, and will not work until further notice.</p>
+          <% } %>
+          <!-- <p class="maintenance">Note: there are some UI-related bugs on this modal, but email notifications still work!</p> -->
           <div id="receive-all-wrapper">
             <p id="receive-all-header">Receive All Notifications</p>
             <button type='btn' class="btn btn-success" id="receive-all-notifications-btn">Enable</button>
@@ -40,10 +44,13 @@
           <div class="alert alert-danger" id="settings-failed-alert" role="alert">
             Unable to update settings! Please try again later, or email nhscompsciclub@gmail.com for help.
           </div>
+
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary save-changes-btn">Save changes</button>
+          <% if (!notificationsUnavailable) { %>
+            <button type="button" class="btn btn-primary save-changes-btn">Save changes</button>
+          <% } %>
         </div>
       </div>
     </div>

@@ -41,12 +41,6 @@ const postAttendancePage = async (
     } else if (
       await attendanceModel.updateAttendance(t, token.fall2021MeetingsAttended)
     ) {
-      const emailSent = await email(
-        process.env.NODEMAILER_USER!,
-        'Attendance Submitted!',
-        `${token.email} submitted his or her attendance!`
-      );
-
       if (emailSent) {
         res.redirect(`${URL}?attendanceUpdated${QUERY_VALUE}`);
       }

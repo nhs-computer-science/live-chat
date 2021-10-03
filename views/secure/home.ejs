@@ -24,13 +24,16 @@
     <script src="/js/helpers/DOM-methods.js" defer></script>
     <script src="/js/helpers/http.js" defer></script>
     
+    <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.1/socket.io.js"
+    integrity="sha512-oFOCo2/3DtjrJG4N27BjSLQWoiBv171sK6a+JiWjp/7agxC2nCUP358AqzxkBUb5jX8g6CYLPdSKQTbC0weCwA=="
+    crossorigin="anonymous"
+  ></script>
     <script src="/js/secure/home.js" defer></script>
     
     <script src="/js/secure/modals/admin.js" defer></script>
     <script src="/js/secure/modals/settings.js" defer></script>
     <script src="/js/secure/modals/notifications.js" defer></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
 </head>
 <body>
     <div class="alert alert-success" id="admin-alert" role="alezrt">
@@ -38,11 +41,11 @@
     </div>
     <main id="chat-wrapper">
         <ul id="navbar">
-            <li class="nav-link-wrapper">
+            <!-- <li class="nav-link-wrapper">
                 <button type="btn" class="btn btn-outline-info" onclick="clearChat()">
                     <img src="https://img.icons8.com/nolan/64/erase.png"  width="45" height="45"/>
                 </button>
-            </li>
+            </li> -->
             <li class="nav-link-wrapper">
                 <button type="button" class="btn btn-info settings-modal-btn" data-toggle="modal" data-target="#settings-modal">
                     <img src="https://img.icons8.com/nolan/64/apple-settings.png"  width="45" height="45"/>
@@ -83,12 +86,14 @@
                         <p class="message"><%= chatFilter(messages[i].message) %></p>
                     </li>
                 <% } %>
-                <li></li>
             </ul>
             <form onsubmit="storeChatMessage(); event.preventDefault()" id="message-form">
                 <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Message" name="message" required id="message" autocapitalize="true" spellcheck="true"/>
                 <button type="submit" class="btn btn-success" id="send-chat-btn">Send</button>
             </form>
+            <!-- <p class="info">
+                Please note: you will be unable to see other members' chats unless you refresh the page. In other words, chats are not sent in real time. This is an annoying feature that our team is working hard to change.
+            </p> -->
             <!-- <form method="POST" action="/home" enctype="multipart/form-data">
                 <input type="file" name="image" id="image" required/>
                 <button type="submit">submit</button>
