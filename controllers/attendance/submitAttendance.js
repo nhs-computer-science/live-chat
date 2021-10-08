@@ -26,7 +26,6 @@ const postAttendancePage = async (req, res) => {
     const t = req.body.token.trim();
     const token = await submitAttendance_1.default.authenticateToken(t);
     if (token) {
-        console.log(token.fall2021MeetingsAttended, process.env.FALL_2021_MEETINGS);
         if (parseInt(token.fall2021MeetingsAttended) + 1 >
             parseInt(process.env.FALL_2021_MEETINGS)) {
             return res.redirect(`${URL}?meetingOverflow${QUERY_VALUE}`);

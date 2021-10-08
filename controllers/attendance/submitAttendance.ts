@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 dotenv.config({ path: path.join(__dirname, '../', '../', './env', '.env') });
 
 import attendanceModel from '../../models/attendance/submitAttendance';
+import email from '../../email/skeleton';
 import serverError from '../../helpers/serverError/serverError';
 
 const getAttendancePage = (req: Request, res: Response): void => {
@@ -32,7 +33,6 @@ const postAttendancePage = async (
   const token = await attendanceModel.authenticateToken(t);
 
   if (token) {
-    console.log(token.fall2021MeetingsAttended, process.env.FALL_2021_MEETINGS);
     if (
       parseInt(token.fall2021MeetingsAttended) + 1 >
       parseInt(process.env.FALL_2021_MEETINGS!)
