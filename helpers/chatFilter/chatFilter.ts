@@ -7,3 +7,5 @@ export default (message: string) => {
     return '[Emoticons are currently unable to be processed and sent as a chat]';
   }
 };
+
+
